@@ -1,15 +1,15 @@
 {
     "name": "Dev - Laravel & Next.js",
     "image": "bitnami/laravel",
-    "updateContentCommand": "cp /workspaces/eog/eogBE/.env.codespaces /workspaces/eog/eogBE/.env",
+    "updateContentCommand": "cp /workspaces/EOG/eogBE/.env.codespaces /workspaces/EOG/eogBE/.env",
     "waitFor": "postCreateCommand",
     "postCreateCommand": "apt-get update && apt-get install -y zip unzip git htop poppler-utils mariadb-server mariadb-client && echo 'extension=imagick.so' >> /opt/bitnami/php/etc/php.ini && service mariadb start && mysql -e 'CREATE DATABASE IF NOT EXISTS laravel;' && mysql -e \"CREATE USER 'laravel'@'%' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON *.* TO 'laravel'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;\"",
     "postAttachCommand": {
       "GitSession": "git config user.name 'ivanmdh' && git config user.email 'ivan@infocus.mx' && git config commit.gpgsign false",
       "Hosts": "echo '127.0.0.1 eog.local' >> /etc/hosts && echo '127.0.0.1 api.eog.local' >> /etc/hosts && echo '127.0.0.1 static.eog.local' >> /etc/hosts",
       "MariaDB": "service mariadb start",
-      "eogBE": "cd /workspaces/eog/eogBE/ && composer update && php artisan migrate --seed && php artisan serve",
-      "eogFE": "cd /workspaces/eog/eogFE/ && npm install && npx next dev"
+      "eogBE": "cd /workspaces/EOG/eogBE/ && composer update && php artisan migrate --seed && php artisan serve",
+      "eogFE": "cd /workspaces/EOG/eogFE/ && npm install && npx next dev"
     },
     "containerEnv": {
       "COREPACK_ENABLE_NETWORK": "1",

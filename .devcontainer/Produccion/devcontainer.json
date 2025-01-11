@@ -1,13 +1,13 @@
 {
     "name": "Prod - Laravel & Next.js",
     "image": "bitnami/laravel",
-    "updateContentCommand": "cp /workspaces/eog/eogBE/.env.produccion /workspaces/eog/eogBE/.env",
+    "updateContentCommand": "cp /workspaces/EOG/eogBE/.env.produccion /workspaces/EOG/eogBE/.env",
     "waitFor": "postCreateCommand",
     "postCreateCommand": "apt-get update && apt-get install -y zip unzip git htop poppler-utils && echo 'extension=imagick.so' >> /opt/bitnami/php/etc/php.ini",
     "postAttachCommand": {
       "GitSession": "git config user.name 'ivanmdh' && git config user.email 'ivan@infocus.mx' && git config commit.gpgsign false",
-      "eogBE": "cd /workspaces/eog/eogBE/ && composer update && php artisan serve",
-      "eogFE": "cd /workspaces/eog/eogFE/ && npm install && npx next dev"
+      "eogBE": "cd /workspaces/EOG/eogBE/ && composer update && php artisan serve",
+      "eogFE": "cd /workspaces/EOG/eogFE/ && npm install && npx next dev"
     },
     "containerEnv": {
       "COREPACK_ENABLE_NETWORK": "1",
