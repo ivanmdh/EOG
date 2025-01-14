@@ -10,8 +10,8 @@ import { signIn } from "next-auth/react"
 
 export const UserForm = () => {
     const [show, setShow] = useState(false);
-    const [email, setEmail] = useState("Test123@gmail.com");
-    const [password, setPassword] = useState("Test@123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const router = useRouter();
 
     const formSubmitHandle = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,8 +34,8 @@ export const UserForm = () => {
         <div>
             <div>
                 <Link className="logo" href="/login">
-                    <Image width={91} height={27} className="img-fluid for-light" src={imageOne} alt="login page" priority />
-                    <Image width={91} height={27} className="img-fluid for-dark" src={imageTwo} alt="login page" priority />
+                    <Image width={250} height={50} className="img-fluid for-light" src={imageOne} alt="login page" priority />
+                    <Image width={250} height={50} className="img-fluid for-dark" src={imageTwo} alt="login page" priority />
                 </Link>
             </div>
             <div className="login-main">
@@ -44,12 +44,12 @@ export const UserForm = () => {
                     <p className="text-center">Introduce tu usuario y contraseña para iniciar sesión</p>
                     <FormGroup>
                         <Label className="col-form-label">Usuario</Label>
-                        <Input type="email" defaultValue={email} onChange={(event) => setEmail(event.target.value)} placeholder="Test123@gmail.com" />
+                        <Input type="email" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
                     </FormGroup>
                     <FormGroup>
                         <Label className="col-form-label">Contraseña</Label>
                         <div className="position-relative form-input">
-                            <Input type={show ? "text" : "password"} defaultValue={password} onChange={(event) => setPassword(event.target.value)} placeholder="Test@123" />
+                            <Input type={show ? "text" : "password"} defaultValue={password} onChange={(event) => setPassword(event.target.value)} placeholder="******" />
                             <div className="show-hide" onClick={() => setShow(!show)}><span className="show"> </span></div>
                         </div>
                     </FormGroup>
