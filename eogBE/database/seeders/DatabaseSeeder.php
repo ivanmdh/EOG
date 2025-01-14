@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +22,12 @@ class DatabaseSeeder extends Seeder
         //    'email' => 'test@example.com',
         //]);
 
-        
+        Usuario::create([
+            'nombre' => 'Administrador',
+            'apellido' => '',
+            'email' => 'admin@infocus.mx',
+            'usuario' => 'admin',
+            'password' => Hash::make('password')
+        ]);
     }
 }
