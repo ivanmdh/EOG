@@ -232,11 +232,11 @@
         color: var(--theme-default);
         &.show {
             &:before {
-                content: "show";
+                content: "ver";
             }
         }
         &:before {
-            content: "hide";
+            content: "ocultar";
         }
     }
 }

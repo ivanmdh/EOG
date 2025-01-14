@@ -44,7 +44,7 @@ export const UserForm = () => {
                     <p className="text-center">Introduce tu usuario y contraseña para iniciar sesión</p>
                     <FormGroup>
                         <Label className="col-form-label">Usuario</Label>
-                        <Input type="email" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
+                        <Input type="email" defaultValue={email} onChange={(event) => setEmail(event.target.value)} placeholder="Usuario" />
                     </FormGroup>
                     <FormGroup>
                         <Label className="col-form-label">Contraseña</Label>

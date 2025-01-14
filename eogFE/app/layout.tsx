@@ -15,7 +15,7 @@ const nunito = Nunito_Sans({
                            })
 
 export const metadata: Metadata = {
-    title: "Admiro - Premium Admin Template",
+    title: "Construcciones EOG",
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
