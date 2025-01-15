@@ -1,4 +1,5 @@
 import { Direction } from "reactstrap/types/lib/Dropdown";
+import { JSX } from "react";
 export interface SimpleTabContentProp {
     tabId: string;
 }
@@ -27,10 +28,6 @@ export interface OtherModalProps {
 
 export interface StaticModalFormProp {
     toggle: () => void;
-}
-
-export interface SimpleTabContentProp {
-    tabId: string;
 }
 
 export interface BasicDropdownType {

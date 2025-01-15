@@ -10,24 +10,23 @@ import { signIn } from "next-auth/react"
 
 export const UserForm = () => {
     const [show, setShow] = useState(false);
-    const [email, setEmail] = useState("");
+    const [usuario, setUsuario] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
 
     const formSubmitHandle = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const result = await signIn("credentials", {
-            email,
+        event.preventDefault()
+        const res = await signIn("credentials", {
+            usuario,
             password,
-            redirect: false,
-            callbackUrl: "/dashboard/ecommerce",
-        });
+            redirect: false
+        })
 
-        if (result?.ok) {
-            toast.success("successfully Logged in Rediract......")
-            router.push(result.url || "/dashboard/ecommerce");
+        if (res && res.ok && res.error === null) {
+            toast.success("Inicio de sesión exitoso...")
+            router.push(res.url || "/resumen")
         } else {
-            toast.error("Invalid Credentaial...");
+            toast.error("Datos de inicio de sesión incorrectos...")
         }
     };
     return (
@@ -44,7 +43,7 @@ export const UserForm = () => {
                     <p className="text-center">Introduce tu usuario y contraseña para iniciar sesión</p>
                     <FormGroup>
                         <Label className="col-form-label">Usuario</Label>
-                        <Input type="email" defaultValue={email} onChange={(event) => setEmail(event.target.value)} placeholder="Usuario" />
+                        <Input type="text" defaultValue={usuario} onChange={(event) => setUsuario(event.target.value)} placeholder="Usuario" />
                     </FormGroup>
                     <FormGroup>
                         <Label className="col-form-label">Contraseña</Label>

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, ReactNode, JSX } from "react";
 
 interface DetailsTableProp {
   text?: string;

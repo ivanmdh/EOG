@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, JSX } from "react";
 interface TimelineItem {
   id: number;
   colClass: string;

@@ -1,4 +1,5 @@
 import { InputType } from "reactstrap/types/lib/Input";
+import { JSX } from "react";
 interface SliderData {
   color: string;
   badge: string;

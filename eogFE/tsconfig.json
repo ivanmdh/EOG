@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -27,6 +28,7 @@
       "@Config/*": ["src/Amero/Config/*"],
       "@CommonComponent/*": ["src/Amero/CommonComponent/*"],
       "@services/*": ["src/services/*"],
+      "@Types/*": ["src/Amero/Types/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

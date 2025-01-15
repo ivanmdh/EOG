@@ -19,8 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                     credentials: {
                         usuario: { label: 'Usuario', type: 'text' },
                         password: { label: 'Contraseña', type: 'password' },
-                        subdominio: { label: 'Subdominio', type: 'text' },
-                        recordarme: { label: 'Recordar', type: 'checkbox' }
                     },
                     authorize: async (credentials) => {
                         try {
@@ -29,8 +27,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                                 {
                                     usuario: credentials.usuario,
                                     password: credentials.password,
-                                    subdominio: credentials.subdominio,
-                                    recordarme: credentials.recordarme
                                 }
                             )
 
@@ -48,38 +44,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
                             throw new InvalidLoginError(e as Error)
                         }
                     }
-                }),
-            Credentials(
-                {
-                    id: 'token',
-                    name: 'token',
-                    credentials: {
-                        token: { label: 'Token', type: 'text' }
-                    },
-                    authorize: async (credentials) => {
-                        try {
-                            const response = await apiService.post(
-                                '/api/auth/bypasstoken',
-                                {
-                                    token: credentials.token
-                                }
-                            )
-
-                            const data = response?.data
-
-                            if (response.status === 200 && data.success) {
-                                return {
-                                    ...data.userData,
-                                    Authorization: data.Authorization
-                                }
-                            } else {
-                                throw new InvalidLoginError()
-                            }
-                        } catch (e: unknown) {
-                            throw new InvalidLoginError(e as Error)
-                        }
-                    }
-                })
+                }
+            )
         ],
         session: {
             strategy: 'jwt',

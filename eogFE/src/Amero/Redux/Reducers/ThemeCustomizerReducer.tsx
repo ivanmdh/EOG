@@ -1,7 +1,7 @@
 import ConfigDB from "@Config/ThemeConfig";
 import { createSlice } from "@reduxjs/toolkit";
 
-let initialState = {
+const initialState = {
   layout_type: "ltr",
   openCus: false,
   sidebar_types: "compact-wrapper",

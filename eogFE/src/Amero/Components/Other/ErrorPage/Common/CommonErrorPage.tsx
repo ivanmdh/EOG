@@ -1,4 +1,4 @@
-import { CommonErrorPageProps } from "@/Types/PagesType";
+import { CommonErrorPageProps } from "@Types/PagesType";
 import Link from "next/link";
 import React from "react";
 import { Col, Container } from "reactstrap";

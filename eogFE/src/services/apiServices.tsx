@@ -3,12 +3,12 @@ import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 
 const isBrowser = typeof window !== 'undefined'
-const url = isBrowser ? new URL(window.location.href) : new URL('https://localhost.sifac.local')
+const url = isBrowser ? new URL(window.location.href) : new URL('https://eog.local')
 
 const apiServiceUrl: string =
     process.env.NODE_ENV === 'production' && !['local'].includes(url.hostname.split('.')[2])
-    ? 'https://x.sifac.mx'
-    : 'http://x.sifac.local:8000'
+    ? 'https://api.construccioneseog.com'
+    : 'http://api.eog.local:8000'
 
 const apiService: AxiosInstance = axios.create({ baseURL: apiServiceUrl })
 
@@ -19,19 +19,15 @@ apiService.interceptors.request.use(
 
             if (accessToken) config.headers.Authorization = `Bearer ${ accessToken }`
 
-            config.headers['X-Subdomain'] = url.hostname.split('.')[0]
         } else {
             try {
                 const { auth } = await import('@/src/auth')
                 const session: any = await auth()
 
-                const accessToken = session?.user?.Authorization?.accessToken || ''
-                const subdominio = session?.user?.Empresa?.subdominio || ''
+                const accessToken = session?.user?.Authorization?.accessToken
 
-                if (accessToken && subdominio) {
-                    config.headers
+                if (accessToken) {
                     config.headers.Authorization = `Bearer ${ accessToken }`
-                    config.headers['X-Subdomain'] = subdominio
                 }
             } catch (error) {
                 console.error('Error loading auth module:', error)
