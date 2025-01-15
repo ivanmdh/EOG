@@ -57,7 +57,7 @@ export const UserForm = () => {
                             <Input id="checkbox1" type="checkbox" />
                             <Label className="text-muted" htmlFor="checkbox1">Recordar contraseña</Label>
                         </FormGroup>
-                        <Link className="link" href={`/authentication/forget_password`}>¿Has olvidado tu contraseña?</Link>
+                        { /* <Link className="link" href={`/authentication/forget_password`}>¿Has olvidado tu contraseña?</Link> */ }
                         <div className="text-end mt-3"><Button type="submit" color="primary" block>Iniciar sesión</Button></div>
                     </FormGroup>
                 </Form>
