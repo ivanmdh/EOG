@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Login;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request\Login\LoginRequest;
@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Log;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
 	public function login(LoginRequest $request)
 	{
