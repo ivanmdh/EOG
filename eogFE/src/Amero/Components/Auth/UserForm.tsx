@@ -9,14 +9,14 @@ import imageTwo from "../../../../public/assets/images/logo/logo-dark.png"
 import { signIn } from "next-auth/react"
 
 export const UserForm = () => {
-    const [show, setShow] = useState(false);
-    const [usuario, setUsuario] = useState("");
-    const [password, setPassword] = useState("");
-    const router = useRouter();
+    const [show, setShow] = useState(false)
+    const [usuario, setUsuario] = useState("")
+    const [password, setPassword] = useState("")
+    const router = useRouter()
 
     const formSubmitHandle = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const res = await signIn("credentials", {
+        const res: any = await signIn("credentials", {
             usuario,
             password,
             redirect: false
@@ -24,11 +24,12 @@ export const UserForm = () => {
 
         if (res && res.ok && res.error === null) {
             toast.success("Inicio de sesión exitoso...")
+            window.localStorage.setItem("accessToken", res?.Authorization?.accessToken)
             router.push(res.url || "/resumen")
         } else {
             toast.error("Datos de inicio de sesión incorrectos...")
         }
-    };
+    }
     return (
         <div>
             <div>
@@ -63,5 +64,5 @@ export const UserForm = () => {
                 </Form>
             </div>
         </div>
-    );
-};
+    )
+}

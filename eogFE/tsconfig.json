@@ -29,6 +29,7 @@
       "@CommonComponent/*": ["src/Amero/CommonComponent/*"],
       "@services/*": ["src/services/*"],
       "@Types/*": ["src/Amero/Types/*"],
+      "@Layout/*": ["src/Amero/Layout/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
