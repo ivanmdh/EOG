@@ -32,9 +32,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
 
                             const data = response?.data
 
-                            if (response.status === 200 && data.success) {
+                            if (response.status === 200 && data.status === 'success') {
                                 return {
-                                    ...data.userData,
+                                    ...data.user,
                                     Authorization: data.Authorization
                                 }
                             } else {

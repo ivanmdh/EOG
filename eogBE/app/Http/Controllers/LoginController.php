@@ -22,7 +22,11 @@ class LoginController extends Controller
             return response()->json([
                 'status' => 'success',
                 'user' => $user,
-                'token' => $token
+                'Authorization' => [
+                    'accessToken'  => $token,
+                    'csrfToken'    => csrf_token(),
+                    'type'         => 'Bearer',
+                ],
             ]);
         }
 
@@ -35,7 +39,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         auth()->user()->tokens()->delete();
-        
+
         return response()->json([
             'status' => 'success',
             'message' => 'Sesión cerrada exitosamente'

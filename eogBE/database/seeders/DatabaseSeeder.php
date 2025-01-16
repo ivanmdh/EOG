@@ -22,12 +22,14 @@ class DatabaseSeeder extends Seeder
         //    'email' => 'test@example.com',
         //]);
 
-        Usuario::create([
-            'nombre' => 'Administrador',
-            'apellido' => '',
-            'email' => 'admin@infocus.mx',
-            'usuario' => 'admin',
-            'password' => Hash::make('password')
-        ]);
+        if (Usuario::count() === 0) {
+            Usuario::create([
+                'nombre' => 'Administrador',
+                'apellido' => '',
+                'email' => 'admin@infocus.mx',
+                'usuario' => 'admin',
+                'password' => Hash::make('password')
+            ]);
+        }
     }
 }
