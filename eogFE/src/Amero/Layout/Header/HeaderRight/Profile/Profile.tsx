@@ -21,8 +21,8 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    //localStorage.setItem('accessToken', session?.user?.Authorization?.accessToken)
-  }, [])
+    localStorage.setItem('accessToken', session?.user?.Authorization?.accessToken)
+  }, [session])
 
   return (
     <li className='profile-nav custom-dropdown'>
