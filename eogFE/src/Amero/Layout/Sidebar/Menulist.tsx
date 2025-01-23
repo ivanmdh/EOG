@@ -45,7 +45,6 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
     <>
       {menu?.map((item, index) => (
         <li key={index} className={`${level === 0 ? "sidebar-list" : ""} ${pinedMenu.includes(item.title || "") ? "pined" : ""} ${(item.children ? item.children.map((innerItem) => ActiveNavLinkUrl(innerItem.path)).includes(true) : ActiveNavLinkUrl(item.path)) || activeMenu[level] === item.title ? "active" : ""} `}>
-          {level === 0 && <i className="fa-solid fa-thumbtack" onClick={() => dispatch(handlePined(item.title))}></i>}
           <Link
             className={`${level / 2 === 0 ? "sidebar-link" : ""} ${(item.children ? item.children.map((innerItem) => ActiveNavLinkUrl(innerItem.path)).includes(true) : ActiveNavLinkUrl(item.path)) || activeMenu[level] === item.title ? "active" : ""}`}
             href={item?.path ? item?.path : ""}

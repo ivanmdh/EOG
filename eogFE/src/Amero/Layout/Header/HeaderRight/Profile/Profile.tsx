@@ -3,17 +3,27 @@ import { signOut, useSession } from "next-auth/react"
 import { UserListData } from "@Data/Layout/SidebarData"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 const Profile = () => {
   const [show, setShow] = useState(false)
-  const { data: session } = useSession()
+  const { data: session }: any = useSession()
 
-  console.log(session)
+  const router = useRouter()
 
   const handleLogout = () => {
-    signOut();
-  };
+    signOut()
+        .finally(() => {
+          localStorage.removeItem('accessToken')
+          router.push("/")
+        })
+  }
+
+  useEffect(() => {
+    //localStorage.setItem('accessToken', session?.user?.Authorization?.accessToken)
+  }, [])
+
   return (
     <li className='profile-nav custom-dropdown'>
       <div className='user-wrap'>

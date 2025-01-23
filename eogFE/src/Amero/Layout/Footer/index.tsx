@@ -1,4 +1,3 @@
-import SVG from "@CommonComponent/SVG"
 import { Col, Container, Row } from "reactstrap"
 
 const Footer = () => {
@@ -7,18 +6,17 @@ const Footer = () => {
       <Container fluid>
         <Row>
           <Col md="6" className="footer-copyright">
-            <p className="mb-0">Copyright 2024 © Admiro theme by pixelstrap.</p>
+            <p className="mb-0">In Focus Tech 2025.</p>
           </Col>
           <Col md="6">
             <p className="float-end mb-0">
-              Hand crafted &amp; made with
-              <SVG className="svg-color footer-icon" iconId="heart" />
+              Construcciones EOG
             </p>
           </Col>
         </Row>
       </Container>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

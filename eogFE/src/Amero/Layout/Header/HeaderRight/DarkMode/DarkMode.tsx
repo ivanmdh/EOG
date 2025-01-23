@@ -10,9 +10,9 @@ const DarkMode = () => {
     document.body.className = data;
   };
   return (
-    <li onClick={() => handleDarkMode(ConfigDB.color.mix_background_layout !== "light" ? "light" : "dark-only")}>
-      <a className={`dark-mode ${ConfigDB.color.mix_background_layout !== "light" ? "active" : ""}`} href={'#javascript'}>
-        <SVG iconId="moondark" /> 
+    <li onClick={() => handleDarkMode(ConfigDB.color.mix_background_layout !== "light" ? "light" : "dark-only")} style={{ paddingTop: "6px" }}>
+      <a className={`dark-mode ${ConfigDB.color.mix_background_layout !== "light" ? "active" : ""}`} href={'#javascript'} style={{ marginLeft: "8px" }}>
+        <SVG iconId="moondark"/>
       </a>
     </li>
   );

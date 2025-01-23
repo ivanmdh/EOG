@@ -24,7 +24,6 @@ export const UserForm = () => {
 
         if (res && res.ok && res.error === null) {
             toast.success("Inicio de sesión exitoso...")
-            window.localStorage.setItem("accessToken", res?.Authorization?.accessToken)
             router.push(res.url || "/resumen")
         } else {
             toast.error("Datos de inicio de sesión incorrectos...")

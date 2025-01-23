@@ -21,7 +21,7 @@ apiService.interceptors.request.use(
 
         } else {
             try {
-                const { auth } = await import('@/src/auth')
+                const { auth } = await import('@/app/auth')
                 const session: any = await auth()
 
                 const accessToken = session?.user?.Authorization?.accessToken

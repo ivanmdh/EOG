@@ -58,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(
             async signIn({ user }: any) {
                 if (user && user?.Authorization) {
                     if (typeof window !== 'undefined') {
-                        localStorage.setItem('accessToken', user?.Authorization?.token)
+                        localStorage.setItem('accessToken', user?.Authorization?.accessToken)
                     }
                 }
 

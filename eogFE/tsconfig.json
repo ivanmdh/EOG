@@ -21,7 +21,9 @@
     ],
     "paths": {
       "@/*": ["./*"],
+      "@Componentes/*": ["src/Componentes/*"],
       "@Components/*": ["src/Amero/Components/*"],
+      "@Context/*": ["src/contexts/*"],
       "@utils/*": ["src/Amero/utils/*"],
       "@Redux/*": ["src/Amero/Redux/*"],
       "@Data/*": ["src/Amero/Data/*"],

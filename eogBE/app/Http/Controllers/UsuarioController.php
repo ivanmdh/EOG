@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUsuarioRequest;
-use App\Http\Requests\UpdateUsuarioRequest;
+use App\Http\Resources\UsuarioResource;
 use App\Models\Usuario;
+use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+
+        $usuarios = Usuario::query()
+            ->when($request->search, function($query, $search) {
+                $query->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->paginate($perPage);
+
+        return UsuarioResource::collection($usuarios);
     }
 
     /**
