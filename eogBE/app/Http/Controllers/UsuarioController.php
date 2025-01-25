@@ -46,9 +46,9 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Usuario $usuario)
+    public function show(Request $request)
     {
-        //
+        return new UsuarioResource(Usuario::find($request->IDUsuario));
     }
 
     /**

@@ -43,13 +43,9 @@ const ReactTable = ({ apiUrl, columnas }: Props) => {
             <Card className="hoverable-table">
                 <CommonTable tableClass="signal-table" headData={ columnas } hover>
                     { dataElementos.map((data: any, key: number) => (
-                        <tr key={ key } >
+                        <tr key={ key }>
                             { columnas.map((columna: any, index: number) => (
-                                <>
-                                    { console.log (columna) }
-                                    <td key={ index } className={ columna.classContent ?? '' }>{ columna.cell ? columna.cell(data) : data[columna.campo] }</td>
-                                </>
-
+                                <td key={ index } className={ columna.classContent ?? "" }>{ columna.cell ? columna.cell(data) : data[columna.campo] }</td>
                             )) }
                         </tr>
                     )) }

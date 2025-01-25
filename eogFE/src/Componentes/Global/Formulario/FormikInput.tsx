@@ -1,4 +1,4 @@
-import { FormGroup, Input, Label } from "reactstrap"
+import { FormFeedback, FormGroup, Input, Label } from "reactstrap"
 import { Field, useField, useFormikContext } from "formik"
 import { useState } from "react"
 
@@ -16,7 +16,7 @@ const FormikInput = ({ title, name, type, placeholder, autoFocus }: Props) => {
 
     const [localValue, setLocalValue] = useState(field.value ?? "")
 
-    const { setFieldValue } = useFormikContext()
+    const { setFieldValue, errors}: any = useFormikContext()
 
     return (
         <Field name={ field.name }>
@@ -34,9 +34,11 @@ const FormikInput = ({ title, name, type, placeholder, autoFocus }: Props) => {
                             setLocalValue(e.target.value)
                             setFieldValue(name, e.target.value)
                         } }
-                        invalid={ field?.meta?.touched && field?.meta?.error }
+                        invalid={ !!errors?.[name] }
                     />
-
+                    <FormFeedback>
+                        { errors?.[name] ?? "" }
+                    </FormFeedback>
                 </FormGroup>
             ) }
         </Field>

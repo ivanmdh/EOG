@@ -1,11 +1,11 @@
 import CommonModal from "@Componentes/Global/CommonModal"
 import { Fragment, useEffect, useState } from "react"
-import { Card, CardBody, Col, Row } from "reactstrap"
+import { Button, Card, CardBody, Col, Row } from "reactstrap"
 import FormikInput from "@Componentes/Global/Formulario/FormikInput"
 import { cargarUsuario } from "@/src/services/usuarios"
 import Loader from "@Componentes/Global/Loader"
 import { useModalContext } from "@Context/ModalContext"
-import { Formik, Form } from 'formik'
+import { Formik, Form } from "formik"
 import validationSchema from "@Componentes/Usuarios/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
 
@@ -17,12 +17,12 @@ const ModalUsuario = () => {
 
     const [loading, setLoading] = useState(true)
     const [dataForm, setDataForm] = useState<any>({})
-    const data = { isOpen: modalStates.modalUsuario.open, header: true, toggler: () => toggleModal('modalUsuario'), title: tituloFormulario, size: "lg" }
+    const data = { isOpen: modalStates.modalUsuario.open, header: true, toggler: () => toggleModal("modalUsuario"), title: tituloFormulario, size: "lg" }
 
     const defaultValues = {
-        nombre: '',
-        apellido: '',
-        email: '',
+        nombre: "",
+        apellido: "",
+        email: "",
     }
 
     const initialValues = {
@@ -36,9 +36,9 @@ const ModalUsuario = () => {
 
     useEffect(() => {
         if (modalStates?.modalUsuario?.IDUsuario) {
-            cargarUsuario(modalStates?.modalUsuario?.IDUsuario)
+            cargarUsuario({ "IDUsuario": modalStates?.modalUsuario?.IDUsuario })
                 .then((response: any) => {
-                    setDataForm(response)
+                    setDataForm(response.data)
                     setLoading(false)
                 })
                 .catch((error: any) => {
@@ -52,9 +52,9 @@ const ModalUsuario = () => {
         <CommonModal modalData={ data }>
             {
                 loading
-                ? <Loader />
+                ? <Loader/>
                 : <Fragment>
-                    <Card>
+                    <Card className="mb-0">
                         <CardBody>
                             <Formik
                                 initialValues={ initialValues }
@@ -65,48 +65,63 @@ const ModalUsuario = () => {
 
                                     console.log("Data:", data)
 
-                                //    let RequestFunction
+                                    //    let RequestFunction
 //
-                                //    if (clienteFolioInt !== 'nuevo') RequestFunction = editarCliente
-                                //    else RequestFunction = agregarCliente
-                                //    await RequestFunction(data)
-                                //        .then((res: any) => {
-                                //            Formik.resetForm()
+                                    //    if (clienteFolioInt !== 'nuevo') RequestFunction = editarCliente
+                                    //    else RequestFunction = agregarCliente
+                                    //    await RequestFunction(data)
+                                    //        .then((res: any) => {
+                                    //            Formik.resetForm()
 //
-                                //            //router.push({
-                                //            //              pathname: '/clientes',
-                                //            //              query: { cliente: res.data.FolioInt ?? clienteFolioInt }
-                                //            //            })
+                                    //            //router.push({
+                                    //            //              pathname: '/clientes',
+                                    //            //              query: { cliente: res.data.FolioInt ?? clienteFolioInt }
+                                    //            //            })
 //
-                                //        })
-                                //        .catch((err: any) => {
-                                //            console.log(err)
-                                //            Formik.resetForm()
-                                //        })
+                                    //        })
+                                    //        .catch((err: any) => {
+                                    //            console.log(err)
+                                    //            Formik.resetForm()
+                                    //        })
                                 } }
                             >
-                                { () => (
+                                { ({ errors }) => (
                                     <Form>
-                                        <ConnectedFocusError />
-                                            <Row>
-                                                <Col md="12">
-                                                    <FormikInput
-                                                        type="text"
-                                                        name={'nombre'}
-                                                        title={'Nombre'}
-                                                        placeholder={'Ingresa el nombre'}
-                                                        autoFocus={true}
-                                                    />
-                                                </Col>
-                                                <Col md="12">
-                                                    <FormikInput
-                                                        type="text"
-                                                        name={'apellido'}
-                                                        title={'Apellido'}
-                                                        placeholder={'Ingresa el apellido'}
-                                                    />
-                                                </Col>
-                                            </Row>
+                                        <ConnectedFocusError/>
+                                        <>{
+                                            console.log("Errors:", errors)
+                                        }</>
+                                        <Row>
+                                            <Col md="12">
+                                                <FormikInput
+                                                    type="text"
+                                                    name={ "nombre" }
+                                                    title={ "Nombre" }
+                                                    placeholder={ "Ingresa el nombre" }
+                                                    autoFocus={ true }
+                                                />
+                                            </Col>
+                                            <Col md="12">
+                                                <FormikInput
+                                                    type="text"
+                                                    name={ "apellido" }
+                                                    title={ "Apellido" }
+                                                    placeholder={ "Ingresa el apellido" }
+                                                />
+                                            </Col>
+                                            <Col md="12">
+                                                <FormikInput
+                                                    type="email"
+                                                    name={ "email" }
+                                                    title={ "Email" }
+                                                    placeholder={ "Ingresa el email" }
+                                                />
+                                            </Col>
+                                            <Col md="12" style={{ textAlign: "right" }}>
+                                                <Button type="submit" color="primary" style={{ marginRight: "10px" }}>Guardar</Button>
+                                                <Button type={ "button" } color="secondary" onClick={ () => toggleModal("modalUsuario") }>Cancelar</Button>
+                                            </Col>
+                                        </Row>
                                     </Form>
                                 ) }
                             </Formik>
@@ -114,7 +129,6 @@ const ModalUsuario = () => {
                     </Card>
                 </Fragment>
             }
-
         </CommonModal>
     )
 }

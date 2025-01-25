@@ -6,7 +6,7 @@ const CommonModal: React.FC<CommonModalProps> = ({ modalData, children }) => {
     return (
         <Modal className={ modalData.class } isOpen={ modalData.isOpen } toggle={ modalData.toggler } centered={ modalData.center } size={ modalData.size }>
             { modalData.header && <ModalHeader toggle={ modalData.toggler }>{ modalData.title }</ModalHeader> }
-            <ModalBody className={ modalData.bodyClass }>{ children }</ModalBody>
+            <ModalBody className={ modalData.bodyClass } style={{ padding: 0 }}>{ children }</ModalBody>
             { modalData.footer && (
                 <ModalFooter>
                     <Button color="secondary" onClick={ modalData.toggler }>
