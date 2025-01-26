@@ -111,14 +111,30 @@ const ModalUsuario = () => {
                                             </Col>
                                             <Col md="12">
                                                 <FormikInput
+                                                    type="text"
+                                                    name={ "usuario" }
+                                                    title={ "Usuario" }
+                                                    placeholder={ "Ingresa el usuario" }
+                                                />
+                                            </Col>
+                                            <Col md="12">
+                                                <FormikInput
+                                                    type="password"
+                                                    name={ "password" }
+                                                    title={ "password" }
+                                                    placeholder={ "Ingresa la contraseña" }
+                                                />
+                                            </Col>
+                                            <Col md="12">
+                                                <FormikInput
                                                     type="email"
                                                     name={ "email" }
                                                     title={ "Email" }
                                                     placeholder={ "Ingresa el email" }
                                                 />
                                             </Col>
-                                            <Col md="12" style={{ textAlign: "right" }}>
-                                                <Button type="submit" color="primary" style={{ marginRight: "10px" }}>Guardar</Button>
+                                            <Col md="12" style={ { textAlign: "right" } }>
+                                                <Button type="submit" color="primary" style={ { marginRight: "10px" } }>Guardar</Button>
                                                 <Button type={ "button" } color="secondary" onClick={ () => toggleModal("modalUsuario") }>Cancelar</Button>
                                             </Col>
                                         </Row>

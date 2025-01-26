@@ -7,7 +7,7 @@ const Tickets = () => {
 
     const columnas = [
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
-        { titulo: "Nombre", campo: "nombre" },
+        { titulo: "Tipo", campo: "tipo" },
         { titulo: "Apellido", campo: "apellido" },
         { titulo: "Email", campo: "email" },
         { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
@@ -22,7 +22,7 @@ const Tickets = () => {
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable
-                                        apiUrl={ "/api/usuarios" }
+                                        apiUrl={ "/api/tickets" }
                                         columnas={ columnas }
                                     />
                                 </div>

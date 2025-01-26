@@ -1,7 +1,10 @@
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
+import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
 import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
 import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
+import { SearchBar } from "@/src/Amero/Layout/Header/HeaderRight/ResponsiveSearch/SearchBar"
+import ReactTableBusqueda from "../Global/ReactTableBusqueda"
+import ReactTableBotones from "../Global/ReactTableBotones"
 
 const Usuarios = () => {
 
@@ -19,6 +22,12 @@ const Usuarios = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
+                            <CardHeader className="d-md-block d-none">
+                                <div className="d-md-flex d-sm-block align-items-center">
+                                    <ReactTableBusqueda />
+                                    <ReactTableBotones />
+                                </div>
+                            </CardHeader>
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable

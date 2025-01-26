@@ -51,7 +51,6 @@ export default function RootLayout({
                     <div className="page-body-wrapper">
                         <Sidebar/>
                         <div className="page-body">{ children }</div>
-                        <Footer/>
                     </div>
                 </div>
                 <TapTop/>

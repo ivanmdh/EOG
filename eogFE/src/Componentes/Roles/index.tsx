@@ -1,16 +1,16 @@
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
+import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
-import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
-import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
+import ModalRol from "@Componentes/Roles/ModalRol"
+import AccionesRol from "./AccionesRol"
+import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
+import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 
-const Tickets = () => {
+const Roles = () => {
 
     const columnas = [
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
-        { titulo: "Nombre", campo: "nombre" },
-        { titulo: "Apellido", campo: "apellido" },
-        { titulo: "Email", campo: "email" },
-        { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
+        { titulo: "Rol", campo: "nombre" },
+        { titulo: "Opciones", cell: (row: any) => <AccionesRol rol={ row }/> }
     ]
 
     return (
@@ -19,10 +19,16 @@ const Tickets = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
+                            <CardHeader className="d-md-block d-none">
+                                <div className="d-md-flex d-sm-block align-items-center">
+                                    <ReactTableBusqueda />
+                                    <ReactTableBotones />
+                                </div>
+                            </CardHeader>
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable
-                                        apiUrl={ "/api/usuarios" }
+                                        apiUrl={ "/api/usuarios/roles" }
                                         columnas={ columnas }
                                     />
                                 </div>
@@ -31,9 +37,9 @@ const Tickets = () => {
                     </Col>
                 </Row>
             </Container>
-            <ModalUsuario/>
+            <ModalRol/>
         </>
     )
 }
 
-export default Tickets
+export default Roles

@@ -27,9 +27,6 @@ const Profile = () => {
   return (
     <li className='profile-nav custom-dropdown'>
       <div className='user-wrap'>
-        <div className='user-img'>
-          <Image width={64} height={59} src={session?.user?.image || `/assets/images/profile.png`} alt='user' />
-        </div>
         <div className='user-content' onClick={() => setShow(!show)}>
           <h6>{session?.user?.email}</h6>
           <p className='mb-0'>
@@ -39,18 +36,10 @@ const Profile = () => {
         </div>
         <div className={`custom-menu overflow-hidden ${show ? "show" : ""}`}>
           <ul className='profile-body'>
-            {UserListData.map((item, index) => (
-              <li className='d-flex' key={index}>
-                <SVG className='svg-color' iconId={item.icon} />
-                <Link className='ms-2' href={item.href}>
-                  {item.text}
-                </Link>
-              </li>
-            ))}
             <li className='d-flex' onClick={handleLogout}>
               <SVG className='svg-color' iconId='Login' />
               <Link className='ms-2' href={ '#javascript' }>
-                {'Logout'}
+                {'Cerrar Sesión'}
               </Link>
             </li>
           </ul>

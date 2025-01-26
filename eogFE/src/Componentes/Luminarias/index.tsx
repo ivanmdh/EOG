@@ -22,7 +22,7 @@ const Tickets = () => {
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable
-                                        apiUrl={ "/api/usuarios" }
+                                        apiUrl={ "/api/luminarias" }
                                         columnas={ columnas }
                                     />
                                 </div>
