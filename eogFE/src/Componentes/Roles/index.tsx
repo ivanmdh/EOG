@@ -8,7 +8,7 @@ import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 const Roles = () => {
 
     const columnas = [
-        { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
+        { titulo: "Folio", campo: "IDRol", classContent: "text-center" },
         { titulo: "Rol", campo: "nombre" },
         { titulo: "Opciones", cell: (row: any) => <AccionesRol rol={ row }/> }
     ]

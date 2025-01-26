@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->bigIncrements('IDUsuario');
-            
+            $table->foreignId('IDRol')->nullable()->constrained('roles', 'IDRol')->onUpdate('cascade')->nullOnDelete();
+
             $table->string('nombre', 100);
             $table->string('apellido', 100);
             $table->string('email', 100)->unique();
             $table->string('usuario', 100)->unique();
             $table->string('password', 100);
             $table->string('password_reset', 100)->nullable();
-            
+
             $table->timestamps();
         });
     }

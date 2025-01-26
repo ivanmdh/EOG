@@ -13,7 +13,7 @@ class DireccionesSeeder extends Seeder
      */
     public function run(): void
     {
-        $path = 'DATOS-CORTAZAR.csv';
+        $path = storage_path('app/private/DATOS-CORTAZAR.csv');
         if (!file_exists($path) || !is_readable($path)) {
             echo "El archivo CSV no existe o no es legible.\n";
             return;
@@ -21,23 +21,24 @@ class DireccionesSeeder extends Seeder
         if (($handle = fopen($path, 'r')) !== false) {
             $header = fgetcsv($handle, 1000, ',');
             while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                $numCuenta         = trim($data[0]);
-                $rpu               = trim($data[1]);
-                $nombre            = trim($data[2]);
-                $direccion         = trim($data[3]);
-                $colonia           = trim($data[4]);
-                $tarifa            = trim($data[5]);
+                $numCuenta         = mb_strtoupper(trim($data[0]), 'UTF-8');
+                $rpu               = mb_strtoupper(trim($data[1]), 'UTF-8');
+                $nombre            = mb_strtoupper(trim($data[2]), 'UTF-8');
+                $direccion         = mb_strtoupper(trim($data[3]), 'UTF-8');
+                $colonia           = mb_strtoupper(trim($data[4]), 'UTF-8');
+                $tarifa            = mb_strtoupper(trim($data[5]), 'UTF-8');
                 $hilos             = (int) $data[6];
                 $cargaInstalada    = (float) $data[7];
                 $demandaCont       = (float) $data[8];
                 $tipoSum           = (int) $data[9];
                 $promedioDiario    = (float) $data[10];
-                $numMedidor        = trim($data[11]);
+                $numMedidor        = mb_strtoupper(trim($data[11]), 'UTF-8');
                 $anio              = (int) $data[12];
                 $fechaCenso = null;
                 if (!empty($data[13])) {
                     try {
-                        $fechaCenso = Carbon::createFromFormat('d/m/Y', $data[13])->format('Y-m-d');
+                        //
+                        $fechaCenso = Carbon::createFromFormat('d/m/Y', $data[13])->toDateTimeString();
                     } catch (\Exception $e) {
                         echo "Error con la fecha en la línea: " . implode(', ', $data) . "\n";
                         continue;

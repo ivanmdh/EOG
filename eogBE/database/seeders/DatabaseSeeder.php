@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Direccion;
+use App\Models\Rol;
 use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
@@ -22,14 +24,28 @@ class DatabaseSeeder extends Seeder
         //    'email' => 'test@example.com',
         //]);
 
+        if(Rol::count() === 0) {
+            Rol::create([
+                'nombre' => 'Administrador'
+            ]);
+            Rol::create([
+                'nombre' => 'Usuario'
+            ]);
+        }
+
         if (Usuario::count() === 0) {
             Usuario::create([
+                'IDRol' => 1,
                 'nombre' => 'Administrador',
                 'apellido' => '',
                 'email' => 'admin@infocus.mx',
                 'usuario' => 'admin',
                 'password' => Hash::make('password')
             ]);
+        }
+
+        if (Direccion::count() === 0) {
+            $this->call(DireccionesSeeder::class);
         }
 
     }

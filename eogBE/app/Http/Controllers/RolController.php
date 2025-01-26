@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RolResource;
 use App\Http\Resources\UsuarioResource;
+use App\Models\Rol;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ class RolController extends Controller
         $perPage = $request->input('per_page', 10);
         $page = $request->input('page', 1);
 
-        $usuarios = Usuario::query()
+        $usuarios = Rol::query()
             ->when($request->search, function($query, $search) {
                 $query->where('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%")
@@ -24,7 +26,7 @@ class RolController extends Controller
             })
             ->paginate($perPage);
 
-        return UsuarioResource::collection($usuarios);
+        return RolResource::collection($usuarios);
     }
 
     /**
