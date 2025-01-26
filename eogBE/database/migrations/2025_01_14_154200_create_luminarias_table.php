@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('luminarias', function (Blueprint $table) {
             $table->bigIncrements('IDLuminaria');
+            $table->foreignId('IDUsuario')->nullable()->constrained('usuarios', 'IDUsuario')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('IDDireccion')->nullable()->constrained('direcciones', 'IDDireccion')->onUpdate('cascade')->nullOnDelete();
 
             $table->string('latitud', 100);
             $table->string('longitud', 100);

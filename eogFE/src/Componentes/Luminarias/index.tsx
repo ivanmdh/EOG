@@ -1,15 +1,18 @@
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
+import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
 import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
 import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
+import { GoogleMap, InfoWindow, useJsApiLoader } from "@react-google-maps/api"
+import { useState } from "react"
+import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
+import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
+import MapaLuminarias from "@Componentes/Luminarias/MapaLuminarias"
 
-const Tickets = () => {
+const Luminarias = () => {
 
     const columnas = [
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
-        { titulo: "Nombre", campo: "nombre" },
-        { titulo: "Apellido", campo: "apellido" },
-        { titulo: "Email", campo: "email" },
+        { titulo: "Fecha de Alta", campo: "nombre" },
         { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
     ]
 
@@ -19,6 +22,13 @@ const Tickets = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
+                            <CardHeader className="d-md-block d-none">
+                                <MapaLuminarias/>
+                                <div className="d-md-flex d-sm-block align-items-center mt-3">
+                                    <ReactTableBusqueda />
+                                    <ReactTableBotones />
+                                </div>
+                            </CardHeader>
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable
@@ -36,4 +46,4 @@ const Tickets = () => {
     )
 }
 
-export default Tickets
+export default Luminarias

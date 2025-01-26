@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.5",
     "@tanstack/react-table": "^8.20.6",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
