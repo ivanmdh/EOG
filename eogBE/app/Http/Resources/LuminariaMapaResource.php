@@ -20,9 +20,13 @@ class LuminariaMapaResource extends JsonResource
             'lat' => floatval($this->latitud),
             'lng' => floatval($this->longitud),
             'data' => [
-                'title' => 'Luminaria',
-                'image' => 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-                'medidor' => 'Medidor',
+                'title' => 'Luminaria LC' . str_pad($this->IDLuminaria, 5, '0', STR_PAD_LEFT),
+                'image' => 'http://api.eog.local:8000/api/luminarias/mapa',
+                'num_cuenta' => $this->direccion->num_cuenta,
+                'rpu' => $this->direccion->rpu,
+                'tarifa' => $this->direccion->tarifa,
+                'hilos' => $this->direccion->hilos,
+                'num_medidor' => $this->direccion->num_medidor,
             ],
         ];
     }

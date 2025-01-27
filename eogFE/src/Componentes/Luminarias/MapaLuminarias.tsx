@@ -91,8 +91,11 @@ const MapaLuminarias = () => {
                 />
                 <div>
                   <h3>{selectedPosition.data.title}</h3>
-                  <p>Poste: {selectedPosition.data.poste}</p>
-                  <p>Potencia: {selectedPosition.data.potencia}</p>
+                  <p>Num. Cuenta: {selectedPosition.data.num_cuenta}</p>
+                  <p>RPU: {selectedPosition.data.rpu}</p>
+                  <p>Tarifa: {selectedPosition.data.tarifa}</p>
+                  <p>Hilos: {selectedPosition.data.hilos}</p>
+                  <p>Num. Medidor: {selectedPosition.data.num_medidor}</p>
                 </div>
               </div>
             </InfoWindow>

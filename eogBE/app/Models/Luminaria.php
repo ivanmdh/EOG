@@ -13,4 +13,9 @@ class Luminaria extends Model
     protected $table      = 'luminarias';
     protected $primaryKey = 'IDLuminaria';
 
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class, 'IDDireccion');
+    }
+
 }
