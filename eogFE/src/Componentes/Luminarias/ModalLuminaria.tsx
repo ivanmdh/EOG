@@ -56,7 +56,6 @@ const ModalLuminaria = () => {
                 .then((response: any) => {
                     setDataForm(response.data)
                     setLoading(false)
-                    updateData()
                 })
                 .catch((error: any) => {
                     console.log("Error:", error)
@@ -86,6 +85,7 @@ const ModalLuminaria = () => {
                                                 Formik.resetForm()
                                                 setLoading(false)
                                                 toggleModal("modalLuminaria")
+                                                updateData()
                                             })
                                             .catch((err: any) => {
                                                 console.log(err)
