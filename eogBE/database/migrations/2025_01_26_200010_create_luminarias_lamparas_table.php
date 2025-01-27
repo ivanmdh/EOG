@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('luminarias_lamparas_relacion', function (Blueprint $table) {
+        Schema::create('luminarias_lamparas', function (Blueprint $table) {
             $table->bigIncrements('IDLampara');
             $table->foreignId('IDLuminaria')->nullable()->constrained('luminarias', 'IDLuminaria')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDPotencia')->nullable()->constrained('luminarias_potencias', 'IDPotencia')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDFoto')->nullable()->constrained('luminarias_fotos', 'IDFoto')->onUpdate('cascade')->nullOnDelete();
+
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('luminarias_lamparas_relacion');
+        Schema::dropIfExists('luminarias_lamparas');
     }
 };

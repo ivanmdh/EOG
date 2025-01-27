@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LuminariaRequest;
+use App\Http\Resources\LuminariaMapaResource;
+use App\Http\Resources\LuminariaResource;
 use App\Models\Luminaria;
 use App\Models\LuminariaFoto;
+use App\Models\LuminariaLampara;
 use Illuminate\Http\Request;
 
 class LuminariaController extends Controller
@@ -12,9 +15,15 @@ class LuminariaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+
+        $direcciones = Luminaria::query()
+            ->paginate($perPage);
+
+        return LuminariaResource::collection($direcciones);
     }
 
     /**
@@ -37,10 +46,14 @@ class LuminariaController extends Controller
         $Luminaria->latitud = $request->ubicacion['latitud'];
         $Luminaria->longitud = $request->ubicacion['longitud'];
         $Luminaria->save();
-        $Luminaria->luminarias_lamparas()->detach();
+        LuminariaLampara::where('IDLuminaria', $Luminaria->IDLuminaria)->delete();
         foreach ($request->luminarias as $luminaria) {
             $foto = LuminariaFoto::where('hash', $luminaria['foto'])->first();
-            $Luminaria->luminarias_lamparas()->attach(intval($luminaria['potencia']), ['IDFoto' => $foto->IDFoto]);
+            $Lampara = new LuminariaLampara();
+            $Lampara->IDLuminaria = $Luminaria->IDLuminaria;
+            $Lampara->IDPotencia = intval($luminaria['potencia']);
+            $Lampara->IDFoto = $foto->IDFoto;
+            $Lampara->save();
         }
         return response()->json([
             'success' => true,
@@ -90,5 +103,14 @@ class LuminariaController extends Controller
                 'hash' => $hashFoto,
             ]);
         }
+    }
+
+    public function mapa()
+    {
+        $Luminarias = Luminaria::all();
+        return response()->json([
+            'success' => true,
+            'Luminarias' => LuminariaMapaResource::collection($Luminarias),
+        ]);
     }
 }
