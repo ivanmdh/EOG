@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/', [RolController::class, 'index']);
             Route::post('detalles', [RolController::class, 'detalles']);
             Route::post('rol', [RolController::class, 'actualizar']);
-            Route::post('eliminar', [RolController::class, 'destroy']);
+            Route::post('eliminar', [RolController::class, 'eliminar']);
         });
     });
     Route::prefix('tickets')->group(function () {

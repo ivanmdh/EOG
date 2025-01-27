@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RolRequest;
 use App\Http\Resources\RolResource;
-use App\Http\Resources\UsuarioResource;
 use App\Models\Rol;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -73,8 +72,13 @@ class RolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Usuario $usuario)
+    public function eliminar(Request $request)
     {
-        //
+        $Rol = Rol::findOrFail($request->IDRol);
+        $Rol->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Rol eliminada correctamente',
+        ]);
     }
 }

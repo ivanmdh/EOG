@@ -4,8 +4,11 @@ import ModalRol from "@Componentes/Roles/ModalRol"
 import AccionesRol from "./AccionesRol"
 import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
+import { useModalContext } from "@/src/contexts/ModalContext"
 
 const Roles = () => {
+
+    const { setModalStart } = useModalContext()
 
     const columnas = [
         { titulo: "Folio", campo: "IDRol", classContent: "text-center" },
@@ -22,7 +25,7 @@ const Roles = () => {
                             <CardHeader className="d-md-block d-none">
                                 <div className="d-md-flex d-sm-block align-items-center">
                                     <ReactTableBusqueda />
-                                    <ReactTableBotones modal={ "modalRol" }
+                                    <ReactTableBotones modalStart={() => setModalStart('modalRol', { IDRol: null })}
                                     />
                                 </div>
                             </CardHeader>

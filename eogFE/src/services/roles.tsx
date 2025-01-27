@@ -43,7 +43,29 @@ const actualizarRol = (data: any) => {
     })
 }
 
+const eliminarRolRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/usuarios/roles/eliminar', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const eliminarRol = (data: any) => {
+    return toast.promise(eliminarRolRequest(data), {
+        pending: 'Eliminando rol',
+        success: 'Rol eliminado',
+        error: 'Error al eliminar el rol'
+    })
+}
+
 export {
     cargarRol,
-    actualizarRol
+    actualizarRol,
+    eliminarRol
 }

@@ -43,6 +43,7 @@ const ModalRol = () => {
                     setLoading(false)
                 })
         } else {
+            setDataForm({})
             setLoading(false)
         }
     }, [modalStates?.modalRol?.IDRol])
