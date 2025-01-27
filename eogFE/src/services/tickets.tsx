@@ -1,10 +1,10 @@
 import apiService from "@services/apiServices"
 import { toast } from "react-toastify"
 
-const cargarUsuarioRequest = (data: any) => {
+const cargarTicketRequest = (data: any) => {
     return new Promise((resolve, reject) => {
         apiService
-            .post('/api/usuarios/detalles', data)
+            .post('/api/tickets/detalles', data)
             .then((reponse: any) => {
                 resolve(reponse)
             })
@@ -14,14 +14,58 @@ const cargarUsuarioRequest = (data: any) => {
     })
 }
 
-const cargarUsuario = (data: any) => {
-    return toast.promise(cargarUsuarioRequest(data), {
-        //pending: 'Cargando usuario',
-        //success: 'Usuario cargado',
-        error: 'Error al cargar el usuario'
+const cargarTicket = (data: any) => {
+    return toast.promise(cargarTicketRequest(data), {
+        //pending: 'Cargando ticket',
+        //success: 'Ticket cargado',
+        error: 'Error al cargar el ticket'
+    })
+}
+
+const actualizarTicketRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/tickets/ticket', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const actualizarTicket = (data: any) => {
+    return toast.promise(actualizarTicketRequest(data), {
+        pending: 'Actualizando ticket',
+        success: 'Ticket actualizado',
+        error: 'Error al actualizar el ticket'
+    })
+}
+
+const eliminarTicketRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/tickets/eliminar', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const eliminarTicket = (data: any) => {
+    return toast.promise(eliminarTicketRequest(data), {
+        pending: 'Eliminando ticket',
+        success: 'Ticket eliminado',
+        error: 'Error al eliminar el ticket'
     })
 }
 
 export {
-    cargarUsuario
+    cargarTicket,
+    actualizarTicket,
+    eliminarTicket
 }

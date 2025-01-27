@@ -1,16 +1,20 @@
-import { Card, CardBody, Col, Container, Row } from "reactstrap"
+import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
-import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
-import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
+import AccionesTicket from "@Componentes/Tickets/AccionesTicket"
+import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
+import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
+import { useModalContext } from "@Context/ModalContext"
+import ModalTicket from "./ModalTicket"
 
 const Tickets = () => {
 
+    const { setModalStart } = useModalContext()
+
     const columnas = [
-        { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
-        { titulo: "Tipo", campo: "tipo" },
-        { titulo: "Apellido", campo: "apellido" },
-        { titulo: "Email", campo: "email" },
-        { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
+        { titulo: "Folio", campo: "folio", classContent: "text-center" },
+        { titulo: "Asunto", campo: "asunto" },
+        { titulo: "Estado", campo: "estado" },
+        { titulo: "Opciones", cell: (row: any) => <AccionesTicket ticket={ row }/> }
     ]
 
     return (
@@ -19,6 +23,12 @@ const Tickets = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
+                            <CardHeader className="d-md-block">
+                                <div className="d-md-flex d-sm-block align-items-center">
+                                    <ReactTableBusqueda/>
+                                    <ReactTableBotones modalStart={ () => setModalStart("modalTicket", { IDTicket: null }) }/>
+                                </div>
+                            </CardHeader>
                             <CardBody>
                                 <div className="table-responsive">
                                     <ReactTable
@@ -31,7 +41,7 @@ const Tickets = () => {
                     </Col>
                 </Row>
             </Container>
-            <ModalUsuario/>
+            <ModalTicket/>
         </>
     )
 }
