@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('IDPotencia');
             $table->string('potencia');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

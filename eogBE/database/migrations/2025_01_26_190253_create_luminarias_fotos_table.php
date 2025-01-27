@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('hash', 64)->unique();
             $table->timestamp('fecha_subida')->useCurrent();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

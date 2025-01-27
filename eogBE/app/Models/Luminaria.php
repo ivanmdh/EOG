@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Luminaria extends Model
 {
-    public function luminarias_lamparas()
-    {
-        return $this->belongsToMany(LuminariaPotencia::class, 'luminarias_potencias_relacion', 'IDLuminaria', 'IDLuminaria');
-    }
+
+    use SoftDeletes;
+
+    protected $table      = 'luminarias';
+    protected $primaryKey = 'IDLuminaria';
+
 }

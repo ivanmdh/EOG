@@ -83,9 +83,12 @@ const ModalLuminaria = () => {
                                         await actualizarLuminaria(data)
                                             .then(() => {
                                                 Formik.resetForm()
+                                                setLoading(false)
+                                                toggleModal("modalLuminaria")
                                             })
                                             .catch((err: any) => {
                                                 console.log(err)
+                                                setLoading(false)
                                                 Formik.resetForm()
                                             })
                                     } }

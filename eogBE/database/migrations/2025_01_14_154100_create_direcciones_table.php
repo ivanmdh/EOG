@@ -30,6 +30,7 @@ return new class extends Migration
             $table->date('fecha_censo');
             $table->integer('num_lamparas');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

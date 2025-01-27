@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password', 100);
             $table->string('password_reset', 100)->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

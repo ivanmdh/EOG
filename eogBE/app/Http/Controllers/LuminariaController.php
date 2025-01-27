@@ -32,13 +32,15 @@ class LuminariaController extends Controller
         } else {
             $Luminaria = new Luminaria();
         }
+        $Luminaria->IDUsuario = auth()->user()->IDUsuario;
+        $Luminaria->IDDireccion = $request->direccion[0]['IDDireccion'];
         $Luminaria->latitud = $request->ubicacion['latitud'];
         $Luminaria->longitud = $request->ubicacion['longitud'];
         $Luminaria->save();
         $Luminaria->luminarias_lamparas()->detach();
         foreach ($request->luminarias as $luminaria) {
             $foto = LuminariaFoto::where('hash', $luminaria['foto'])->first();
-            $Luminaria->luminarias_lamparas()->attach(['IDPotencia' => $request->direccion[0]['IDDireccion']], ['IDFoto' => $foto->IDFoto]);
+            $Luminaria->luminarias_lamparas()->attach(intval($luminaria['potencia']), ['IDFoto' => $foto->IDFoto]);
         }
         return response()->json([
             'success' => true,
