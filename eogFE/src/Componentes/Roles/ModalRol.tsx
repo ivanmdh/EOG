@@ -48,13 +48,6 @@ const ModalRol = () => {
         }
     }, [modalStates?.modalRol?.IDRol])
 
-    useEffect(() => {
-        return () => {
-            setLoading(true)
-            setDataForm({})
-        }
-    }, [])
-
     return (
         <CommonModal modalData={ data }>
             {

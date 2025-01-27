@@ -15,9 +15,9 @@ Route::prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('usuarios')->group(function () {
         Route::post('/', [UsuarioController::class, 'index']);
-        Route::post('detalles', [UsuarioController::class, 'show']);
-        Route::post('usuario', [UsuarioController::class, 'update']);
-        Route::post('eliminar', [UsuarioController::class, 'destroy']);
+        Route::post('detalles', [UsuarioController::class, 'detalles']);
+        Route::post('usuario', [UsuarioController::class, 'actualizar']);
+        Route::post('eliminar', [UsuarioController::class, 'eliminar']);
         Route::prefix('roles')->group(function () {
             Route::post('/', [RolController::class, 'index']);
             Route::post('detalles', [RolController::class, 'detalles']);

@@ -2,11 +2,13 @@ import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
 import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
 import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
-import { SearchBar } from "@/src/Amero/Layout/Header/HeaderRight/ResponsiveSearch/SearchBar"
 import ReactTableBusqueda from "../Global/ReactTableBusqueda"
 import ReactTableBotones from "../Global/ReactTableBotones"
+import { useModalContext } from "@Context/ModalContext"
 
 const Usuarios = () => {
+
+    const { setModalStart } = useModalContext()
 
     const columnas = [
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
@@ -24,8 +26,8 @@ const Usuarios = () => {
                         <Card>
                             <CardHeader className="d-md-block">
                                 <div className="d-md-flex d-sm-block align-items-center">
-                                    <ReactTableBusqueda />
-                                    <ReactTableBotones />
+                                    <ReactTableBusqueda/>
+                                    <ReactTableBotones modalStart={ () => setModalStart("modalUsuario", { IDUsuario: null }) }/>
                                 </div>
                             </CardHeader>
                             <CardBody>

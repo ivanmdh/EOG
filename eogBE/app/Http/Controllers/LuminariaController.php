@@ -66,9 +66,14 @@ class LuminariaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function eliminar(Luminaria $luminaria)
+    public function eliminar(Request $request)
     {
-        //
+        $luminaria = Luminaria::findOrFail($request->IDLuminaria);
+        $luminaria->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Luminaria eliminada correctamente',
+        ]);
     }
 
     public function cargaFoto(Request $request)

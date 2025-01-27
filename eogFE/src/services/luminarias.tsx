@@ -43,7 +43,29 @@ const actualizarLuminaria = (data: any) => {
     })
 }
 
+const eliminarLuminariaRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/luminarias/eliminar', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const eliminarLuminaria = (data: any) => {
+    return toast.promise(eliminarLuminariaRequest(data), {
+        pending: 'Eliminando luminaria',
+        success: 'Luminaria eliminada',
+        error: 'Error al eliminar la luminaria'
+    })
+}
+
 export {
     cargarLuminaria,
-    actualizarLuminaria
+    actualizarLuminaria,
+    eliminarLuminaria
 }

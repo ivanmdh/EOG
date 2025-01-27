@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UsuarioResource;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -46,32 +47,46 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function detalles(Request $request)
     {
         return new UsuarioResource(Usuario::find($request->IDUsuario));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Usuario $usuario)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUsuarioRequest $request, Usuario $usuario)
+    public function actualizar(Request $request)
     {
-        //
+        if ($request->IDUsuario) {
+            $usuario = Usuario::findOrFail($request->IDUsuario);
+        } else {
+            $usuario = new Usuario();
+        }
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->email = $request->email;
+        $usuario->usuario = $request->usuario;
+        if ($request->password) {
+            $usuario->password = Hash::make($request->password);
+        }
+
+        $usuario->save();
+        return response()->json([
+            'success' => true,
+            'data' => new UsuarioResource($usuario),
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Usuario $usuario)
+    public function eliminar(Request $request)
     {
-        //
+        $usuario = Usuario::findOrFail($request->IDUsuario);
+        $usuario->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario eliminado correctamente',
+        ]);
     }
 }

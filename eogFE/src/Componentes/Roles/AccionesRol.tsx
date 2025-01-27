@@ -14,7 +14,6 @@ const AccionesRol = ({ rol }: Props) => {
     const text = "No podrás revertir esto!"
     const type = "warning"
 
-
     const showAlert = (rol: any) => {
         Swal.fire({ title, text, icon: "warning", showCancelButton: true, cancelButtonColor: "red", confirmButtonText: "Sí, eliminarlo!", cancelButtonText: "Cancelar" }).then((result) => {
             if (result.isConfirmed && type === "warning") {
@@ -36,7 +35,6 @@ const AccionesRol = ({ rol }: Props) => {
                 <i
                     className="icon-pencil-alt"
                     onClick={ () => {
-                        console.log("Rol:", rol)
                         setModalStart("modalRol", { IDRol: rol.IDRol })
                     } }
                 />

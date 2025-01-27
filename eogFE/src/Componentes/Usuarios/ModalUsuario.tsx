@@ -2,16 +2,17 @@ import CommonModal from "@Componentes/Global/CommonModal"
 import { Fragment, useEffect, useState } from "react"
 import { Button, Card, CardBody, Col, Row } from "reactstrap"
 import FormikInput from "@Componentes/Global/Formulario/FormikInput"
-import { cargarUsuario } from "@/src/services/usuarios"
+import { actualizarUsuario, cargarUsuario } from "@/src/services/usuarios"
 import Loader from "@Componentes/Global/Loader"
 import { useModalContext } from "@Context/ModalContext"
 import { Formik, Form } from "formik"
 import validationSchema from "@Componentes/Usuarios/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
+import { actualizarRol } from "@services/roles"
 
 const ModalUsuario = () => {
 
-    const { toggleModal, modalStates } = useModalContext()
+    const { toggleModal, modalStates, updateData } = useModalContext()
 
     const tituloFormulario = modalStates?.modalUsuario?.IDUsuario ? "Editar Usuario" : "Nuevo Usuario"
 
@@ -30,21 +31,22 @@ const ModalUsuario = () => {
         ...dataForm
     }
 
-    console.log("initialValues:", initialValues)
-    console.log("dataForm:", dataForm)
-
-
     useEffect(() => {
         if (modalStates?.modalUsuario?.IDUsuario) {
+            setLoading(true)
             cargarUsuario({ "IDUsuario": modalStates?.modalUsuario?.IDUsuario })
                 .then((response: any) => {
                     setDataForm(response.data)
-                    setLoading(false)
                 })
                 .catch((error: any) => {
                     console.log("Error:", error)
+                })
+                .finally(() => {
                     setLoading(false)
                 })
+        } else {
+            setDataForm({})
+            setLoading(false)
         }
     }, [modalStates?.modalUsuario?.IDUsuario])
 
@@ -62,35 +64,23 @@ const ModalUsuario = () => {
                                 validateOnChange={ false }
                                 validateOnBlur={ false }
                                 onSubmit={ async (data, Formik) => {
-
-                                    console.log("Data:", data)
-
-                                    //    let RequestFunction
-//
-                                    //    if (clienteFolioInt !== 'nuevo') RequestFunction = editarCliente
-                                    //    else RequestFunction = agregarCliente
-                                    //    await RequestFunction(data)
-                                    //        .then((res: any) => {
-                                    //            Formik.resetForm()
-//
-                                    //            //router.push({
-                                    //            //              pathname: '/clientes',
-                                    //            //              query: { cliente: res.data.FolioInt ?? clienteFolioInt }
-                                    //            //            })
-//
-                                    //        })
-                                    //        .catch((err: any) => {
-                                    //            console.log(err)
-                                    //            Formik.resetForm()
-                                    //        })
+                                    setLoading(true)
+                                    await actualizarUsuario(data)
+                                        .then(() => {
+                                            setLoading(false)
+                                            toggleModal("modalUsuario")
+                                            updateData()
+                                        })
+                                        .catch((err: any) => {
+                                            console.log(err)
+                                            setLoading(false)
+                                            Formik.resetForm()
+                                        })
                                 } }
                             >
-                                { ({ errors }) => (
+                                { ({ handleSubmit }) => (
                                     <Form>
                                         <ConnectedFocusError/>
-                                        <>{
-                                            console.log("Errors:", errors)
-                                        }</>
                                         <Row>
                                             <Col md="12">
                                                 <FormikInput
@@ -134,7 +124,7 @@ const ModalUsuario = () => {
                                                 />
                                             </Col>
                                             <Col md="12" style={ { textAlign: "right" } }>
-                                                <Button type="submit" color="primary" style={ { marginRight: "10px" } }>Guardar</Button>
+                                                <Button type="submit" color="primary" style={ { marginRight: "10px" } } onClick={ () => handleSubmit() }>Guardar</Button>
                                                 <Button type={ "button" } color="secondary" onClick={ () => toggleModal("modalUsuario") }>Cancelar</Button>
                                             </Col>
                                         </Row>

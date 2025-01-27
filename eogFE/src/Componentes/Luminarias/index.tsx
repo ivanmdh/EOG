@@ -4,11 +4,14 @@ import AccionesLuminaria from "@Componentes/Luminarias/AccionesLuminaria"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import MapaLuminarias from "@Componentes/Luminarias/MapaLuminarias"
 import ModalLuminaria from "./ModalLuminaria"
+import { useModalContext } from "@Context/ModalContext"
 
 const Luminarias = () => {
 
+    const { setModalStart } = useModalContext()
+
     const columnas = [
-        { titulo: "Folio", campo: "IDLuminaria", classContent: "text-center" },
+        { titulo: "Folio", campo: "folio", classContent: "text-center" },
         { titulo: "Fecha de Alta", campo: "fecha_alta" },
         { titulo: "Opciones", cell: (row: any) => <AccionesLuminaria luminaria={ row }/> }
     ]
@@ -22,7 +25,7 @@ const Luminarias = () => {
                             <CardHeader className="d-md-block">
                                 <MapaLuminarias/>
                                 <div className="d-md-flex d-sm-block align-items-center mt-3">
-                                    <ReactTableBotones modal='modalLuminaria' />
+                                    <ReactTableBotones modalStart={() => setModalStart('modalLuminaria', { IDLuminaria: null })}/>
                                 </div>
                             </CardHeader>
                             <CardBody>

@@ -1,4 +1,6 @@
 import { useModalContext } from "@Context/ModalContext"
+import Swal from "sweetalert2"
+import { eliminarUsuario } from "@services/usuarios"
 
 interface Props {
     usuario: any
@@ -6,7 +8,27 @@ interface Props {
 
 const AccionesUsuario = ({ usuario }: Props) => {
 
-    const { setModalStart } = useModalContext()
+    const { setModalStart, updateData } = useModalContext()
+
+    const title = "Estás seguro de eliminar este usuario?"
+    const text = "No podrás revertir esto!"
+    const type = "warning"
+
+
+    const showAlert = (usuario: any) => {
+        Swal.fire({ title, text, icon: "warning", showCancelButton: true, cancelButtonColor: "red", confirmButtonText: "Sí, eliminarlo!", cancelButtonText: "Cancelar" }).then((result) => {
+            if (result.isConfirmed && type === "warning") {
+                eliminarUsuario(usuario)
+                    .then(() => {
+                        updateData()
+                        Swal.fire({ title: "Eliminado!", text: "El usuario ha sido eliminado.", icon: "success", confirmButtonText: "Aceptar" })
+                    })
+                    .catch(() => {
+                        Swal.fire({ title: "Error!", text: "No se pudo eliminar el usuario.", icon: "error", confirmButtonText: "Aceptar" })
+                    })
+            }
+        })
+    }
 
     return(
         <ul className="action d-flex justify-content-center">
@@ -14,13 +36,12 @@ const AccionesUsuario = ({ usuario }: Props) => {
                 <i
                     className="icon-pencil-alt"
                     onClick={ () => {
-                        console.log("Usuario:", usuario)
                         setModalStart('modalUsuario', { IDUsuario: usuario.IDUsuario })
                     }}
                 />
             </li>
             <li className="delete">
-                <a href={ `usuarios/eliminar/${usuario.IDUsuario}` }>
+                <a onClick={ () => showAlert({ IDUsuario: usuario.IDUsuario }) }>
                     <i className="icon-trash" />
                 </a>
             </li>
