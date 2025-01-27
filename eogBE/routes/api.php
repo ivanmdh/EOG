@@ -33,9 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::prefix('luminarias')->group(function () {
         Route::post('/', [LuminariaController::class, 'index']);
-        Route::post('detalles', [LuminariaController::class, 'show']);
-        Route::post('luminaria', [LuminariaController::class, 'update']);
-        Route::post('eliminar', [LuminariaController::class, 'destroy']);
+        Route::post('detalles', [LuminariaController::class, 'detalles']);
+        Route::post('luminaria', [LuminariaController::class, 'actualizar']);
+        Route::post('eliminar', [LuminariaController::class, 'eliminar']);
         Route::post('cargafoto', [LuminariaController::class, 'cargaFoto']);
     });
     Route::prefix('direcciones')->group(function () {

@@ -22,6 +22,28 @@ const cargarLuminaria = (data: any) => {
     })
 }
 
+const actualizarLuminariaRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/luminarias/luminaria', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const actualizarLuminaria = (data: any) => {
+    return toast.promise(actualizarLuminariaRequest(data), {
+        pending: 'Actualizando luminaria',
+        success: 'Luminaria actualizada',
+        error: 'Error al actualizar el luminaria'
+    })
+}
+
 export {
-    cargarLuminaria
+    cargarLuminaria,
+    actualizarLuminaria
 }

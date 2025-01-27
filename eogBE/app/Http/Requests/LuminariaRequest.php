@@ -6,13 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LuminariaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -21,8 +14,15 @@ class LuminariaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+         return [
+            'ubicacion' => 'required|array',
+            'ubicacion.latitud' => 'required|numeric',
+            'ubicacion.longitud' => 'required|numeric',
+            'direccion' => 'required|array',
+            'direccion.*.IDDireccion' => 'required|integer|exists:direcciones',
+            'luminarias' => 'required|array',
+            'luminarias.*.potencia' => 'required|string',
+            'luminarias.*.foto' => 'required|string',
         ];
     }
 }

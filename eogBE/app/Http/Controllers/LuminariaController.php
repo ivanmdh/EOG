@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreLuminariaRequest;
-use App\Http\Requests\UpdateLuminariaRequest;
+use App\Http\Requests\LuminariaRequest;
 use App\Models\Luminaria;
 use App\Models\LuminariaFoto;
 use Illuminate\Http\Request;
@@ -19,49 +18,39 @@ class LuminariaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLuminariaRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(Luminaria $luminaria)
+    public function detalles(Luminaria $luminaria)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Luminaria $luminaria)
+    public function actualizar(LuminariaRequest $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLuminariaRequest $request, Luminaria $luminaria)
-    {
-        //
+        if ($request->IDLuminaria) {
+            $Luminaria = Luminaria::findOrFail($request->IDLuminaria);
+        } else {
+            $Luminaria = new Luminaria();
+        }
+        $Luminaria->latitud = $request->ubicacion['latitud'];
+        $Luminaria->longitud = $request->ubicacion['longitud'];
+        $Luminaria->save();
+        $Luminaria->luminarias_lamparas()->detach();
+        foreach ($request->luminarias as $luminaria) {
+            $foto = LuminariaFoto::where('hash', $luminaria['foto'])->first();
+            $Luminaria->luminarias_lamparas()->attach(['IDPotencia' => $request->direccion[0]['IDDireccion']], ['IDFoto' => $foto->IDFoto]);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Luminaria guardada correctamente',
+            'Luminaria' => $Luminaria,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Luminaria $luminaria)
+    public function eliminar(Luminaria $luminaria)
     {
         //
     }

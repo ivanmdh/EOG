@@ -8,7 +8,7 @@ import validationSchema from "@Componentes/Luminarias/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
 import MapaLuminaria from "@Componentes/Luminarias/MapaLuminaria"
 import FormikTypeahead from "@Componentes/Global/Formulario/FormikTypeahead"
-import { cargarLuminaria } from "@/src/services/luminarias"
+import { actualizarLuminaria, cargarLuminaria } from "@/src/services/luminarias"
 import ImageUploader from "./ImageUploader"
 
 const ModalLuminaria = () => {
@@ -42,12 +42,13 @@ const ModalLuminaria = () => {
     }
 
     const potenciaList = [
-        { value: 50, label: "50 W" },
-        { value: 100, label: "100 W" },
-        { value: 150, label: "150 W" },
-        { value: 200, label: "200 W" },
-        { value: 250, label: "250 W" },
-        { value: 300, label: "300 W" },
+        { value: 1, label: "50 W" },
+        { value: 2, label: "75 W" },
+        { value: 3, label: "100 W" },
+        { value: 4, label: "150 W" },
+        { value: 5, label: "200 W" },
+        { value: 6, label: "250 W" },
+        { value: 7, label: "300 W" },
     ]
     useEffect(() => {
         if (modalStates?.modalLuminaria?.IDLuminaria) {
@@ -78,35 +79,20 @@ const ModalLuminaria = () => {
                                     validateOnChange={ false }
                                     validateOnBlur={ false }
                                     onSubmit={ async (data, Formik) => {
-
-                                        console.log("Data:", data)
-
-                                        //    let RequestFunction
-//
-                                        //    if (clienteFolioInt !== 'nuevo') RequestFunction = editarCliente
-                                        //    else RequestFunction = agregarCliente
-                                        //    await RequestFunction(data)
-                                        //        .then((res: any) => {
-                                        //            Formik.resetForm()
-//
-                                        //            //router.push({
-                                        //            //              pathname: '/clientes',
-                                        //            //              query: { cliente: res.data.FolioInt ?? clienteFolioInt }
-                                        //            //            })
-//
-                                        //        })
-                                        //        .catch((err: any) => {
-                                        //            console.log(err)
-                                        //            Formik.resetForm()
-                                        //        })
+                                        setLoading(true)
+                                        await actualizarLuminaria(data)
+                                            .then(() => {
+                                                Formik.resetForm()
+                                            })
+                                            .catch((err: any) => {
+                                                console.log(err)
+                                                Formik.resetForm()
+                                            })
                                     } }
                                 >
                                     { ({ values, setValues, errors, handleSubmit }: any) => (
                                         <div>
                                             <ConnectedFocusError/>
-                                            <>{
-                                                console.log("Errors:", errors)
-                                            }</>
                                             <Row>
                                                 <Col md="12">
                                                     <MapaLuminaria/>
