@@ -7,6 +7,7 @@ import { useState } from "react"
 import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import MapaLuminarias from "@Componentes/Luminarias/MapaLuminarias"
+import ModalLuminaria from "./ModalLuminaria"
 
 const Luminarias = () => {
 
@@ -22,11 +23,11 @@ const Luminarias = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
-                            <CardHeader className="d-md-block d-none">
+
+                            <CardHeader className="d-md-block">
                                 <MapaLuminarias/>
                                 <div className="d-md-flex d-sm-block align-items-center mt-3">
-                                    <ReactTableBusqueda />
-                                    <ReactTableBotones />
+                                    <ReactTableBotones modal='modalLuminaria' />
                                 </div>
                             </CardHeader>
                             <CardBody>
@@ -41,7 +42,7 @@ const Luminarias = () => {
                     </Col>
                 </Row>
             </Container>
-            <ModalUsuario/>
+            <ModalLuminaria/>
         </>
     )
 }

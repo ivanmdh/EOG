@@ -1,10 +1,10 @@
 import apiService from "@services/apiServices"
 import { toast } from "react-toastify"
 
-const cargarUsuarioRequest = (data: any) => {
+const cargarLuminariaRequest = (data: any) => {
     return new Promise((resolve, reject) => {
         apiService
-            .post('/api/usuarios/detalles', data)
+            .post('/api/luminarias/detalles', data)
             .then((reponse: any) => {
                 resolve(reponse)
             })
@@ -14,14 +14,14 @@ const cargarUsuarioRequest = (data: any) => {
     })
 }
 
-const cargarUsuario = (data: any) => {
-    return toast.promise(cargarUsuarioRequest(data), {
-        //pending: 'Cargando usuario',
-        //success: 'Usuario cargado',
-        error: 'Error al cargar el usuario'
+const cargarLuminaria = (data: any) => {
+    return toast.promise(cargarLuminariaRequest(data), {
+        //pending: 'Cargando luminaria',
+        //success: 'Luminaria cargado',
+        error: 'Error al cargar el luminaria'
     })
 }
 
 export {
-    cargarUsuario
+    cargarLuminaria
 }

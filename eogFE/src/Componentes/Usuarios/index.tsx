@@ -22,7 +22,7 @@ const Usuarios = () => {
                 <Row>
                     <Col sm="12">
                         <Card>
-                            <CardHeader className="d-md-block d-none">
+                            <CardHeader className="d-md-block">
                                 <div className="d-md-flex d-sm-block align-items-center">
                                     <ReactTableBusqueda />
                                     <ReactTableBotones />

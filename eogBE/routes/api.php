@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LuminariaController;
 use App\Http\Controllers\RolController;
@@ -35,5 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('detalles', [LuminariaController::class, 'show']);
         Route::post('luminaria', [LuminariaController::class, 'update']);
         Route::post('eliminar', [LuminariaController::class, 'destroy']);
+        Route::post('cargafoto', [LuminariaController::class, 'cargaFoto']);
+    });
+    Route::prefix('direcciones')->group(function () {
+        Route::post('/', [DireccionController::class, 'index']);
     });
 });
