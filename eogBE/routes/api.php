@@ -20,8 +20,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('eliminar', [UsuarioController::class, 'destroy']);
         Route::prefix('roles')->group(function () {
             Route::post('/', [RolController::class, 'index']);
-            Route::post('detalles', [RolController::class, 'show']);
-            Route::post('rol', [RolController::class, 'update']);
+            Route::post('detalles', [RolController::class, 'detalles']);
+            Route::post('rol', [RolController::class, 'actualizar']);
             Route::post('eliminar', [RolController::class, 'destroy']);
         });
     });

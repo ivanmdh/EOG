@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RolRequest;
 use App\Http\Resources\RolResource;
 use App\Http\Resources\UsuarioResource;
 use App\Models\Rol;
@@ -48,25 +49,25 @@ class RolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function detalles(Request $request)
     {
-        return new UsuarioResource(Usuario::find($request->IDUsuario));
+        return new RolResource(Rol::find($request->IDRol));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Usuario $usuario)
+    public function actualizar(RolRequest $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUsuarioRequest $request, Usuario $usuario)
-    {
-        //
+        if ($request->IDRol) {
+            $Rol = Rol::findOrFail($request->IDRol);
+        } else {
+            $Rol = new Rol();
+        }
+        $Rol->nombre = $request->nombre;
+        $Rol->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Rol guardada correctamente',
+            'Rol' => $Rol,
+        ]);
     }
 
     /**

@@ -22,7 +22,8 @@ const Roles = () => {
                             <CardHeader className="d-md-block d-none">
                                 <div className="d-md-flex d-sm-block align-items-center">
                                     <ReactTableBusqueda />
-                                    <ReactTableBotones />
+                                    <ReactTableBotones modal={ "modalRol" }
+                                    />
                                 </div>
                             </CardHeader>
                             <CardBody>

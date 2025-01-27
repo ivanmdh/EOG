@@ -22,6 +22,28 @@ const cargarRol = (data: any) => {
     })
 }
 
+const actualizarRolRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/usuarios/roles/rol', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const actualizarRol = (data: any) => {
+    return toast.promise(actualizarRolRequest(data), {
+        pending: 'Actualizando rol',
+        success: 'Rol actualizado',
+        error: 'Error al actualizar el rol'
+    })
+}
+
 export {
-    cargarRol
+    cargarRol,
+    actualizarRol
 }
