@@ -21,6 +21,7 @@ class LuminariaController extends Controller
         $page = $request->input('page', 1);
 
         $direcciones = Luminaria::query()
+            ->orderBy('IDLuminaria', 'desc')
             ->paginate($perPage);
 
         return LuminariaResource::collection($direcciones);
