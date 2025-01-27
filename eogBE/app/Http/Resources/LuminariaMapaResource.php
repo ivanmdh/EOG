@@ -17,8 +17,8 @@ class LuminariaMapaResource extends JsonResource
     {
         return [
             'IDLuminaria' => $this->IDLuminaria,
-            'lat' => $this->latitud,
-            'lng' => $this->longitud,
+            'lat' => floatval($this->latitud),
+            'lng' => floatval($this->longitud),
             'data' => [
                 'title' => 'Luminaria',
                 'image' => 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',

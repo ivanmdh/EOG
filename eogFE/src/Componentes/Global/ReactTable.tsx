@@ -1,4 +1,5 @@
 import { Card, Col } from "reactstrap"
+import { useModalContext } from "@Context/ModalContext"
 import CommonTable from "./CommonReactTable"
 import { useEffect, useState } from "react"
 import apiService from "@services/apiServices"
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const ReactTable = ({ apiUrl, columnas }: Props) => {
+
+    const { refreshData } = useModalContext()
 
     const [dataElementos, setDataElementos] = useState<any>([])
     const [totalRows, setTotalRows] = useState(0)
@@ -36,7 +39,7 @@ const ReactTable = ({ apiUrl, columnas }: Props) => {
 
     useEffect(() => {
         fetchData(1, perPage)
-    }, [])
+    }, [refreshData])
 
     return (
         <Col sm="12">

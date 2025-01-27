@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
 import ReactTable from "@Componentes/Global/ReactTable"
-import AccionesUsuario from "@Componentes/Usuarios/AccionesUsuario"
+import AccionesLuminaria from "@Componentes/Luminarias/AccionesLuminaria"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import MapaLuminarias from "@Componentes/Luminarias/MapaLuminarias"
 import ModalLuminaria from "./ModalLuminaria"
@@ -10,7 +10,7 @@ const Luminarias = () => {
     const columnas = [
         { titulo: "Folio", campo: "IDLuminaria", classContent: "text-center" },
         { titulo: "Fecha de Alta", campo: "fecha_alta" },
-        { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
+        { titulo: "Opciones", cell: (row: any) => <AccionesLuminaria luminaria={ row }/> }
     ]
 
     return (

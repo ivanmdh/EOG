@@ -13,7 +13,7 @@ class DireccionesSeeder extends Seeder
      */
     public function run(): void
     {
-        $path = storage_path('app/private/DATOS-CORTAZAR.csv');
+        $path = database_path('seeders/DATOS-CORTAZAR.csv');
         if (!file_exists($path) || !is_readable($path)) {
             echo "El archivo CSV no existe o no es legible.\n";
             return;

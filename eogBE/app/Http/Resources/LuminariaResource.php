@@ -16,7 +16,7 @@ class LuminariaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'IDLuminaria' => $this->IDDireccion,
+            'IDLuminaria' => $this->IDLuminaria,
             'fecha_alta' => Carbon::parse($this->fecha_alta)->format('d/m/Y'),
 
             'created_at' => $this->created_at,

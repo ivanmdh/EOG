@@ -13,7 +13,7 @@ import ImageUploader from "./ImageUploader"
 
 const ModalLuminaria = () => {
 
-    const { toggleModal, modalStates } = useModalContext()
+    const { toggleModal, modalStates, updateData } = useModalContext()
 
     const tituloFormulario = modalStates?.modalLuminaria?.IDLuminaria ? "Editar Luminaria" : "Nueva Luminaria"
 
@@ -56,6 +56,7 @@ const ModalLuminaria = () => {
                 .then((response: any) => {
                     setDataForm(response.data)
                     setLoading(false)
+                    updateData()
                 })
                 .catch((error: any) => {
                     console.log("Error:", error)
