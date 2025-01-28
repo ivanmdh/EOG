@@ -13,4 +13,9 @@ class LuminariaLampara extends Model
     protected $table      = 'luminarias_lamparas';
     protected $primaryKey = 'IDLampara';
 
+    public function foto()
+    {
+        return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto');
+    }
+
 }

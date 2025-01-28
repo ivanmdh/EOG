@@ -30,9 +30,9 @@ class LuminariaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function detalles(Luminaria $luminaria)
+    public function detalles(Request $request)
     {
-        //
+        return new LuminariaResource(Luminaria::find($request->IDLuminaria));
     }
 
     public function actualizar(LuminariaRequest $request)

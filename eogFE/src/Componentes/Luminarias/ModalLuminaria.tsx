@@ -51,16 +51,21 @@ const ModalLuminaria = () => {
         { value: 7, label: "300 W" },
     ]
     useEffect(() => {
+        setLoading(true)
         if (modalStates?.modalLuminaria?.IDLuminaria) {
-            cargarLuminaria({ "IDLuminaria": modalStates?.modalLuminaria?.IDLuminaria })
+            cargarLuminaria({ IDLuminaria: modalStates?.modalLuminaria?.IDLuminaria })
                 .then((response: any) => {
                     setDataForm(response.data)
-                    setLoading(false)
                 })
                 .catch((error: any) => {
                     console.log("Error:", error)
+                })
+                .finally(() => {
                     setLoading(false)
                 })
+        } else {
+            setDataForm({})
+            setLoading(false)
         }
     }, [modalStates?.modalLuminaria?.IDLuminaria])
 
@@ -97,6 +102,11 @@ const ModalLuminaria = () => {
                                     { ({ values, setValues, errors, handleSubmit }: any) => (
                                         <div>
                                             <ConnectedFocusError/>
+                                            <>{
+
+                                                console.log(values)
+
+                                            }</>
                                             <Row>
                                                 <Col md="12">
                                                     <MapaLuminaria/>

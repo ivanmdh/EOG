@@ -15,7 +15,12 @@ class Luminaria extends Model
 
     public function direccion()
     {
-        return $this->belongsTo(Direccion::class, 'IDDireccion');
+        return $this->belongsTo(Direccion::class, 'IDDireccion', 'IDDireccion');
+    }
+
+    public function lamparas()
+    {
+        return $this->hasMany(LuminariaLampara::class, 'IDLuminaria', 'IDLuminaria');
     }
 
 }

@@ -17,8 +17,17 @@ class LuminariaResource extends JsonResource
     {
         return [
             'IDLuminaria' => $this->IDLuminaria,
-            'folio' => 'LC'.str_pad($this->IDLuminaria, 5, "0", STR_PAD_LEFT),
+            'folio' => 'PC'.str_pad($this->IDLuminaria, 5, "0", STR_PAD_LEFT),
             'fecha_alta' => Carbon::parse($this->fecha_alta)->format('d/m/Y'),
+
+            'direccion' => [DireccionResource::make($this->direccion)],
+
+            'luminarias' => LamparaResource::collection($this->lamparas),
+
+            'ubicacion' => [
+                'latitud' => $this->latitud,
+                'longitud' => $this->longitud,
+            ],
 
             'created_at' => $this->created_at,
         ];

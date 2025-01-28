@@ -8,7 +8,7 @@ interface Props {
 
 const AccionesLuminaria = ({ luminaria }: Props) => {
 
-    const { updateData } = useModalContext()
+    const { updateData, setModalStart } = useModalContext()
 
     const title = "Estás seguro de eliminar esta luminaria?"
     const text = "No podrás revertir esto!"
@@ -31,7 +31,15 @@ const AccionesLuminaria = ({ luminaria }: Props) => {
 
     return(
         <ul className="action d-flex justify-content-center">
-            <li className="delete">
+            <li className="edit" style={ { cursor: "pointer" } }>
+                <i
+                    className="icon-pencil-alt"
+                    onClick={ () => {
+                        setModalStart("modalLuminaria", { IDLuminaria: luminaria.IDLuminaria })
+                    } }
+                />
+            </li>
+            <li className="delete" style={ { cursor: "pointer" } }>
                 <a onClick={ () => showAlert({ IDLuminaria: luminaria.IDLuminaria }) }>
                     <i className="icon-trash" />
                 </a>
