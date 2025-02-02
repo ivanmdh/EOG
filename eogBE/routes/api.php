@@ -37,9 +37,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('luminaria', [LuminariaController::class, 'actualizar']);
         Route::post('eliminar', [LuminariaController::class, 'eliminar']);
         Route::post('cargafoto', [LuminariaController::class, 'cargaFoto']);
-        Route::get('mapa', [LuminariaController::class, 'mapa']);
+        Route::get('mapa/{IDDireccion?}', [LuminariaController::class, 'mapa']);
     });
     Route::prefix('direcciones')->group(function () {
         Route::post('/', [DireccionController::class, 'index']);
     });
 });
+Route::get('foto/{hash}/{tipo?}', [LuminariaController::class, 'obtenerFoto']);

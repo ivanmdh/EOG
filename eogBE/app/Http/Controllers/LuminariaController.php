@@ -9,6 +9,10 @@ use App\Models\Luminaria;
 use App\Models\LuminariaFoto;
 use App\Models\LuminariaLampara;
 use Illuminate\Http\Request;
+use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Laravel\Facades\Image;
+
 
 class LuminariaController extends Controller
 {
@@ -111,12 +115,59 @@ class LuminariaController extends Controller
         }
     }
 
-    public function mapa()
+    public function obtenerFoto($hash, $tipo = 'original')
     {
-        $Luminarias = Luminaria::all();
+        //tipos de imagen:
+        // 1. original
+        // 2. thumb
+        // 3. preview
+        $foto = LuminariaFoto::where('hash', $hash)->firstOrFail();
+        $ruta = storage_path('app/private/' . $foto->ruta_archivo);
+        $ruta_thumb = storage_path('app/private/luminarias/fotos/thumb/' . basename($foto->ruta_archivo));
+        $ruta_preview = storage_path('app/private/luminarias/fotos/preview/' . basename($foto->ruta_archivo));
+
+        if (!file_exists($ruta)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Foto no encontrada',
+            ], 404);
+        }
+
+        if ($tipo == 'thumb') {
+            if (!file_exists($ruta_thumb)) {
+                $imagen = Image::read($ruta);
+                $imagen->scale(height: 150);
+                $imagen->save($ruta_thumb);
+            }
+            $ruta = $ruta_thumb;
+        } elseif ($tipo == 'preview') {
+            if (!file_exists($ruta_preview)) {
+                $imagen = Image::read($ruta);
+                $imagen->scale(height: 600);
+                $imagen->save($ruta_preview);
+            }
+            $ruta = $ruta_preview;
+        }
+
+        $imagen = Image::read($ruta);
+
+        $encodedImage = $imagen->encode(new JpegEncoder());
+
+        return response($encodedImage)->header('Content-Type', 'image/jpeg');
+    }
+
+    public function mapa(Request $request)
+    {
+        $Resource = LuminariaMapaResource::class;
+        if ($request->IDDireccion) {
+            $Luminarias = Luminaria::where('IDDireccion', $request->IDDireccion)->get();
+            $Resource = LuminariaResource::class;
+        } else {
+            $Luminarias = Luminaria::all();
+        }
         return response()->json([
             'success' => true,
-            'Luminarias' => LuminariaMapaResource::collection($Luminarias),
+            'Luminarias' => $Resource::collection($Luminarias),
         ]);
     }
 }
