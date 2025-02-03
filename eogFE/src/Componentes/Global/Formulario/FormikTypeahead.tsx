@@ -41,6 +41,7 @@ const FormikTypeahead = ({ apiURL, title, name, placeholder, autoFocus }: Props)
                     <Label check>{ title }</Label>
                     <AsyncTypeahead
                         { ...field }
+                        autoFocus={ autoFocus }
                         defaultInputValue={ localValue }
                         filterBy={ filterBy }
                         isLoading={ isLoading }

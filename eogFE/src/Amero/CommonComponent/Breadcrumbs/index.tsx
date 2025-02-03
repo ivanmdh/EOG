@@ -1,7 +1,6 @@
-import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from "reactstrap";
-import SVG from "../SVG";
-import Link from "next/link";
-import { PropsTypes } from "@/Types/LayoutTypes";
+import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from "reactstrap"
+import Link from "next/link"
+import { PropsTypes } from "@Types/LayoutTypes"
 
 const Breadcrumbs: React.FC<PropsTypes> = ({ mainTitle, parent ,title}) => {
   return (
@@ -24,7 +23,7 @@ const Breadcrumbs: React.FC<PropsTypes> = ({ mainTitle, parent ,title}) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Breadcrumbs;
+export default Breadcrumbs

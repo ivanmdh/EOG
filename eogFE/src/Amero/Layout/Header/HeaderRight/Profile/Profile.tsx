@@ -1,7 +1,5 @@
 import SVG from "@CommonComponent/SVG"
 import { signOut, useSession } from "next-auth/react"
-import { UserListData } from "@Data/Layout/SidebarData"
-import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"

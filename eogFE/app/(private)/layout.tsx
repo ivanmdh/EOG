@@ -1,5 +1,4 @@
 "use client"
-import Footer from "@Layout/Footer"
 import Header from "@Layout/Header"
 import Sidebar from "@Layout/Sidebar"
 import TapTop from "@Layout/TapTop"
@@ -41,6 +40,7 @@ export default function RootLayout({
         window.addEventListener("resize", () => {
             updateSidebarBasedOnWidth()
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sidebar_types])
 
     return (

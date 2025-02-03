@@ -33,6 +33,7 @@ const RatioImage: React.FC<Component> = (props) => {
     }
   }, []);
 
+  // eslint-disable-next-line
   return <img ref={bgImg} {...props} alt={alt} />;
 };
 export default RatioImage;

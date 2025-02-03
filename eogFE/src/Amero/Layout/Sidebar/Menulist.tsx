@@ -1,6 +1,5 @@
 import SVG from "@CommonComponent/SVG"
-import { useAppDispatch, useAppSelector } from "@Redux/Hooks"
-import { handlePined } from "@Redux/Reducers/LayoutSlice"
+import { useAppSelector } from "@Redux/Hooks"
 import { MenuListType, SidebarItemTypes } from "@Types/LayoutTypes"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -8,38 +7,38 @@ import { useEffect } from "react"
 import { Badge } from "reactstrap"
 
 const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, level }) => {
-  const { pinedMenu } = useAppSelector((state) => state.layout);
-  const pathname = usePathname();
-  const dispatch = useAppDispatch();
+  const { pinedMenu } = useAppSelector((state) => state.layout)
+  const pathname = usePathname()
   const ActiveNavLinkUrl = (path?: string, active?: boolean) => {
-    return pathname === path ? (active ? active : true) : "";
-  };
+    return pathname === path ? (active ? active : true) : ""
+  }
 
   const shouldSetActive = ({ item }: SidebarItemTypes) => {
     let returnValue = false;
     if (item?.path === pathname) {
-      returnValue = true;
+      returnValue = true
     }
     if (!returnValue && item?.children) {
       item?.children.every((subItem) => {
-        returnValue = shouldSetActive({ item: subItem });
-        return !returnValue;
-      });
+        returnValue = shouldSetActive({ item: subItem })
+        return !returnValue
+      })
     }
-    return returnValue;
+    return returnValue
   };
 
   useEffect(() => {
     menu?.forEach((item: any) => {
-      const gotValue = shouldSetActive({ item });
+      const gotValue = shouldSetActive({ item })
       if (gotValue) {
-        const temp = [...activeMenu];
-        temp[level] = (item.title);
-        setActiveMenu(temp);
+        const temp = [...activeMenu]
+        temp[level] = (item.title)
+        setActiveMenu(temp)
       }
-    });
-    ActiveNavLinkUrl();
-  }, []);
+    })
+    ActiveNavLinkUrl()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -71,7 +70,7 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
         </li>
       ))}
     </>
-  );
-};
+  )
+}
 
-export default Menulist;
+export default Menulist

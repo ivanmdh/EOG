@@ -1,7 +1,5 @@
-import { Href } from "@/Constant";
-import { DropdownCommonProp } from "@/Types/UiKitsType";
+import { DropdownCommonProp } from "@Types/UiKitsType";
 import React, { useState } from "react";
-import { Direction } from "react-range";
 import { ButtonGroup, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 
 const DropdownCommon: React.FC<DropdownCommonProp> = ({ item, toggleClass }) => {
@@ -18,7 +16,7 @@ const DropdownCommon: React.FC<DropdownCommonProp> = ({ item, toggleClass }) => 
         <DropdownMenu className={item.bodyClass}>
           {item.menulist &&
             item.menulist.map((item, index) => (
-              <DropdownItem href={Href} key={index}>
+              <DropdownItem href={item} key={index}>
                 {item}
               </DropdownItem>
             ))}
