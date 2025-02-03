@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Direccion;
 use App\Models\LuminariaPotencia;
 use App\Models\Rol;
+use App\Models\TicketTipoFalla;
 use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +44,15 @@ class DatabaseSeeder extends Seeder
                 'usuario' => 'admin',
                 'password' => Hash::make('password')
             ]);
+        }
+
+        if (TicketTipoFalla::count() === 0) {
+            $tipos = ['Falla Mecanica', 'Falla Electrica', 'Robo'];
+            foreach ($tipos as $tipo) {
+                TicketTipoFalla::create([
+                    'descripcion' => $tipo
+                ]);
+            }
         }
 
         if (Direccion::count() === 0) {
