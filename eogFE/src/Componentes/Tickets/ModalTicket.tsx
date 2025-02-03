@@ -110,7 +110,7 @@ const ModalTicket = () => {
                                                                         <Row className="flex-column">
                                                                             {
                                                                                 values?.luminaria?.luminarias?.map((lampara: any, index: number) => (
-                                                                                    <ModalLampara key={ index } lampara={ lampara } setFieldValue={ setFieldValue }/>
+                                                                                    <ModalLampara key={ index } values={ values } lampara={ lampara } setFieldValue={ setFieldValue }/>
                                                                                 ))
                                                                             }
                                                                         </Row>

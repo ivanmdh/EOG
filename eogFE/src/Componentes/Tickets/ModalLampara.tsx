@@ -3,14 +3,27 @@ import { Field } from "formik"
 import RatioImage from "@CommonComponent/RatioImage"
 
 interface Props {
+    values: any,
     lampara: any,
     setFieldValue: any
 }
 
-const ModalLampara = ({ lampara, setFieldValue }: Props) => {
+const ModalLampara = ({ values, lampara, setFieldValue }: Props) => {
+
+    const isSelected = values.lampara === `${ lampara.IDLampara }`
+
+    const selectedStyle = {
+        backgroundColor: "#f0f8ff",
+        border: "2px solid #007bff",
+        marginBottom: "10px"
+    }
+
     return (
         <Col xs="12">
-            <Card onClick={ () => setFieldValue("lampara", `${ lampara.IDLampara }`) }>
+            <Card
+                onClick={ () => setFieldValue("lampara", `${ lampara.IDLampara }`) }
+                style={ isSelected ? selectedStyle : { marginBottom: "10px" } }
+            >
                 <div className="d-flex p-20">
                     <FormGroup className="radio radio-primary" check>
                         <Field type="radio" name="lampara" value={ `${ lampara.IDLampara }` } as={ Input }/>
