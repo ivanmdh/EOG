@@ -1,16 +1,15 @@
 import CommonModal from "@Componentes/Global/CommonModal"
 import { Fragment, useEffect, useState } from "react"
-import { Button, Card, CardBody, Col, FormGroup, Input, Label, Row } from "reactstrap"
+import { Button, Card, CardBody, Col, Row } from "reactstrap"
 import FormikInput from "@Componentes/Global/Formulario/FormikInput"
 import { actualizarTicket, cargarTicket } from "@/src/services/tickets"
 import Loader from "@Componentes/Global/Loader"
 import { useModalContext } from "@Context/ModalContext"
-import { Formik, Form, Field } from "formik"
+import { Formik, Form } from "formik"
 import validationSchema from "@Componentes/Tickets/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
 import FormikTypeahead from "@Componentes/Global/Formulario/FormikTypeahead"
 import MapaLuminariaTicket from "./MapaLuminariaTicket"
-import RatioImage from "@CommonComponent/RatioImage"
 import ModalLampara from "@Componentes/Tickets/ModalLampara"
 
 const ModalTicket = () => {
@@ -21,7 +20,6 @@ const ModalTicket = () => {
 
     const [loading, setLoading] = useState(true)
     const [dataForm, setDataForm] = useState<any>({})
-    const [luminaria, setLuminaria] = useState<any>({})
     const data = { isOpen: modalStates.modalTicket.open, header: true, toggler: () => toggleModal("modalTicket"), title: tituloFormulario, size: "lg" }
 
     const defaultValues = {
