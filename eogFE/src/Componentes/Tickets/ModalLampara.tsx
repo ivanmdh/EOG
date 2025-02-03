@@ -7,9 +7,9 @@ interface Props {
     setFieldValue: any
 }
 
-const ModalLampara = ({ index, lampara, setFieldValue }: Props) => {
+const ModalLampara = ({ lampara, setFieldValue }: Props) => {
     return (
-        <Col xs="12" key={ index }>
+        <Col xs="12">
             <Card onClick={ () => setFieldValue("lampara", `${ lampara.IDLampara }`) }>
                 <div className="d-flex p-20">
                     <FormGroup className="radio radio-primary" check>
