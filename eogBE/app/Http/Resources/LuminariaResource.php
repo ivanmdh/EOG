@@ -25,8 +25,8 @@ class LuminariaResource extends JsonResource
             'luminarias' => LamparaResource::collection($this->lamparas),
 
             'ubicacion' => [
-                'latitud' => $this->latitud,
-                'longitud' => $this->longitud,
+                'latitud' => floatval($this->latitud),
+                'longitud' => floatval($this->longitud),
             ],
 
             'created_at' => $this->created_at,

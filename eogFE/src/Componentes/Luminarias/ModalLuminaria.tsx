@@ -102,11 +102,6 @@ const ModalLuminaria = () => {
                                     { ({ values, setValues, errors, handleSubmit }: any) => (
                                         <div>
                                             <ConnectedFocusError/>
-                                            <>{
-
-                                                console.log(values)
-
-                                            }</>
                                             <Row>
                                                 <Col md="12">
                                                     <MapaLuminaria/>

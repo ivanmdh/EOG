@@ -17,16 +17,16 @@ class LuminariaMapaResource extends JsonResource
     {
         return [
             'IDLuminaria' => $this->IDLuminaria,
-            'lat' => floatval($this->latitud),
-            'lng' => floatval($this->longitud),
+            'ubicacion' => [
+                'latitud' => floatval($this->latitud),
+                'longitud' => floatval($this->longitud),
+            ],
             'data' => [
-                'title' => 'Luminaria LC' . str_pad($this->IDLuminaria, 5, '0', STR_PAD_LEFT),
-                'image' => 'https://cdn.bega.com/cdn-cgi/image/w=600,h=900,fit=cover,gravity=0.78x0.45,f=auto/https://images.ctfassets.net/w2xcep4i3dcd/1s70gOipU2vswLeqFPdmM6/28cc21e547e64faac91b06f1662a30a5/BE84252_HERO_3.jpg',
-                'num_cuenta' => $this->direccion->num_cuenta,
+                'folio' => 'PC' . str_pad($this->IDLuminaria, 5, '0', STR_PAD_LEFT),
                 'rpu' => $this->direccion->rpu,
-                'tarifa' => $this->direccion->tarifa,
-                'hilos' => $this->direccion->hilos,
-                'num_medidor' => $this->direccion->num_medidor,
+                'direccion' => $this->direccion->direccion,
+
+                'lamparas' => LamparaResource::collection($this->lamparas),
             ],
         ];
     }
