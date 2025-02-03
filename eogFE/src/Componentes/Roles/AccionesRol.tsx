@@ -31,7 +31,7 @@ const AccionesRol = ({ rol }: Props) => {
 
     return (
         <ul className="action d-flex justify-content-center">
-            <li className="edit">
+            <li className="edit" style={ { cursor: "pointer" } }>
                 <i
                     className="icon-pencil-alt"
                     onClick={ () => {
@@ -39,7 +39,7 @@ const AccionesRol = ({ rol }: Props) => {
                     } }
                 />
             </li>
-            <li className="delete">
+            <li className="delete" style={ { cursor: "pointer" } }>
                 <a onClick={ () => showAlert({ IDRol: rol.IDRol }) }>
                     <i className="icon-trash"/>
                 </a>

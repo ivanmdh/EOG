@@ -32,7 +32,7 @@ const AccionesUsuario = ({ usuario }: Props) => {
 
     return(
         <ul className="action d-flex justify-content-center">
-            <li className="edit">
+            <li className="edit" style={ { cursor: "pointer" } }>
                 <i
                     className="icon-pencil-alt"
                     onClick={ () => {
@@ -40,7 +40,7 @@ const AccionesUsuario = ({ usuario }: Props) => {
                     }}
                 />
             </li>
-            <li className="delete">
+            <li className="delete" style={ { cursor: "pointer" } }>
                 <a onClick={ () => showAlert({ IDUsuario: usuario.IDUsuario }) }>
                     <i className="icon-trash" />
                 </a>
