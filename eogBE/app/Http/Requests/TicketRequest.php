@@ -11,6 +11,7 @@ class TicketRequest extends FormRequest
     {
         $this->merge([
             'IDUsuario' => $this->user()->IDUsuario,
+            'IDDireccion' => $this->luminaria->direccion->IDDireccion,
             'IDLuminaria' => $this->luminaria['IDLuminaria'],
             'IDTipoFalla' => intval($this->tipo_falla),
             'descripcion' => mb_strtoupper($this->descripcion, 'UTF-8'),

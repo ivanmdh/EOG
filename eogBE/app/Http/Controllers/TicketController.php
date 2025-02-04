@@ -21,9 +21,9 @@ class TicketController extends Controller
         return TicketResource::collection($tickets);
     }
 
-    public function detalles(Ticket $ticket)
+    public function detalles(Request $ticket)
     {
-        //
+        return new TicketResource(Ticket::find($ticket->IDTicket));
     }
 
     public function actualizar(TicketRequest $request)

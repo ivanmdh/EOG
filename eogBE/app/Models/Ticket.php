@@ -17,4 +17,13 @@ class Ticket extends Model
         'luminaria',
     ];
 
+    public function luminaria()
+    {
+        return $this->hasOne(Luminaria::class, 'IDLuminaria', 'IDLuminaria');
+    }
+
+    public function direccion()
+    {
+        return $this->hasOne(Direccion::class, 'IDDireccion', 'IDDireccion');
+    }
 }

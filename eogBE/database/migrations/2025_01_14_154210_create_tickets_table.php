@@ -15,7 +15,9 @@ return new class extends Migration
             $table->bigIncrements('IDTicket');
 
             $table->foreignId('IDUsuario')->nullable()->constrained('usuarios', 'IDUsuario')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('IDDireccion')->nullable()->constrained('direcciones', 'IDDireccion')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDLuminaria')->nullable()->constrained('luminarias', 'IDLuminaria')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('IDLampara')->nullable()->constrained('luminarias_lamparas', 'IDLampara')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDTipoFalla')->nullable()->constrained('tickets_tipos_fallas', 'IDTipoFalla')->onUpdate('cascade')->nullOnDelete();
             $table->string('descripcion', 100);
             $table->integer('estado');

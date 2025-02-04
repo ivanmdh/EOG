@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::prefix('tickets')->group(function () {
         Route::post('/', [TicketController::class, 'index']);
-        Route::post('detalles', [TicketController::class, 'show']);
+        Route::post('detalles', [TicketController::class, 'detalles']);
         Route::post('ticket', [TicketController::class, 'actualizar']);
         Route::post('eliminar', [TicketController::class, 'destroy']);
     });
