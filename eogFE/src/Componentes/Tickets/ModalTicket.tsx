@@ -11,6 +11,8 @@ import { ConnectedFocusError } from "focus-formik-error"
 import FormikTypeahead from "@Componentes/Global/Formulario/FormikTypeahead"
 import MapaLuminariaTicket from "./MapaLuminariaTicket"
 import ModalLampara from "@Componentes/Tickets/ModalLampara"
+import FormikSelect from "@Componentes/Global/Formulario/FormikSelect"
+import FormikTextarea from "@Componentes/Global/Formulario/FormikTextarea"
 
 const ModalTicket = () => {
 
@@ -27,6 +29,8 @@ const ModalTicket = () => {
         direccion: "",
         luminaria: null,
         lampara: null,
+        tipo_falla: null,
+        descripcion: "",
     }
 
     const initialValues = {
@@ -65,7 +69,7 @@ const ModalTicket = () => {
                                 initialValues={ initialValues }
                                 validationSchema={ validationSchema }
                                 validateOnChange={ false }
-                                validateOnBlur={ false }
+                                validateOnBlur={ true }
                                 onSubmit={ async (data, Formik) => {
                                     setLoading(true)
                                     await actualizarTicket(data)
@@ -83,9 +87,6 @@ const ModalTicket = () => {
                             >
                                 { ({ values, errors, setFieldValue, handleSubmit }) => (
                                     <Form>
-                                        <>{
-                                            console.log(errors)
-                                        }</>
                                         <ConnectedFocusError/>
                                         <Row>
                                             <Col md="12">
@@ -123,22 +124,10 @@ const ModalTicket = () => {
                                             { errors.luminaria && <Col md="12" className="text-danger">Debes seleccionar una ubicación</Col> }
                                             { errors.lampara && <Col md="12" className="text-danger">Debes seleccionar una lampara</Col> }
                                             <Col md="12">
-                                                <FormikInput
-                                                    type="text"
-                                                    name={ "nombre" }
-                                                    title={ "Nombre" }
-                                                    placeholder={ "Ingresa el nombre" }
-                                                    autoFocus={ true }
-                                                />
+                                                <FormikSelect apiURL={ 'fallas' } name='tipo_falla' label='Tipo de falla'/>
                                             </Col>
                                             <Col md="12">
-                                                <FormikInput
-                                                    type="text"
-                                                    name={ "nombre" }
-                                                    title={ "Nombre" }
-                                                    placeholder={ "Ingresa el nombre" }
-                                                    autoFocus={ true }
-                                                />
+                                                <FormikTextarea title={ "Descripción" } name={ "descripcion" } placeholder={ "Escribe una descripción" }/>
                                             </Col>
                                             <Col md="12" style={ { textAlign: "right" } }>
                                                 <Button type="submit" color="primary" style={ { marginRight: "10px" } } onClick={ () => handleSubmit() }>Guardar</Button>

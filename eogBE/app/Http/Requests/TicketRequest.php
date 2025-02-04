@@ -6,12 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TicketRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+
+    public function prepareForValidation(): void
     {
-        return false;
+        $this->merge([
+            'IDUsuario' => $this->user()->IDUsuario,
+            'IDLuminaria' => $this->luminaria['IDLuminaria'],
+            'IDTipoFalla' => intval($this->tipo_falla),
+            'descripcion' => mb_strtoupper($this->descripcion, 'UTF-8'),
+            'estado' => 1,
+        ]);
     }
 
     /**
@@ -22,7 +26,11 @@ class TicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'IDUsuario' => 'required',
+            'IDLuminaria' => 'required|exists:luminarias,IDLuminaria',
+            'IDTipoFalla' => 'required|exists:tickets_tipos_fallas,IDTipoFalla',
+            'descripcion' => 'required|string|max:100',
+            'estado' => 'required|integer',
         ];
     }
 }

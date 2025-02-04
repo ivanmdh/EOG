@@ -8,11 +8,12 @@ export default Yup.object().shape({
                                              .required(esObligatorio)
                                       )
                                                     .required(esObligatorio),
-                                      nombre: Yup.string()
-                                                 .max(254, "Se requieren menos de 254 caracteres")
-                                                 .required(esObligatorio),
+                                      luminaria: Yup.object()
+                                                    .required(esObligatorio),
                                       lampara: Yup.string()
                                                   .required(esObligatorio),
-    //tipo
-
+                                      tipo_falla: Yup.string()
+                                                     .required(esObligatorio),
+                                      descripcion: Yup.string()
+                                                      .required(esObligatorio)
                                   })

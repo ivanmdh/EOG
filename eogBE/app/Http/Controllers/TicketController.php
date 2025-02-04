@@ -2,63 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTicketRequest;
-use App\Http\Requests\UpdateTicketRequest;
+use App\Http\Requests\TicketRequest;
+use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
+    {
+        $perPage = request('perPage', 10);
+        $page = $request->input('page', 1);
+
+        $tickets = Ticket::query()
+            ->orderBy('IDTicket', 'desc')
+            ->paginate($perPage);
+
+        return TicketResource::collection($tickets);
+    }
+
+    public function detalles(Ticket $ticket)
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function actualizar(TicketRequest $request)
     {
-        //
+        $data = $request->validated();
+        $ticket = new Ticket();
+        $ticket->IDLuminaria = $data['IDLuminaria'];
+        $ticket->IDTipoFalla = $data['IDTipoFalla'];
+        $ticket->IDUsuario = $data['IDUsuario'];
+        $ticket->descripcion = $data['descripcion'];
+        $ticket->estado = $data['estado'];
+        $ticket->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket creado correctamente',
+            'ticket' => $ticket,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTicketRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ticket $ticket)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Ticket $ticket)
     {
         //

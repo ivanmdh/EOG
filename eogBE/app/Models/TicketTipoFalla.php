@@ -15,11 +15,11 @@ class TicketTipoFalla extends Model
 
     public function getLabelAttribute()
     {
-        return $this->potencia;
+        return $this->descripcion;
     }
 
     public function getValueAttribute()
     {
-        return $this->IDPotencia;
+        return $this->IDTipoFalla;
     }
 }

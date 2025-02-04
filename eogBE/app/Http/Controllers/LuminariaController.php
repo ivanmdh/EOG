@@ -10,9 +10,7 @@ use App\Models\LuminariaFoto;
 use App\Models\LuminariaLampara;
 use Illuminate\Http\Request;
 use Intervention\Image\Encoders\JpegEncoder;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Laravel\Facades\Image;
-
 
 class LuminariaController extends Controller
 {

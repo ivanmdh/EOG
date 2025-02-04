@@ -12,8 +12,8 @@ const Tickets = () => {
 
     const columnas = [
         { titulo: "Folio", campo: "folio", classContent: "text-center" },
-        { titulo: "Asunto", campo: "asunto" },
-        { titulo: "Estado", campo: "estado" },
+        { titulo: "Descripcion", campo: "descripcion" },
+        { titulo: "Estado", campo: "estado", classContent: "text-center" },
         { titulo: "Opciones", cell: (row: any) => <AccionesTicket ticket={ row }/> }
     ]
 

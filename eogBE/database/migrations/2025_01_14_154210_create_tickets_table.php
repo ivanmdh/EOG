@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('IDUsuario')->nullable()->constrained('usuarios', 'IDUsuario')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDLuminaria')->nullable()->constrained('luminarias', 'IDLuminaria')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDTipoFalla')->nullable()->constrained('tickets_tipos_fallas', 'IDTipoFalla')->onUpdate('cascade')->nullOnDelete();
-            $table->string('asunto', 100);
             $table->string('descripcion', 100);
             $table->integer('estado');
 
