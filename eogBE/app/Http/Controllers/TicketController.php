@@ -30,9 +30,11 @@ class TicketController extends Controller
     {
         $data = $request->validated();
         $ticket = new Ticket();
-        $ticket->IDLuminaria = $data['IDLuminaria'];
-        $ticket->IDTipoFalla = $data['IDTipoFalla'];
         $ticket->IDUsuario = $data['IDUsuario'];
+        $ticket->IDDireccion = $data['IDDireccion'];
+        $ticket->IDLuminaria = $data['IDLuminaria'];
+        $ticket->IDLampara = $data['IDLampara'];
+        $ticket->IDTipoFalla = $data['IDTipoFalla'];
         $ticket->descripcion = $data['descripcion'];
         $ticket->estado = $data['estado'];
         $ticket->save();

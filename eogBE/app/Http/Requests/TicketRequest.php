@@ -11,8 +11,9 @@ class TicketRequest extends FormRequest
     {
         $this->merge([
             'IDUsuario' => $this->user()->IDUsuario,
-            'IDDireccion' => $this->luminaria->direccion->IDDireccion,
+            'IDDireccion' => $this->direccion[0]->IDDireccion,
             'IDLuminaria' => $this->luminaria['IDLuminaria'],
+            'IDLampara' => intval($this->lampara),
             'IDTipoFalla' => intval($this->tipo_falla),
             'descripcion' => mb_strtoupper($this->descripcion, 'UTF-8'),
             'estado' => 1,
@@ -28,7 +29,9 @@ class TicketRequest extends FormRequest
     {
         return [
             'IDUsuario' => 'required',
+            'IDDireccion' => 'required|exists:direcciones,IDDireccion',
             'IDLuminaria' => 'required|exists:luminarias,IDLuminaria',
+            'IDLampara' => 'required|exists:luminarias_lamparas,IDLampara',
             'IDTipoFalla' => 'required|exists:tickets_tipos_fallas,IDTipoFalla',
             'descripcion' => 'required|string|max:100',
             'estado' => 'required|integer',
