@@ -13,20 +13,12 @@ import { useModalContext } from "@Context/ModalContext"
 interface Props {
     dataForm: any,
     setLoading: any,
+    defaultValues: any,
 }
 
-const ModalFormulario = ({ dataForm, setLoading }: Props) => {
+const ModalFormulario = ({ dataForm, setLoading, defaultValues }: Props) => {
 
     const { toggleModal, updateData } = useModalContext()
-
-    const defaultValues = {
-        IDTicket: null,
-        direccion: "",
-        luminaria: null,
-        lampara: null,
-        tipo_falla: null,
-        descripcion: "",
-    }
 
     const initialValues = {
         ...defaultValues,
