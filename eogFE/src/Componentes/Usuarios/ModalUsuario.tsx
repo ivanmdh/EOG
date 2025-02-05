@@ -8,7 +8,6 @@ import { useModalContext } from "@Context/ModalContext"
 import { Formik, Form } from "formik"
 import validationSchema from "@Componentes/Usuarios/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
-import { actualizarRol } from "@services/roles"
 
 const ModalUsuario = () => {
 

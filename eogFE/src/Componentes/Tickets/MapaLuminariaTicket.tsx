@@ -68,6 +68,7 @@ const MapaLuminariasTicket = ({ IDDireccion, setFieldValue }: Props) => {
     useEffect(() => {
         setFieldValue("luminaria", selectedPosition)
         setFieldValue("lampara", null)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPosition])
 
     return (

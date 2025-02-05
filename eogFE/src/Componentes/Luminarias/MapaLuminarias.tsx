@@ -86,6 +86,7 @@ const MapaLuminarias = () => {
                                 <div>
                                     { selectedPosition.data.lamparas.map((lampara: any, index: number) => (
                                         <div style={ { display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" } } key={ index }>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={ lampara.foto }
                                                 alt={ lampara.folio }

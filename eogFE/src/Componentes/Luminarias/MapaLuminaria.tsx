@@ -60,6 +60,7 @@ const MapaConPunto = () => {
 
     useEffect(() => {
         setFieldValue('ubicacion', { latitud: position.lat, longitud: position.lng })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [position])
 
     return (

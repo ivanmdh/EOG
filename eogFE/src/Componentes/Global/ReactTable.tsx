@@ -15,7 +15,7 @@ const ReactTable = ({ apiUrl, columnas }: Props) => {
 
     const [dataElementos, setDataElementos] = useState<any>([])
     const [totalRows, setTotalRows] = useState(0)
-    const [perPage, setPerPage] = useState(20)
+    const perPage = 20
 
     const fetchData = async (page: any, pageSize: any) => {
         try {
@@ -26,9 +26,9 @@ const ReactTable = ({ apiUrl, columnas }: Props) => {
 
             const dataResponse = response?.data || null
 
-
             setDataElementos(dataResponse.data)
             setTotalRows(response.data.total)
+            console.log(totalRows)
 
         } catch (err) {
             console.error("Error fetching data:", err)
@@ -39,6 +39,7 @@ const ReactTable = ({ apiUrl, columnas }: Props) => {
 
     useEffect(() => {
         fetchData(1, perPage)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refreshData])
 
     return (
