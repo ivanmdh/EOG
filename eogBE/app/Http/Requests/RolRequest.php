@@ -6,6 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RolRequest extends FormRequest
 {
+
+    public function prepareForValidation(): void
+    {
+        $this->merge(array_merge($this->all(), [
+            'nombre' => mb_strtoupper($this->nombre, 'UTF-8'),
+        ]));
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,7 +22,7 @@ class RolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'IDRol' => 'integer|exists:usuarios|nullable',
+            'IDRol' => 'integer|exists:roles|nullable',
             'nombre' => 'required|string',
         ];
     }

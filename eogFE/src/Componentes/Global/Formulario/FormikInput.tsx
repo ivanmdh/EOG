@@ -7,10 +7,11 @@ interface Props {
     name: string,
     type: any,
     placeholder: string,
-    autoFocus?: boolean
+    autoFocus?: boolean,
+    noMayus?: boolean
 }
 
-const FormikInput = ({ title, name, type, placeholder, autoFocus }: Props) => {
+const FormikInput = ({ title, name, type, placeholder, autoFocus, noMayus = false }: Props) => {
 
     const [field] = useField(name)
 
@@ -35,6 +36,7 @@ const FormikInput = ({ title, name, type, placeholder, autoFocus }: Props) => {
                             setFieldValue(name, e.target.value)
                         } }
                         invalid={ !!errors?.[name] }
+                        style={ { textTransform: noMayus ? "none" : (localValue === "" ? "none" : "uppercase") } }
                     />
                     <FormFeedback>
                         { errors?.[name] ?? "" }

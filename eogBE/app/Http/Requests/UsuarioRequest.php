@@ -6,12 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UsuarioRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+
+    public function prepareForValidation(): void
     {
-        return false;
+        $this->merge(array_merge($this->all(), [
+            'IDRol' => $this->rol,
+            'nombre' => mb_strtoupper($this->nombre, 'UTF-8'),
+            'apellido' => mb_strtoupper($this->apellido, 'UTF-8'),
+        ]));
     }
 
     /**
@@ -22,7 +24,13 @@ class UsuarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'IDUsuario' => 'integer|exists:usuarios|nullable',
+            'IDRol' => 'integer|exists:roles|nullable',
+
+            'nombre' => 'required|string',
+            'apellido' => 'string',
+            'email' => 'required|email',
+            'password' => 'string|nullable',
         ];
     }
 }

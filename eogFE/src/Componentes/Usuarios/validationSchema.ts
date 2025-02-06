@@ -14,8 +14,12 @@ export default Yup.object().shape({
                                                   .required(esObligatorio),
                                       password: Yup.string()
                                                    .max(254, "Se requieren menos de 254 caracteres")
-                                                   .required(esObligatorio),
+                                                   .when("IDUsuario", (IDUsuario: any) => {
+                                                       return IDUsuario === null ? Yup.string().required(esObligatorio) : Yup.string().notRequired();
+                                                   }),
                                       email: Yup.string()
                                                 .email(emailInvalido)
                                                 .required(esObligatorio),
+                                      rol: Yup.number()
+                                              .required(esObligatorio),
                                   })

@@ -15,4 +15,9 @@ class Usuario extends Authenticatable
     protected $table      = 'usuarios';
     protected $primaryKey = 'IDUsuario';
 
+    public function rol()
+    {
+        return $this->hasOne(Rol::class, 'IDRol');
+    }
+
 }

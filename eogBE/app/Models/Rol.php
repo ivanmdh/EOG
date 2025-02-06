@@ -13,4 +13,14 @@ class Rol extends Model
     protected $table      = 'roles';
     protected $primaryKey = 'IDRol';
 
+    public function getLabelAttribute()
+    {
+        return $this->nombre;
+    }
+
+    public function getValueAttribute()
+    {
+        return $this->IDRol;
+    }
+
 }

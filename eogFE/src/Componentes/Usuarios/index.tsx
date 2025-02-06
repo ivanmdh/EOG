@@ -14,6 +14,7 @@ const Usuarios = () => {
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
         { titulo: "Nombre", campo: "nombre" },
         { titulo: "Apellido", campo: "apellido" },
+        { titulo: "Rol", campo: "rol_nombre" },
         { titulo: "Email", campo: "email" },
         { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
     ]

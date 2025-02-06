@@ -8,6 +8,7 @@ import { useModalContext } from "@Context/ModalContext"
 import { Formik, Form } from "formik"
 import validationSchema from "@Componentes/Usuarios/validationSchema"
 import { ConnectedFocusError } from "focus-formik-error"
+import FormikSelect from "@Componentes/Global/Formulario/FormikSelect"
 
 const ModalUsuario = () => {
 
@@ -22,7 +23,10 @@ const ModalUsuario = () => {
     const defaultValues = {
         nombre: "",
         apellido: "",
+        usuario: "",
+        password: "",
         email: "",
+        rol: null,
     }
 
     const initialValues = {
@@ -61,7 +65,7 @@ const ModalUsuario = () => {
                                 initialValues={ initialValues }
                                 validationSchema={ validationSchema }
                                 validateOnChange={ false }
-                                validateOnBlur={ false }
+                                validateOnBlur={ true }
                                 onSubmit={ async (data, Formik) => {
                                     setLoading(true)
                                     await actualizarUsuario(data)
@@ -104,14 +108,16 @@ const ModalUsuario = () => {
                                                     name={ "usuario" }
                                                     title={ "Usuario" }
                                                     placeholder={ "Ingresa el usuario" }
+                                                    noMayus={ true }
                                                 />
                                             </Col>
                                             <Col md="12">
                                                 <FormikInput
                                                     type="password"
                                                     name={ "password" }
-                                                    title={ "password" }
+                                                    title={ "Contraseña" }
                                                     placeholder={ "Ingresa la contraseña" }
+                                                    noMayus={ true }
                                                 />
                                             </Col>
                                             <Col md="12">
@@ -120,6 +126,14 @@ const ModalUsuario = () => {
                                                     name={ "email" }
                                                     title={ "Email" }
                                                     placeholder={ "Ingresa el email" }
+                                                    noMayus={ true }
+                                                />
+                                            </Col>
+                                            <Col md="12">
+                                                <FormikSelect
+                                                    apiURL="roles"
+                                                    name="rol"
+                                                    label="Rol"
                                                 />
                                             </Col>
                                             <Col md="12" style={ { textAlign: "right" } }>

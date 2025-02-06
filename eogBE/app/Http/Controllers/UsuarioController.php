@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use App\Http\Resources\UsuarioResource;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -55,13 +56,14 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function actualizar(Request $request)
+    public function actualizar(UsuarioRequest $request)
     {
         if ($request->IDUsuario) {
             $usuario = Usuario::findOrFail($request->IDUsuario);
         } else {
             $usuario = new Usuario();
         }
+        $usuario->IDRol = $request->IDRol;
         $usuario->nombre = $request->nombre;
         $usuario->apellido = $request->apellido;
         $usuario->email = $request->email;
