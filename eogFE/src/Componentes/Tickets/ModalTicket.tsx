@@ -10,7 +10,7 @@ const ModalTicket = () => {
 
     const { toggleModal, modalStates } = useModalContext()
 
-    const tituloFormulario = modalStates?.modalTicket?.IDTicket ? "Editar Ticket" : "Nuevo Ticket"
+    const tituloFormulario = modalStates?.modalTicket?.IDTicket ? "Procesar Ticket" : "Nuevo Ticket"
 
     const [loading, setLoading] = useState(true)
     const [dataForm, setDataForm] = useState<any>({})
@@ -51,7 +51,7 @@ const ModalTicket = () => {
                 ? <Loader/>
                 : <>
                     {
-                        dataForm
+                        modalStates?.modalTicket?.IDTicket
                         ? <ModalDetalles defaultValues={ defaultValues } dataForm={ dataForm } setLoading={ setLoading }/>
                         : <ModalFormulario defaultValues={ defaultValues } dataForm={ dataForm } setLoading={ setLoading }/>
                     }

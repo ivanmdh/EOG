@@ -34,9 +34,9 @@ const AccionesTicket = ({ ticket }: Props) => {
         <ul className="action d-flex justify-content-center">
             <li className="edit" style={ { cursor: "pointer" } }>
                 <i
-                    className="icon-pencil-alt"
+                    className="icon-check-box"
                     onClick={ () => {
-                        setModalStart('modalTicket', { IDTicket: ticket.IDTicket })
+                        setModalStart('modalTicketssss', { IDTicket: ticket.IDTicket })
                     }}
                 />
             </li>

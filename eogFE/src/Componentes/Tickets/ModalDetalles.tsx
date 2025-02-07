@@ -4,8 +4,8 @@ import { ConnectedFocusError } from "focus-formik-error"
 import { Card, CardBody, Col, Row } from "reactstrap"
 import { Form, Formik } from "formik"
 import { useModalContext } from "@Context/ModalContext"
-import FormikTextarea from "@Componentes/Global/Formulario/FormikTextarea"
 import ModalDetallesMapa from "./ModalDetallesMapa"
+import ImageUploader from "@Componentes/Luminarias/ImageUploader"
 
 interface Props {
     dataForm: any,
@@ -21,6 +21,8 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
         ...defaultValues,
         IDTicket: dataForm.IDTicket,
     }
+
+    console.log("dataForm", dataForm)
 
     return (
         <Card className="mb-0">
@@ -45,22 +47,34 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
                             })
                     } }
                 >
-                    { ({ }) => (
+                    { ({ errors }) => (
                         <Form>
                             <ConnectedFocusError/>
                             <Row>
-                                <Col md="6">
-                                    <Row>
-                                        <Col md="12">
-                                            <FormikTextarea
-                                                name={ "descripcion" }
-                                                title={ "Descripción" }
-                                            />
-                                        </Col>
-                                    </Row>
+                                <Col md="4">
+                                    <div style={ { display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" } }>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            //imagen del api de rick and morty
+                                            src={ "https://rickandmortyapi.com/api/character/avatar/1.jpeg" }
+                                            alt={ 'fotito' }
+                                            style={ {
+                                                height: "100px",
+                                                marginRight: "10px",
+                                            } }
+                                        />
+                                    </div>
                                 </Col>
-                                <Col md="6">
+                                <Col md="4">
                                     <ModalDetallesMapa/>
+                                </Col>
+                                <Col md="4">
+                                    <Col md="6">
+                                        <ImageUploader
+                                            name={ `foto` }
+                                            error={ !!errors?.foto }
+                                        />
+                                    </Col>
                                 </Col>
                             </Row>
                         </Form>
