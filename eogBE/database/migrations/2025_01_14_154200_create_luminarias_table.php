@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('IDUsuario')->nullable()->constrained('usuarios', 'IDUsuario')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDDireccion')->nullable()->constrained('direcciones', 'IDDireccion')->onUpdate('cascade')->nullOnDelete();
 
+            $table->boolean('ampliacion')->default(false);
             $table->string('latitud', 100);
             $table->string('longitud', 100);
 

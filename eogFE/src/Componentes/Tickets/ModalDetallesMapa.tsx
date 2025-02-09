@@ -1,16 +1,61 @@
-import { Card, CardBody, Col, Row } from "reactstrap"
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 
-const ModalDetallesMapa = () => {
+interface Props {
+    ubicacion: any
+}
+
+const MarkerContainerStyle = {
+    height: "300px",
+}
+
+const ModalDetallesMapa = ({ ubicacion }: Props) => {
+
+    const center = { lat: ubicacion?.latitud, lng: ubicacion?.longitud }
+    const position = { lat: ubicacion?.latitud, lng: ubicacion?.longitud }
+    const zoom = 16
+
+    const iconUrl = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+
+    const mapOptions = {
+        styles: [
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [
+                    {
+                        visibility: "off",
+                    },
+                ],
+            },
+        ],
+        disableDefaultUI: true,
+        mapTypeId: "roadmap",
+        scrollwheel: true,
+    }
+
+    const { isLoaded } = useJsApiLoader({
+                                            id: "google-map-script",
+                                            googleMapsApiKey: "AIzaSyCJEX-ttp9P-JRPB8di_WblQtd0t0O509g",
+                                        })
+
     return (
-        <Card className="mb-0">
-            <CardBody>
-                <Row>
-                    <Col md="12">
-                        <h3>Mapa</h3>
-                    </Col>
-                </Row>
-            </CardBody>
-        </Card>
+
+                        <>
+                            { isLoaded ? (
+                                <GoogleMap
+                                    mapContainerStyle={ MarkerContainerStyle }
+                                    center={ center }
+                                    zoom={ zoom }
+                                    options={ mapOptions }
+                                >
+                                    <Marker
+                                        position={ position }
+                                        icon={ iconUrl }
+                                    />
+                                </GoogleMap>
+                            ) : null }
+                        </>
+
     )
 }
 

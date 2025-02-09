@@ -1,11 +1,13 @@
-import validationSchema from "@Componentes/Tickets/validationSchema"
+import validationSchemaDetalles from "@Componentes/Tickets/validationSchemaDetalles"
 import { actualizarTicket } from "@services/tickets"
 import { ConnectedFocusError } from "focus-formik-error"
-import { Card, CardBody, Col, Row } from "reactstrap"
+import { Button, Card, CardBody, Col, Row } from "reactstrap"
 import { Form, Formik } from "formik"
 import { useModalContext } from "@Context/ModalContext"
 import ModalDetallesMapa from "./ModalDetallesMapa"
 import ImageUploader from "@Componentes/Luminarias/ImageUploader"
+import FormikSelect from "@Componentes/Global/Formulario/FormikSelect"
+import FormikTextarea from "@Componentes/Global/Formulario/FormikTextarea"
 
 interface Props {
     dataForm: any,
@@ -22,14 +24,12 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
         IDTicket: dataForm.IDTicket,
     }
 
-    console.log("dataForm", dataForm)
-
     return (
         <Card className="mb-0">
             <CardBody>
                 <Formik
                     initialValues={ initialValues }
-                    validationSchema={ validationSchema }
+                    validationSchema={ validationSchemaDetalles }
                     validateOnChange={ false }
                     validateOnBlur={ true }
                     onSubmit={ async (data, Formik) => {
@@ -47,34 +47,45 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
                             })
                     } }
                 >
-                    { ({ errors }) => (
+                    { ({ errors, handleSubmit }) => (
                         <Form>
                             <ConnectedFocusError/>
                             <Row>
-                                <Col md="4">
-                                    <div style={ { display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" } }>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            //imagen del api de rick and morty
-                                            src={ "https://rickandmortyapi.com/api/character/avatar/1.jpeg" }
-                                            alt={ 'fotito' }
-                                            style={ {
-                                                height: "100px",
-                                                marginRight: "10px",
-                                            } }
+                                <Col md="4" style={ { marginBottom: "10px" } }>
+                                    <Col md="12">
+                                        <FormikSelect apiURL={ "reparaciones" } name="tipo_reparacion" label="Tipo de reparacion"/>
+                                    </Col>
+                                    <Col md="12">
+                                        <FormikTextarea
+                                            title="Observaciones adicionales"
+                                            name="observaciones"
                                         />
-                                    </div>
-                                </Col>
-                                <Col md="4">
-                                    <ModalDetallesMapa/>
-                                </Col>
-                                <Col md="4">
-                                    <Col md="6">
+                                    </Col>
+                                    <Col md="12" style={ { marginBottom: "10px" } }>
                                         <ImageUploader
                                             name={ `foto` }
                                             error={ !!errors?.foto }
                                         />
                                     </Col>
+                                    <Col md="12" style={ { textAlign: "right" } }>
+                                        <Button type="submit" color="primary" style={ { marginRight: "10px" } } onClick={ () => handleSubmit() }>Guardar</Button>
+                                        <Button type={ "button" } color="secondary" onClick={ () => toggleModal("modalTicket") }>Cancelar</Button>
+                                    </Col>
+                                </Col>
+                                <Col md="4" style={ { marginBottom: "10px" } }>
+                                    <ModalDetallesMapa ubicacion={ dataForm?.luminaria?.ubicacion }/>
+                                </Col>
+                                <Col md="4" className="d-flex justify-content-center" style={ { marginBottom: "10px" } }>
+                                    <div>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */ }
+                                        <img
+                                            src={ `${ dataForm?.lampara.foto }/preview` }
+                                            style={ {
+                                                height: "300px",
+                                                marginRight: "10px",
+                                            } }
+                                        />
+                                    </div>
                                 </Col>
                             </Row>
                         </Form>

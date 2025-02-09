@@ -19,8 +19,13 @@ return new class extends Migration
             $table->foreignId('IDLuminaria')->nullable()->constrained('luminarias', 'IDLuminaria')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDLampara')->nullable()->constrained('luminarias_lamparas', 'IDLampara')->onUpdate('cascade')->nullOnDelete();
             $table->foreignId('IDTipoFalla')->nullable()->constrained('tickets_tipos_fallas', 'IDTipoFalla')->onUpdate('cascade')->nullOnDelete();
-            $table->string('descripcion', 100);
+            $table->foreignId('IDTipoReparacion')->nullable()->constrained('tickets_tipos_reparaciones', 'IDTipoReparacion')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('IDFoto')->nullable()->constrained('luminarias_fotos', 'IDFoto')->onUpdate('cascade')->nullOnDelete();
+            $table->foreignId('IDFoto_previa')->nullable()->constrained('luminarias_fotos', 'IDFoto')->onUpdate('cascade')->nullOnDelete();
+            $table->string('descripcion', 250);
+            $table->tinyText('observaciones');
             $table->integer('estado');
+            $table->dateTime('fecha_cierre')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

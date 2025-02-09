@@ -31,7 +31,7 @@ const ModalLampara = ({ values, lampara, setFieldValue }: Props) => {
                             <div className="flex-grow-1">
                                   <span className="d-flex list-behavior-1">
                                     <span className="flex-shrink-0 ms-2">
-                                      <RatioImage className="tab-img b-r-0 img-fluid" src={ `${ lampara.foto }` } alt=""/>
+                                      <RatioImage className="tab-img b-r-0 img-fluid" src={ `${ lampara.foto }/thumb` } alt=""/>
                                     </span>
                                     <span className="flex-grow-1">
                                       <span className="mb-0">{ lampara.folio } - { lampara.potencia }</span>

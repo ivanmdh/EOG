@@ -28,7 +28,7 @@ class LamparaResource extends JsonResource
             'folio' => 'LC'.str_pad($this->IDLampara, 5, "0", STR_PAD_LEFT),
             'indice' => $this->IDLampara,
             'potencia' => $this->potencia->potencia,
-            'foto' => $host.'/api/foto/'.$this->foto->hash.'/thumb',
+            'foto' => $host.'/api/foto/'.$this->foto->hash,
         ];
     }
 }

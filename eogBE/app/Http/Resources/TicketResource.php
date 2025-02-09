@@ -21,7 +21,7 @@ class TicketResource extends JsonResource
 
             'direccion' => [new DireccionResource($this->direccion()->first())],
             'luminaria' => new LuminariaResource($this->luminaria),
-            'lampara' => $this->IDLampara,
+            'lampara' => new LamparaResource($this->lampara),
             'tipo_falla' => $this->IDTipoFalla,
             'descripcion' => $this->descripcion,
             'estado' => $estado

@@ -6,6 +6,7 @@ use App\Models\Direccion;
 use App\Models\LuminariaPotencia;
 use App\Models\Rol;
 use App\Models\TicketTipoFalla;
+use App\Models\TicketTipoReparacion;
 use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
@@ -50,6 +51,15 @@ class DatabaseSeeder extends Seeder
             $tipos = ['Falla Mecanica', 'Falla Electrica', 'Robo'];
             foreach ($tipos as $tipo) {
                 TicketTipoFalla::create([
+                    'descripcion' => $tipo
+                ]);
+            }
+        }
+
+        if (TicketTipoReparacion::count() === 0) {
+            $tipos = ['Reconexion', 'Cambio'];
+            foreach ($tipos as $tipo) {
+                TicketTipoReparacion::create([
                     'descripcion' => $tipo
                 ]);
             }

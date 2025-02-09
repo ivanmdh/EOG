@@ -36,7 +36,7 @@ const AccionesTicket = ({ ticket }: Props) => {
                 <i
                     className="icon-check-box"
                     onClick={ () => {
-                        setModalStart('modalTicketssss', { IDTicket: ticket.IDTicket })
+                        setModalStart('modalTicket', { IDTicket: ticket.IDTicket })
                     }}
                 />
             </li>

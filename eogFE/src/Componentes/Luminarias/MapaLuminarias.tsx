@@ -88,7 +88,7 @@ const MapaLuminarias = () => {
                                         <div style={ { display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" } } key={ index }>
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
-                                                src={ lampara.foto }
+                                                src={ `${lampara.foto}/thumb` }
                                                 alt={ lampara.folio }
                                                 style={ {
                                                     height: "100px",

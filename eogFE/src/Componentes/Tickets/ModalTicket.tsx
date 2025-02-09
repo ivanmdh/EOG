@@ -23,6 +23,9 @@ const ModalTicket = () => {
         lampara: null,
         tipo_falla: null,
         descripcion: "",
+        tipo_reparacion: null,
+        observaciones: "",
+        foto: null,
     }
 
     useEffect(() => {

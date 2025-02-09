@@ -26,4 +26,9 @@ class Ticket extends Model
     {
         return $this->hasOne(Direccion::class, 'IDDireccion', 'IDDireccion');
     }
+
+    public function lampara()
+    {
+        return $this->hasOne(LuminariaLampara::class, 'IDLampara', 'IDLampara');
+    }
 }

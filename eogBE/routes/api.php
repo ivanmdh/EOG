@@ -9,6 +9,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Resources\SelectResource;
 use App\Models\Rol;
 use App\Models\TicketTipoFalla;
+use App\Models\TicketTipoReparacion;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -48,6 +49,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('opciones')->group(function () {
         Route::post('fallas', function () {
             return SelectResource::collection(TicketTipoFalla::all());
+        });
+        Route::post('reparaciones', function () {
+            return SelectResource::collection(TicketTipoReparacion::all());
         });
         Route::post('roles', function () {
             return SelectResource::collection(Rol::all());
