@@ -43,6 +43,27 @@ const actualizarTicket = (data: any) => {
     })
 }
 
+const cerrarTicketRequest = (data: any) => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/tickets/cerrar', data)
+            .then((reponse: any) => {
+                resolve(reponse)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+const cerrarTicket = (data: any) => {
+    return toast.promise(cerrarTicketRequest(data), {
+        pending: 'Cerrando ticket',
+        success: 'Ticket cerrado',
+        error: 'Error al cerrar el ticket'
+    })
+}
+
 const eliminarTicketRequest = (data: any) => {
     return new Promise((resolve, reject) => {
         apiService
@@ -67,5 +88,6 @@ const eliminarTicket = (data: any) => {
 export {
     cargarTicket,
     actualizarTicket,
+    cerrarTicket,
     eliminarTicket
 }

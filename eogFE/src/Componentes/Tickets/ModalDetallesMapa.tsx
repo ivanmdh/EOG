@@ -12,7 +12,7 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
 
     const center = { lat: ubicacion?.latitud, lng: ubicacion?.longitud }
     const position = { lat: ubicacion?.latitud, lng: ubicacion?.longitud }
-    const zoom = 16
+    const zoom = 17
 
     const iconUrl = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
 
@@ -31,6 +31,9 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
         disableDefaultUI: true,
         mapTypeId: "roadmap",
         scrollwheel: true,
+        draggable: false,
+        zoomControl: true,
+        disableDoubleClickZoom: true,
     }
 
     const { isLoaded } = useJsApiLoader({

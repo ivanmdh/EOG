@@ -1,5 +1,5 @@
 import validationSchemaDetalles from "@Componentes/Tickets/validationSchemaDetalles"
-import { actualizarTicket } from "@services/tickets"
+import { cerrarTicket } from "@services/tickets"
 import { ConnectedFocusError } from "focus-formik-error"
 import { Button, Card, CardBody, Col, Row } from "reactstrap"
 import { Form, Formik } from "formik"
@@ -34,7 +34,7 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
                     validateOnBlur={ true }
                     onSubmit={ async (data, Formik) => {
                         setLoading(true)
-                        await actualizarTicket(data)
+                        await cerrarTicket(data)
                             .then(() => {
                                 setLoading(false)
                                 toggleModal("modalTicket")
@@ -75,14 +75,13 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
                                 <Col md="4" style={ { marginBottom: "10px" } }>
                                     <ModalDetallesMapa ubicacion={ dataForm?.luminaria?.ubicacion }/>
                                 </Col>
-                                <Col md="4" className="d-flex justify-content-center" style={ { marginBottom: "10px" } }>
+                                <Col md="4" className="d-flex justify-content-center align-items-start" style={ { marginBottom: "10px" } }>
                                     <div>
                                         {/* eslint-disable-next-line @next/next/no-img-element */ }
                                         <img
                                             src={ `${ dataForm?.lampara.foto }/preview` }
                                             style={ {
-                                                height: "300px",
-                                                marginRight: "10px",
+                                                height: "300px"
                                             } }
                                         />
                                     </div>

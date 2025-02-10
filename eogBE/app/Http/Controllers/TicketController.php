@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketCierreRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
@@ -42,6 +43,27 @@ class TicketController extends Controller
             'success' => true,
             'message' => 'Ticket creado correctamente',
             'ticket' => $ticket,
+        ]);
+    }
+
+    public function cerrar(TicketCierreRequest $request)
+    {
+        $Ticket = Ticket::find($request->IDTicket);
+        $Lampara = $Ticket->lampara;
+
+        $Ticket->IDUsuario_cierre = $request->IDUsuario_cierre;
+        $Ticket->IDFoto = $request->IDFoto;
+        $Ticket->IDFoto_previa = $Lampara->IDFoto;
+        $Ticket->IDTipoReparacion = $request->IDTipoReparacion;
+        $Ticket->observaciones = $request->observaciones;
+        $Ticket->estado = 2;
+        $Ticket->fecha_cierre = now();
+        $Ticket->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket cerrado correctamente',
+            'ticket' => $Ticket,
         ]);
     }
 

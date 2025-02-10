@@ -25,8 +25,8 @@ const FormikTextarea = ({ title, name, autoFocus }: Props) => {
                         { ...field }
                         autoFocus={ autoFocus }
                         type={ 'textarea' }
-                        rows={5}
-                        cols={5}
+                        rows={3}
+                        cols={3}
                         name={ name }
                         value={ localValue }
                         onChange={ (e) => {
