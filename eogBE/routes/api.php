@@ -3,6 +3,7 @@
 use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LuminariaController;
+use App\Http\Controllers\ResumenController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UsuarioController;
@@ -17,6 +18,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('resumen')->group(function () {
+       Route::post('/', [ResumenController::class, 'index']);
+    });
     Route::prefix('usuarios')->group(function () {
         Route::post('/', [UsuarioController::class, 'index']);
         Route::post('detalles', [UsuarioController::class, 'detalles']);
