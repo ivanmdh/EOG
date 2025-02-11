@@ -31,7 +31,7 @@ const ModalDetalles = ({ dataForm, setLoading, defaultValues }: Props) => {
                     initialValues={ initialValues }
                     validationSchema={ validationSchemaDetalles }
                     validateOnChange={ false }
-                    validateOnBlur={ true }
+                    validateOnBlur={ false }
                     onSubmit={ async (data, Formik) => {
                         setLoading(true)
                         await cerrarTicket(data)

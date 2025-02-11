@@ -82,7 +82,7 @@ const ModalLuminaria = () => {
                                     initialValues={ initialValues }
                                     validationSchema={ validationSchema }
                                     validateOnChange={ false }
-                                    validateOnBlur={ true }
+                                    validateOnBlur={ false }
                                     onSubmit={ async (data, Formik) => {
                                         setLoading(true)
                                         await actualizarLuminaria(data)

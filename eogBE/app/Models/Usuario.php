@@ -17,7 +17,7 @@ class Usuario extends Authenticatable
 
     public function rol()
     {
-        return $this->hasOne(Rol::class, 'IDRol');
+        return $this->hasOne(Rol::class, 'IDRol', 'IDRol');
     }
 
 }

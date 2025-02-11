@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('nombre', 100);
             $table->string('apellido', 100);
-            $table->string('email', 100)->unique();
+            $table->string('email', 100);
             $table->string('usuario', 100)->unique();
             $table->string('password', 100);
             $table->string('password_reset', 100)->nullable();

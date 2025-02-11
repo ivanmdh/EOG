@@ -32,7 +32,7 @@ const ModalFormulario = ({ dataForm, setLoading, defaultValues }: Props) => {
                     initialValues={ initialValues }
                     validationSchema={ validationSchema }
                     validateOnChange={ false }
-                    validateOnBlur={ true }
+                    validateOnBlur={ false }
                     onSubmit={ async (data, Formik) => {
                         setLoading(true)
                         await actualizarTicket(data)
