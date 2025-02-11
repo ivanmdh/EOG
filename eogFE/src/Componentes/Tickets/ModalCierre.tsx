@@ -83,6 +83,7 @@ const ModalCierre = ({ dataForm, setLoading, defaultValues }: Props) => {
                                             style={ {
                                                 height: "300px"
                                             } }
+                                            alt="Vista Previa"
                                         />
                                     </div>
                                 </Col>
