@@ -60,3 +60,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 Route::get('foto/{hash}/{tipo?}', [LuminariaController::class, 'obtenerFoto']);
+
+Route::get('test', function () {
+    return response()->json(['message' => 'GET test']);
+});
+Route::post('test', function () {
+    return response()->json(['message' => 'POST test', 'data' => request()->all()]);
+});
