@@ -8,7 +8,7 @@ const url = isBrowser ? new URL(window.location.href) : new URL('https://eog.loc
 const apiServiceUrl: string =
     process.env.NODE_ENV === 'production' && !['local'].includes(url.hostname.split('.')[2])
     ? 'https://api.construccioneseog.com'
-    : 'http://api.eog.local:8000'
+    : 'http://api.construccioneseog.local:8000'
 
 const apiService: AxiosInstance = axios.create({ baseURL: apiServiceUrl })
 
