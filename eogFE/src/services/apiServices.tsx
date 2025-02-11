@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 
 const isBrowser = typeof window !== 'undefined'
-const url = isBrowser ? new URL(window.location.href) : new URL('https://eog.local')
+const url = isBrowser ? new URL(window.location.href) : new URL('https://construccioneseog.local')
 
 const apiServiceUrl: string =
     process.env.NODE_ENV === 'production' && !['local'].includes(url.hostname.split('.')[2])
