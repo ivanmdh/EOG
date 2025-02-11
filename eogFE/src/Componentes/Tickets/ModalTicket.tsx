@@ -5,12 +5,13 @@ import Loader from "@Componentes/Global/Loader"
 import { useModalContext } from "@Context/ModalContext"
 import ModalFormulario from "@Componentes/Tickets/ModalFormulario"
 import ModalDetalles from "@Componentes/Tickets/ModalDetalles"
+import ModalCierre from "@Componentes/Tickets/ModalCierre"
 
 const ModalTicket = () => {
 
     const { toggleModal, modalStates } = useModalContext()
 
-    const tituloFormulario = modalStates?.modalTicket?.IDTicket ? "Procesar Ticket" : "Nuevo Ticket"
+    const tituloFormulario = modalStates?.modalTicket?.IDTicket? "Detalles del Ticket" : "Nuevo Ticket"
 
     const [loading, setLoading] = useState(true)
     const [dataForm, setDataForm] = useState<any>({})
@@ -55,7 +56,9 @@ const ModalTicket = () => {
                 : <>
                     {
                         modalStates?.modalTicket?.IDTicket
-                        ? <ModalDetalles defaultValues={ defaultValues } dataForm={ dataForm } setLoading={ setLoading }/>
+                        ? dataForm?.estado === "Finalizado"
+                          ? <ModalDetalles dataForm={ dataForm }/>
+                          : <ModalCierre defaultValues={ defaultValues } dataForm={ dataForm } setLoading={ setLoading }/>
                         : <ModalFormulario defaultValues={ defaultValues } dataForm={ dataForm } setLoading={ setLoading }/>
                     }
                 </>
