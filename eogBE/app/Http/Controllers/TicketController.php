@@ -56,9 +56,12 @@ class TicketController extends Controller
         $Ticket->IDFoto_previa = $Lampara->IDFoto;
         $Ticket->IDTipoReparacion = $request->IDTipoReparacion;
         $Ticket->observaciones = $request->observaciones;
-        $Ticket->estado = 2;
+        $Ticket->estado = 0;
         $Ticket->fecha_cierre = now();
         $Ticket->save();
+
+        $Lampara->IDFoto = $request->IDFoto;
+        $Lampara->save();
 
         return response()->json([
             'success' => true,
