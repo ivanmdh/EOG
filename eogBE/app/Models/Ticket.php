@@ -31,4 +31,30 @@ class Ticket extends Model
     {
         return $this->hasOne(LuminariaLampara::class, 'IDLampara', 'IDLampara');
     }
+
+    public function usuario()
+    {
+        return $this->hasOne(Usuario::class, 'IDUsuario', 'IDUsuario');
+    }
+
+    public function ticketTipoFalla()
+    {
+        return $this->hasOne(TicketTipoFalla::class, 'IDTipoFalla', 'IDTipoFalla');
+    }
+
+    public function ticketTipoReparacion()
+    {
+        return $this->hasOne(TicketTipoReparacion::class, 'IDTipoReparacion', 'IDTipoReparacion');
+    }
+
+    public function foto()
+    {
+        return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto');
+    }
+
+    public function fotoPrevia()
+    {
+        return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto_previa');
+    }
+
 }

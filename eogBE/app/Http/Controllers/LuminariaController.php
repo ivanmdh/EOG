@@ -141,7 +141,7 @@ class LuminariaController extends Controller
         } elseif ($tipo == 'preview') {
             if (!file_exists($ruta_preview)) {
                 $imagen = Image::read($ruta);
-                $imagen->scale(width: 175);
+                $imagen->scale(width: 200);
                 $imagen->save($ruta_preview);
             }
             $ruta = $ruta_preview;

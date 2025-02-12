@@ -71,20 +71,60 @@ const ModalCierre = ({ dataForm, setLoading, defaultValues }: Props) => {
                                         <Button type={ "button" } color="secondary" onClick={ () => toggleModal("modalTicket") }>Cancelar</Button>
                                     </Col>
                                 </Col>
-                                <Col md="4" style={ { marginBottom: "10px" } }>
-                                    <ModalDetallesMapa ubicacion={ dataForm?.luminaria?.ubicacion }/>
-                                </Col>
-                                <Col md="4" className="d-flex justify-content-center align-items-start" style={ { marginBottom: "10px" } }>
-                                    <div>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */ }
-                                        <img
-                                            src={ `${ dataForm?.lampara.foto }/preview` }
-                                            style={ {
-                                                width: "175px"
-                                            } }
-                                            alt="Vista Previa"
-                                        />
-                                    </div>
+                                <Col md="8" style={ { marginBottom: "10px" } }>
+                                    <Row>
+                                        <Col md="12" style={ { marginBottom: "10px" } }>
+                                            <Row>
+                                                <Col md="6">
+                                                    <ul>
+                                                        <li>
+                                                            <h6 className="mb-0">Folio</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }> { dataForm?.folio }</span>
+                                                        </li>
+                                                        <li>
+                                                            <h6 className="mb-0">Direccion</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }> { dataForm?.direccion?.[0]?.direccion }</span>
+                                                        </li>
+                                                        <li>
+                                                            <h6 className="mb-0">Tipo Falla</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }>{ dataForm?.falla.toUpperCase() }</span>
+                                                        </li>
+                                                    </ul>
+                                                </Col>
+                                                <Col md="6">
+                                                    <ul>
+                                                        <li>
+                                                            <h6 className="mb-0">Fecha</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }>{ dataForm?.fecha }</span>
+                                                        </li>
+                                                        <li>
+                                                            <h6 className="mb-0">Lampara</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }>{ dataForm?.lampara?.folio } - { dataForm?.lampara?.potencia }</span>
+                                                        </li>
+                                                        <li>
+                                                            <h6 className="mb-0">Descripcion</h6>
+                                                            <span className="f-light" style={ { fontSize: "0.75rem" } }>{ dataForm?.descripcion }</span>
+                                                        </li>
+                                                    </ul>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col md="6" style={ { marginBottom: "10px" } }>
+                                            <ModalDetallesMapa ubicacion={ dataForm?.luminaria?.ubicacion }/>
+                                        </Col>
+                                        <Col md="6" className="d-flex justify-content-center align-items-start" style={ { marginBottom: "10px" } }>
+                                            <div>
+                                                {/* eslint-disable-next-line @next/next/no-img-element */ }
+                                                <img
+                                                    src={ `${ dataForm?.lampara.foto }/preview` }
+                                                    style={ {
+                                                        width: "100%"
+                                                    } }
+                                                    alt="Vista Previa"
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
                         </Form>
