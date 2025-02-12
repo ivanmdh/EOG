@@ -20,7 +20,7 @@ class DireccionResource extends JsonResource
             'direccion' => $this->direccion,
 
             'value' => $this->IDDireccion,
-            'label' => $this->direccion,
+            'label' => $this->direccion . ' - RPU: ' . $this->rpu,
         ];
     }
 }

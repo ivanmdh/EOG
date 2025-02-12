@@ -80,8 +80,12 @@ const MapaLuminarias = () => {
                         >
                             <div>
                                 <h3>Poste: { selectedPosition.data.folio }</h3>
+                                <p style={{ margin: 0 }}># Cuenta: { selectedPosition.data.num_cuenta }</p>
                                 <p style={{ margin: 0 }}>RPU: { selectedPosition.data.rpu }</p>
                                 <p style={{ margin: 0 }}>Direccion: { selectedPosition.data.direccion }</p>
+                                <p style={{ margin: 0 }}>Colonia: { selectedPosition.data.colonia }</p>
+                                <p style={{ margin: 0 }}>Tarifa: { selectedPosition.data.tarifa }</p>
+                                <p style={{ margin: 0 }}>Lat: { selectedPosition.ubicacion.latitud }, Lng: { selectedPosition.ubicacion.longitud }</p>
                                 <div>
                                     { selectedPosition.data.lamparas.map((lampara: any, index: number) => (
                                         <div style={ { display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" } } key={ index }>

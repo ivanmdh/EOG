@@ -23,8 +23,11 @@ class LuminariaMapaResource extends JsonResource
             ],
             'data' => [
                 'folio' => 'PC' . str_pad($this->IDLuminaria, 5, '0', STR_PAD_LEFT),
+                'num_cuenta' => $this->num_cuenta,
                 'rpu' => $this->direccion->rpu,
                 'direccion' => $this->direccion->direccion,
+                'colonia' => $this->direccion->colonia,
+                'tarifa' => $this->direccion->tarifa,
 
                 'lamparas' => LamparaResource::collection($this->lamparas),
             ],

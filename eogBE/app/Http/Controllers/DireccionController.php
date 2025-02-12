@@ -21,6 +21,7 @@ class DireccionController extends Controller
         $direcciones = Direccion::query()
             ->when($request->search, function($query, $search) {
                 $query->where('direccion', 'like', "%{$search}%");
+                $query->orWhere('rpu', 'like', "%{$search}%");
             })
             ->paginate($perPage);
 

@@ -104,6 +104,9 @@ const ModalLuminaria = () => {
                                                 <Col md="12">
                                                     <MapaLuminaria/>
                                                 </Col>
+                                                <Col md="12" style={{ textAlign: "right" }}>
+                                                    <h6>Lat: { values?.ubicacion?.latitud ?? "-" }, Lng: { values?.ubicacion?.longitud ?? "-" }</h6>
+                                                </Col>
                                                 <Col md="12">
                                                     <FormikTypeahead
                                                         apiURL={ `/api/direcciones` }
@@ -128,7 +131,7 @@ const ModalLuminaria = () => {
                                                                                           }
                                                                                       ]
                                                                                   })
-                                                                    } }>Agregar Luminaria</Button>
+                                                                    } }>Agregar Lampara</Button>
                                                         </div>
                                                     </div>
                                                     <div className="w-100">

@@ -13,6 +13,7 @@ const Luminarias = () => {
     const columnas = [
         { titulo: "Folio", campo: "folio", classContent: "text-center" },
         { titulo: "Fecha de Alta", campo: "fecha_alta" },
+        { titulo: "Usuario", campo: "usuario" },
         { titulo: "Opciones", cell: (row: any) => <AccionesLuminaria luminaria={ row }/> }
     ]
 
