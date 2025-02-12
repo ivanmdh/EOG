@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if (LuminariaPotencia::count() === 0) {
-            $potencias = ['50 W', '75 w', '100 W', '150 W', '200 W', '250 W', '300 W'];
+            $potencias = ['35 W', '50 W', '75 w', '100 W', '150 W', '200 W', '250 W', '300 W'];
             foreach ($potencias as $potencia) {
                 LuminariaPotencia::create([
                     'potencia' => $potencia
