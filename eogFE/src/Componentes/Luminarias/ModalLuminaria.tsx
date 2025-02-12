@@ -118,7 +118,7 @@ const ModalLuminaria = () => {
                                                 <div className="card-wrapper border rounded-3 main-custom-form input-group-wrapper ">
                                                     <div className={ "w-100 d-flex justify-content-between align-items-center" }>
                                                         <div className="d-flex justify-content-between align-items-center w-100">
-                                                            <h6 className="sub-title fw-bold">Luminarias</h6>
+                                                            <h6 className="sub-title fw-bold">Lamparas</h6>
                                                             <Button color="primary"
                                                                     onClick={ () => {
                                                                         setValues({
@@ -156,7 +156,7 @@ const ModalLuminaria = () => {
                                                                                         luminarias: values.luminarias.filter((luminaria: any, i: number) => i !== index)
                                                                                     })
                                                                             } }
-                                                                        >Eliminar Luminaria</Button>
+                                                                        >Eliminar Lampara</Button>
                                                                     </Col>
                                                                     <Col md="6">
                                                                         <ImageUploader
