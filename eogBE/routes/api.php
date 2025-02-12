@@ -20,6 +20,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('resumen')->group(function () {
        Route::post('/', [ResumenController::class, 'index']);
+       Route::post('tickets', [ResumenController::class, 'tickets']);
     });
     Route::prefix('usuarios')->group(function () {
         Route::post('/', [UsuarioController::class, 'index']);

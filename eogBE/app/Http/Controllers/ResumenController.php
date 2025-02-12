@@ -43,4 +43,18 @@ class ResumenController extends Controller
         return response()->json($resumen);
     }
 
+    public function tickets()
+    {
+        $tickets_abiertos = Ticket::where('estado', 1)->count();
+        $tickets_cerrados = Ticket::where('estado', 0)->count();
+        $tickets_reconexion = Ticket::where('IDTipoReparacion', 1)->count();
+        $tickets_cambio = Ticket::where('IDTipoReparacion', 2)->count();
+        return response()->json([
+            'tickets_abiertos' => $tickets_abiertos,
+            'tickets_cerrados' => $tickets_cerrados,
+            'tickets_reconexion' => $tickets_reconexion,
+            'tickets_cambio' => $tickets_cambio,
+        ]);
+    }
+
 }
