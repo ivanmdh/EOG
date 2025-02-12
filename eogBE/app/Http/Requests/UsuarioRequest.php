@@ -30,6 +30,7 @@ class UsuarioRequest extends FormRequest
             'nombre' => 'required|string',
             'apellido' => 'string',
             'email' => 'required|email',
+            'usuario' => 'required|string|unique:usuarios',
             'password' => 'string|nullable',
         ];
     }
