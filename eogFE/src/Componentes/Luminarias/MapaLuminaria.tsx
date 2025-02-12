@@ -37,7 +37,7 @@ const MapaConPunto = () => {
 
     const { isLoaded } = useJsApiLoader({
                                             id: "google-map-script",
-                                            googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+                                            googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "",
                                         })
 
     const iconUrl = '/assets/luminaria.png'
