@@ -121,8 +121,10 @@ class LuminariaController extends Controller
         // 3. preview
         $foto = LuminariaFoto::where('hash', $hash)->firstOrFail();
         $ruta = storage_path('app/private/' . $foto->ruta_archivo);
-        $ruta_thumb = storage_path('app/private/luminarias/fotos/thumb/' . basename($foto->ruta_archivo));
-        $ruta_preview = storage_path('app/private/luminarias/fotos/preview/' . basename($foto->ruta_archivo));
+        $base_thumb = 'app/private/luminarias/fotos/thumb/';
+        $base_preview = 'app/private/luminarias/fotos/preview/';
+        $ruta_thumb = storage_path($base_thumb . basename($foto->ruta_archivo));
+        $ruta_preview = storage_path($base_preview . basename($foto->ruta_archivo));
 
         if (!file_exists($ruta)) {
             return response()->json([
@@ -135,6 +137,9 @@ class LuminariaController extends Controller
             if (!file_exists($ruta_thumb)) {
                 $imagen = Image::read($ruta);
                 $imagen->scale(width: 100);
+                if (!file_exists(dirname($base_thumb))) {
+                    mkdir(dirname($base_thumb), 0777, true);
+                }
                 $imagen->save($ruta_thumb);
             }
             $ruta = $ruta_thumb;
@@ -142,6 +147,9 @@ class LuminariaController extends Controller
             if (!file_exists($ruta_preview)) {
                 $imagen = Image::read($ruta);
                 $imagen->scale(width: 200);
+                if (!file_exists(dirname($base_preview))) {
+                    mkdir(dirname($base_preview), 0777, true);
+                }
                 $imagen->save($ruta_preview);
             }
             $ruta = $ruta_preview;
