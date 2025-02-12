@@ -44,6 +44,7 @@ const Resumen = () => {
 
     useEffect(() => {
         fetchData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [periodo])
 
     useEffect(() => {
