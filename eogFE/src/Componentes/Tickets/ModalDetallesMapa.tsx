@@ -14,7 +14,7 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
     const position = { lat: ubicacion?.latitud, lng: ubicacion?.longitud }
     const zoom = 17
 
-    const iconUrl = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+    const iconUrl = '/assets/luminaria.png'
 
     const mapOptions = {
         styles: [

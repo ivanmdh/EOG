@@ -48,7 +48,7 @@ const MapaLuminariasTicket = ({ IDDireccion, setFieldValue }: Props) => {
                                             googleMapsApiKey: "AIzaSyCJEX-ttp9P-JRPB8di_WblQtd0t0O509g",
                                         })
 
-    const iconUrl = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+    const iconUrl = '/assets/luminaria.png'
 
     useEffect(() => {
         apiService.get(`/api/luminarias/mapa/${ IDDireccion }`).then((response) => {
