@@ -32,7 +32,7 @@ const ModalCierre = ({ dataForm, setLoading, defaultValues }: Props) => {
                     validationSchema={ validationSchemaDetalles }
                     validateOnChange={ false }
                     validateOnBlur={ false }
-                    onSubmit={ async (data, Formik) => {
+                    onSubmit={ async (data) => {
                         setLoading(true)
                         await cerrarTicket(data)
                             .then(() => {
@@ -43,7 +43,6 @@ const ModalCierre = ({ dataForm, setLoading, defaultValues }: Props) => {
                             .catch((err: any) => {
                                 console.log(err)
                                 setLoading(false)
-                                Formik.resetForm()
                             })
                     } }
                 >

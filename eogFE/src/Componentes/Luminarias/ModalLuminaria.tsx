@@ -83,11 +83,10 @@ const ModalLuminaria = () => {
                                     validationSchema={ validationSchema }
                                     validateOnChange={ false }
                                     validateOnBlur={ false }
-                                    onSubmit={ async (data, Formik) => {
+                                    onSubmit={ async (data) => {
                                         setLoading(true)
                                         await actualizarLuminaria(data)
                                             .then(() => {
-                                                Formik.resetForm()
                                                 setLoading(false)
                                                 toggleModal("modalLuminaria")
                                                 updateData()
@@ -95,7 +94,6 @@ const ModalLuminaria = () => {
                                             .catch((err: any) => {
                                                 console.log(err)
                                                 setLoading(false)
-                                                Formik.resetForm()
                                             })
                                     } }
                                 >

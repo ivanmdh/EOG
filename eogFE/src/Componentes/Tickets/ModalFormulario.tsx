@@ -33,7 +33,7 @@ const ModalFormulario = ({ dataForm, setLoading, defaultValues }: Props) => {
                     validationSchema={ validationSchema }
                     validateOnChange={ false }
                     validateOnBlur={ false }
-                    onSubmit={ async (data, Formik) => {
+                    onSubmit={ async (data) => {
                         setLoading(true)
                         await actualizarTicket(data)
                             .then(() => {
@@ -44,7 +44,6 @@ const ModalFormulario = ({ dataForm, setLoading, defaultValues }: Props) => {
                             .catch((err: any) => {
                                 console.log(err)
                                 setLoading(false)
-                                Formik.resetForm()
                             })
                     } }
                 >
