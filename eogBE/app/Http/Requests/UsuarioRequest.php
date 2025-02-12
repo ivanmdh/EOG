@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Usuario;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UsuarioRequest extends FormRequest
@@ -30,7 +31,7 @@ class UsuarioRequest extends FormRequest
             'nombre' => 'required|string',
             'apellido' => 'string',
             'email' => 'required|email',
-            'usuario' => 'required|string|unique:usuarios',
+            'usuario' => 'required|string|unique:usuarios,usuario,NULL,NULL,deleted_at,NULL',
             'password' => 'string|nullable',
         ];
     }

@@ -81,7 +81,7 @@ const ModalCierre = ({ dataForm, setLoading, defaultValues }: Props) => {
                                         <img
                                             src={ `${ dataForm?.lampara.foto }/preview` }
                                             style={ {
-                                                height: "300px"
+                                                width: "175px"
                                             } }
                                             alt="Vista Previa"
                                         />

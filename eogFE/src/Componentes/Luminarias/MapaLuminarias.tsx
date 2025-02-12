@@ -91,7 +91,7 @@ const MapaLuminarias = () => {
                                                 src={ `${lampara.foto}/thumb` }
                                                 alt={ lampara.folio }
                                                 style={ {
-                                                    height: "100px",
+                                                    width: "100px",
                                                     marginRight: "10px",
                                                 } }
                                             />
