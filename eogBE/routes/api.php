@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('detalles', [TicketController::class, 'detalles']);
         Route::post('ticket', [TicketController::class, 'actualizar']);
         Route::post('cerrar', [TicketController::class, 'cerrar']);
-        Route::post('eliminar', [TicketController::class, 'destroy']);
+        Route::post('eliminar', [TicketController::class, 'eliminar']);
     });
     Route::prefix('luminarias')->group(function () {
         Route::post('/', [LuminariaController::class, 'index']);

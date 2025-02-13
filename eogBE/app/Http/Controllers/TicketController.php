@@ -70,8 +70,13 @@ class TicketController extends Controller
         ]);
     }
 
-    public function destroy(Ticket $ticket)
+    public function eliminar(Request $request)
     {
-        //
+        $Ticket = Ticket::findOrFail($request->IDTicket);
+        $Ticket->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Ticket eliminado correctamente',
+        ]);
     }
 }
