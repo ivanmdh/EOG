@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RolRequest;
-use App\Http\Resources\RolResource;
 use App\Models\Luminaria;
 use App\Models\Rol;
 use App\Models\Ticket;

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RolRequest;
 use App\Http\Resources\RolResource;
 use App\Models\Rol;
-use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class RolController extends Controller
@@ -30,22 +29,6 @@ class RolController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUsuarioRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function detalles(Request $request)
@@ -64,7 +47,7 @@ class RolController extends Controller
         $Rol->save();
         return response()->json([
             'success' => true,
-            'message' => 'Rol guardada correctamente',
+            'message' => 'Rol guardado correctamente',
             'Rol' => $Rol,
         ]);
     }
@@ -78,7 +61,7 @@ class RolController extends Controller
         $Rol->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Rol eliminada correctamente',
+            'message' => 'Rol eliminado correctamente',
         ]);
     }
 }
