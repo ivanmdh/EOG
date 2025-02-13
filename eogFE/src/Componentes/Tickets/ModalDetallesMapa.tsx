@@ -29,7 +29,7 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
             },
         ],
         disableDefaultUI: true,
-        mapTypeId: "roadmap",
+        mapTypeId: "hybrid",
         scrollwheel: true,
         draggable: false,
         zoomControl: true,

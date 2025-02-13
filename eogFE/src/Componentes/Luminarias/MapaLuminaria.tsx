@@ -31,7 +31,7 @@ const MapaConPunto = () => {
             },
         ],
         disableDefaultUI: true,
-        mapTypeId: "roadmap",
+        mapTypeId: "hybrid",
         scrollwheel: true,
     }
 

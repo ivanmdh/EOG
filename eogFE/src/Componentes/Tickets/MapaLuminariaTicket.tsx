@@ -39,7 +39,7 @@ const MapaLuminariasTicket = ({ IDDireccion, setFieldValue }: Props) => {
             },
         ],
         disableDefaultUI: true,
-        mapTypeId: "roadmap",
+        mapTypeId: "hybrid",
         scrollwheel: true,
     }
 

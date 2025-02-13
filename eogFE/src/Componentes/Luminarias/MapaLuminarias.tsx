@@ -36,7 +36,7 @@ const MapaLuminarias = () => {
             },
         ],
         disableDefaultUI: true,
-        mapTypeId: "roadmap",
+        mapTypeId: "hybrid",
         scrollwheel: true,
     }
 
