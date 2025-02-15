@@ -41,13 +41,19 @@ apiService.interceptors.request.use(
 
 apiService.interceptors.response.use(
     (response: any) => response,
-    (error: any) => {
+    async (error: any) => {
         const { response } = error
 
         if (response?.status === 401) {
             if (isBrowser) {
-                window.localStorage.removeItem('accessToken')
-                window.location.href = '/login'
+                try {
+                    const { signOut } = await import('@/app/auth')
+                    signOut()
+                    window.localStorage.removeItem('accessToken')
+                    window.location.href = '/login'
+                } catch (error) {
+                    console.error('Error loading auth module:', error)
+                }
             }
         }
 
