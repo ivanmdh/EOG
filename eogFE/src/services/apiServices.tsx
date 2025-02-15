@@ -48,7 +48,7 @@ apiService.interceptors.response.use(
             if (isBrowser) {
                 try {
                     const { signOut } = await import('@/app/auth')
-                    signOut()
+                    await signOut()
                     window.localStorage.removeItem('accessToken')
                     window.location.href = '/login'
                 } catch (error) {
