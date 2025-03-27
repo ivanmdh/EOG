@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('eliminar', [LuminariaController::class, 'eliminar']);
         Route::post('cargafoto', [LuminariaController::class, 'cargaFoto']);
         Route::get('mapa/{IDDireccion?}', [LuminariaController::class, 'mapa']);
+        Route::post('mapa', [LuminariaController::class, 'mapa']); // Nueva ruta POST para enviar parámetros
     });
     Route::prefix('direcciones')->group(function () {
         Route::post('/', [DireccionController::class, 'index']);

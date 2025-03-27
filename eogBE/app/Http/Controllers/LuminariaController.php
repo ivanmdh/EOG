@@ -165,15 +165,104 @@ class LuminariaController extends Controller
     public function mapa(Request $request)
     {
         $Resource = LuminariaMapaResource::class;
+        
+        // Consulta base de luminarias
+        $query = Luminaria::query();
+        
+        // Filtrar por dirección específica si se proporciona
         if ($request->IDDireccion) {
-            $Luminarias = Luminaria::where('IDDireccion', $request->IDDireccion)->get();
+            $query->where('IDDireccion', $request->IDDireccion);
             $Resource = LuminariaResource::class;
-        } else {
-            $Luminarias = Luminaria::all();
         }
-        return response()->json([
-            'success' => true,
-            'Luminarias' => $Resource::collection($Luminarias),
-        ]);
+        
+        // Filtrar por coordenadas visibles en el mapa si se proporcionan
+        if ($request->has('bounds') && is_array($request->bounds)) {
+            $bounds = $request->bounds;
+            if (isset($bounds['ne']) && isset($bounds['sw'])) {
+                // Convertir las columnas VARCHAR a valores numéricos para la comparación
+                $query->whereRaw('CAST(latitud AS DECIMAL(10,8)) <= ?', [(float)$bounds['ne']['lat']])
+                      ->whereRaw('CAST(latitud AS DECIMAL(10,8)) >= ?', [(float)$bounds['sw']['lat']])
+                      ->whereRaw('CAST(longitud AS DECIMAL(11,8)) <= ?', [(float)$bounds['ne']['lng']])
+                      ->whereRaw('CAST(longitud AS DECIMAL(11,8)) >= ?', [(float)$bounds['sw']['lng']]);
+            }
+        }
+        
+        // Determinar si necesitamos agrupar los resultados
+        $shouldGroup = false;
+        $zoomLevel = $request->input('zoom', 15); // Valor predeterminado de zoom
+        $maxMarkersPerResponse = 200; // Número máximo de marcadores a devolver
+        
+        // Contar total de luminarias que coinciden con los filtros
+        $totalCount = $query->count();
+        
+        // Si hay demasiadas luminarias, agrupamos o aplicamos límites
+        if ($totalCount > $maxMarkersPerResponse && $zoomLevel < 15) {
+            $shouldGroup = true;
+        }
+        
+        // Si necesitamos agrupar
+        if ($shouldGroup) {
+            // Redondear coordenadas para agruparlas en función del nivel de zoom
+            $precision = max(4, min(6, $zoomLevel / 3)); // Ajustar precisión según zoom
+            
+            // Agrupar por coordenadas redondeadas y contar
+            $rows = \DB::select("
+                SELECT 
+                    ROUND(CAST(latitud AS DECIMAL(10,8)), {$precision}) as lat_group,
+                    ROUND(CAST(longitud AS DECIMAL(11,8)), {$precision}) as lng_group,
+                    COUNT(*) as count
+                FROM luminarias
+                WHERE deleted_at IS NULL
+                " . ($request->IDDireccion ? "AND IDDireccion = {$request->IDDireccion}" : "") . "
+                " . ($request->has('bounds') ? "
+                AND CAST(latitud AS DECIMAL(10,8)) <= {$bounds['ne']['lat']}
+                AND CAST(latitud AS DECIMAL(10,8)) >= {$bounds['sw']['lat']}
+                AND CAST(longitud AS DECIMAL(11,8)) <= {$bounds['ne']['lng']}
+                AND CAST(longitud AS DECIMAL(11,8)) >= {$bounds['sw']['lng']}" : "") . "
+                GROUP BY lat_group, lng_group
+                ORDER BY count DESC
+                LIMIT {$maxMarkersPerResponse}
+            ");
+            
+            $clusters = [];
+            foreach ($rows as $row) {
+                $clusters[] = [
+                    'isCluster' => true,
+                    'count' => $row->count,
+                    'ubicacion' => [
+                        'latitud' => (float)$row->lat_group,
+                        'longitud' => (float)$row->lng_group
+                    ]
+                ];
+            }
+            
+            return response()->json([
+                'success' => true,
+                'isAgrupado' => true,
+                'totalLuminarias' => $totalCount,
+                'Luminarias' => $clusters,
+            ]);
+        } else {
+            // Si no agrupamos, aplicamos límite y paginación
+            $perPage = min($maxMarkersPerResponse, $request->input('per_page', $maxMarkersPerResponse));
+            $page = $request->input('page', 1);
+            
+            $Luminarias = $query->limit($maxMarkersPerResponse)
+                ->orderBy('IDLuminaria', 'desc')
+                ->paginate($perPage);
+            
+            return response()->json([
+                'success' => true,
+                'isAgrupado' => false,
+                'totalLuminarias' => $totalCount,
+                'Luminarias' => $Resource::collection($Luminarias),
+                'pagination' => [
+                    'current_page' => $Luminarias->currentPage(),
+                    'last_page' => $Luminarias->lastPage(),
+                    'per_page' => $Luminarias->perPage(),
+                    'total' => $Luminarias->total()
+                ]
+            ]);
+        }
     }
 }
