@@ -45,7 +45,7 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
 
     // Estilos para el botón de cambio de tipo de mapa
     const mapTypeButtonStyle = {
-        position: 'absolute' as 'absolute',
+        position: 'absolute' as const,
         top: '10px',
         right: '10px',
         zIndex: 1,
@@ -53,7 +53,7 @@ const ModalDetallesMapa = ({ ubicacion }: Props) => {
         border: '2px solid #ccc',
         borderRadius: '4px',
         padding: '8px 12px',
-        fontWeight: 'bold' as 'bold',
+        fontWeight: 'bold' as const,
         cursor: 'pointer',
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
     }
