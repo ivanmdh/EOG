@@ -44,12 +44,13 @@ const ModalLuminaria = () => {
     const potenciaList = [
         { value: 1, label: "35 W" },
         { value: 2, label: "50 W" },
-        { value: 3, label: "75 W" },
-        { value: 4, label: "100 W" },
-        { value: 5, label: "150 W" },
-        { value: 6, label: "200 W" },
-        { value: 7, label: "250 W" },
-        { value: 8, label: "300 W" },
+        { value: 3, label: "70 W" },
+        { value: 4, label: "75 W" },
+        { value: 5, label: "100 W" },
+        { value: 6, label: "150 W" },
+        { value: 7, label: "200 W" },
+        { value: 8, label: "250 W" },
+        { value: 9, label: "300 W" },
     ]
     useEffect(() => {
         setLoading(true)
