@@ -4,9 +4,10 @@ import {
     Marker,
     useJsApiLoader,
 } from "@react-google-maps/api"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import apiService from "@services/apiServices"
 import { useModalContext } from "@Context/ModalContext"
+import axios from "axios"
 
 const MarkerCenter = {
     lat: 20.481017956093783,
@@ -20,6 +21,8 @@ const MarkerContainerStyle = {
 const MapaLuminarias = () => {
     const { refreshData } = useModalContext()
     const mapRef = useRef<google.maps.Map | null>(null)
+    const cancelTokenRef = useRef<any>(null)
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     const [positions, setPositions]: any = useState([])
     const [selectedPosition, setSelectedPosition]: any = useState(null)
@@ -28,6 +31,10 @@ const MapaLuminarias = () => {
     const [isAgrupado, setIsAgrupado] = useState(false)
     const [totalLuminarias, setTotalLuminarias] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
+
+    // Botón manual para actualizar la vista
+    const [showUpdateButton, setShowUpdateButton] = useState(false)
+    const [mapLoaded, setMapLoaded] = useState(false)
 
     const mapOptions = {
         styles: [
@@ -42,7 +49,7 @@ const MapaLuminarias = () => {
             },
         ],
         disableDefaultUI: true,
-        mapTypeId: mapType, // Usamos el estado mapType aquí
+        mapTypeId: mapType,
         scrollwheel: true,
     }
 
@@ -59,45 +66,106 @@ const MapaLuminarias = () => {
     const iconUrl = '/assets/luminaria.png'
     const clusterIconUrl = '/assets/cluster.png'
 
-    // Función para cargar las luminarias según los límites del mapa
-    const cargarLuminarias = () => {
-        if (!mapRef.current) return;
+    const cargarLuminarias = useCallback(() => {
+        if (!mapRef.current || !mapLoaded) {
+            return;
+        }
+        
+        if (cancelTokenRef.current) {
+            cancelTokenRef.current.cancel("Operación cancelada por nueva petición");
+        }
+        
+        cancelTokenRef.current = axios.CancelToken.source();
         
         setIsLoading(true);
+        setShowUpdateButton(false);
         
         const bounds = mapRef.current.getBounds();
-        if (!bounds) return;
         
-        const ne = bounds.getNorthEast();
-        const sw = bounds.getSouthWest();
-        
-        const params = {
-            zoom: currentZoom,
-            bounds: {
-                ne: { lat: ne.lat(), lng: ne.lng() },
-                sw: { lat: sw.lat(), lng: sw.lng() }
+        let params;
+        if (!bounds) {
+            const center = mapRef.current.getCenter();
+            if (!center) {
+                setIsLoading(false);
+                return;
             }
-        };
+            
+            const lat = center.lat();
+            const lng = center.lng();
+            const offset = 0.02 * (1 / (currentZoom / 14));
+            
+            params = {
+                zoom: currentZoom,
+                bounds: {
+                    ne: { lat: lat + offset, lng: lng + offset },
+                    sw: { lat: lat - offset, lng: lng - offset }
+                }
+            };
+        } else {
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            
+            params = {
+                zoom: currentZoom,
+                bounds: {
+                    ne: { lat: ne.lat(), lng: ne.lng() },
+                    sw: { lat: sw.lat(), lng: sw.lng() }
+                }
+            };
+        }
         
-        apiService.post("/api/luminarias/mapa", params).then((response) => {
+        apiService.post("/api/luminarias/mapa", params, {
+            cancelToken: cancelTokenRef.current.token
+        }).then((response) => {
             setPositions(response?.data?.Luminarias ?? []);
             setIsAgrupado(response?.data?.isAgrupado ?? false);
             setTotalLuminarias(response?.data?.totalLuminarias ?? 0);
             setIsLoading(false);
         }).catch(error => {
-            console.error("Error al cargar luminarias:", error);
-            setIsLoading(false);
+            if (!axios.isCancel(error)) {
+                console.error("Error al cargar luminarias:", error);
+                setIsLoading(false);
+            } else {
+                console.log("Petición cancelada");
+            }
         });
-    };
+    }, [currentZoom, mapLoaded]);
 
-    // Cargar luminarias iniciales y cuando cambia refreshData
     useEffect(() => {
-        if (mapRef.current) {
+        if (mapRef.current && mapLoaded) {
+            setTimeout(() => {
+                cargarLuminarias();
+            }, 500);
+        }
+    }, [mapRef.current, mapLoaded, cargarLuminarias]);
+
+    useEffect(() => {
+        if (mapRef.current && mapLoaded) {
             cargarLuminarias();
         }
-    }, [refreshData, cargarLuminarias]); // Añadir cargarLuminarias como dependencia
+    }, [refreshData, cargarLuminarias, mapLoaded]);
 
-    // Estilos para el botón de cambio de tipo de mapa
+    const handleMapChange = useCallback(() => {
+        if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current);
+        }
+        
+        debounceTimerRef.current = setTimeout(() => {
+            setShowUpdateButton(true);
+        }, 500);
+    }, []);
+
+    const handleClusterClick = (cluster: any) => {
+        if (mapRef.current) {
+            mapRef.current.setZoom((currentZoom || 14) + 2);
+            mapRef.current.panTo({
+                lat: cluster.ubicacion.latitud,
+                lng: cluster.ubicacion.longitud
+            });
+            handleMapChange();
+        }
+    }
+
     const mapTypeButtonStyle = {
         position: 'absolute' as const,
         top: '10px',
@@ -112,7 +180,22 @@ const MapaLuminarias = () => {
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
     }
 
-    // Estilo para el indicador de total
+    const updateButtonStyle = {
+        position: 'absolute' as const,
+        top: '10px',
+        left: '10px',
+        zIndex: 1,
+        backgroundColor: '#4285F4',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '10px 15px',
+        fontWeight: 'bold' as const,
+        cursor: 'pointer',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+        display: showUpdateButton ? 'block' : 'none'
+    }
+
     const totalLuminariasStyle = {
         position: 'absolute' as const,
         bottom: '10px',
@@ -125,7 +208,6 @@ const MapaLuminarias = () => {
         fontSize: '12px'
     }
 
-    // Estilo para el indicador de carga
     const loadingStyle = {
         position: 'absolute' as const,
         top: '50%',
@@ -139,22 +221,9 @@ const MapaLuminarias = () => {
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
     }
 
-    // Manejar clic en un grupo/cluster
-    const handleClusterClick = (cluster: any) => {
-        if (mapRef.current) {
-            mapRef.current.setZoom((currentZoom || 14) + 2);
-            mapRef.current.panTo({
-                lat: cluster.ubicacion.latitud,
-                lng: cluster.ubicacion.longitud
-            });
-        }
-    }
-
-    // Renderizar el contenido de la ventana de información según el tipo de marcador
     const renderInfoWindowContent = () => {
         if (!selectedPosition) return null;
         
-        // Si es un cluster
         if (selectedPosition.isCluster) {
             return (
                 <div>
@@ -164,7 +233,6 @@ const MapaLuminarias = () => {
             );
         }
         
-        // Si es un marcador normal
         return (
             <div>
                 <h3>Poste: {selectedPosition.data.folio}</h3>
@@ -208,6 +276,13 @@ const MapaLuminarias = () => {
                         {mapType === "hybrid" ? "Ver Calles" : "Ver Satélite"}
                     </button>
                     
+                    <button
+                        onClick={cargarLuminarias}
+                        style={updateButtonStyle}
+                    >
+                        Actualizar luminarias en esta área
+                    </button>
+                    
                     {isLoading && (
                         <div style={loadingStyle}>
                             Cargando luminarias...
@@ -227,25 +302,19 @@ const MapaLuminarias = () => {
                         options={mapOptions}
                         onLoad={map => {
                             mapRef.current = map;
-                            cargarLuminarias();
+                            setMapLoaded(true);
                         }}
                         onZoomChanged={() => {
                             if (mapRef.current) {
                                 const zoom = mapRef.current.getZoom();
                                 if (zoom && zoom !== currentZoom) {
                                     setCurrentZoom(zoom);
-                                    cargarLuminarias();
+                                    handleMapChange();
                                 }
                             }
                         }}
-                        onBoundsChanged={() => {
-                            // Debounce para no hacer demasiadas solicitudes
-                            if (!isLoading) {
-                                const timer = setTimeout(() => {
-                                    cargarLuminarias();
-                                }, 500);
-                                return () => clearTimeout(timer);
-                            }
+                        onDragEnd={() => {
+                            handleMapChange();
                         }}
                     >
                         {positions.map((position: any, index: number) => (
