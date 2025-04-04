@@ -8,6 +8,8 @@ import Store from "@Redux/Store"
 import { useEffect } from "react"
 import { Provider } from "react-redux"
 import { ModalProvider } from "@Context/ModalContext"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export default function RootLayout({
                                        children,
@@ -16,6 +18,15 @@ export default function RootLayout({
 }>) {
     const { sidebar_types, sideBarToggle } = useAppSelector((state) => state.themeCustomizer)
     const dispatch = useAppDispatch()
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            console.log(session)
+            router.push("/login")
+        }
+    }, [status, router])
 
     const updateSidebarBasedOnWidth = () => {
         const windowWidth = window.innerWidth
@@ -42,6 +53,10 @@ export default function RootLayout({
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sidebar_types])
+
+    if (status === "unauthenticated" || status === "loading") {
+        return null
+    }
 
     return (
         <Provider store={ Store }>
