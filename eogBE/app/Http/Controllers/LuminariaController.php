@@ -56,6 +56,14 @@ class LuminariaController extends Controller
             $Lampara->IDLuminaria = $Luminaria->IDLuminaria;
             $Lampara->IDPotencia = intval($luminaria['potencia']);
             $Lampara->IDFoto = $foto->IDFoto;
+            
+            if (isset($luminaria['foto_secundaria']) && !empty($luminaria['foto_secundaria'])) {
+                $foto_secundaria = LuminariaFoto::where('hash', $luminaria['foto_secundaria'])->first();
+                if ($foto_secundaria) {
+                    $Lampara->IDFoto_secundaria = $foto_secundaria->IDFoto;
+                }
+            }
+            
             $Lampara->save();
         }
         return response()->json([

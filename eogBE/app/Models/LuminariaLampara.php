@@ -18,6 +18,11 @@ class LuminariaLampara extends Model
         return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto');
     }
 
+    public function foto_secundaria()
+    {
+        return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto_secundaria');
+    }
+
     public function potencia()
     {
         return $this->hasOne(LuminariaPotencia::class, 'IDPotencia', 'IDPotencia');

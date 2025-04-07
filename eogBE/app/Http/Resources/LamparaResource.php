@@ -22,7 +22,8 @@ class LamparaResource extends JsonResource
         } else {
             $host = 'https://api.'.$host;
         }
-        return [
+        
+        $response = [
             'IDLampara' => $this->IDLampara,
             'IDPotencia' => $this->IDPotencia,
             'folio' => 'LC'.str_pad($this->IDLampara, 5, "0", STR_PAD_LEFT),
@@ -30,5 +31,11 @@ class LamparaResource extends JsonResource
             'potencia' => $this->potencia->potencia,
             'foto' => $host.'/api/foto/'.$this->foto->hash,
         ];
+
+        if ($this->IDFoto_secundaria && $this->foto_secundaria) {
+            $response['foto_secundaria'] = $host.'/api/foto/'.$this->foto_secundaria->hash;
+        }
+        
+        return $response;
     }
 }

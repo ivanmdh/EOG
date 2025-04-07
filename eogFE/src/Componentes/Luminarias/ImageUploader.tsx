@@ -7,9 +7,10 @@ import { useFormikContext } from "formik"
 interface Props {
     name: string
     error: boolean
+    title?: string
 }
 
-const ImageUploader = ({ name, error }: Props) => {
+const ImageUploader = ({ name, error, title }: Props) => {
 
     const { setFieldValue } = useFormikContext()
 
@@ -52,6 +53,7 @@ const ImageUploader = ({ name, error }: Props) => {
     }
     return (
             <Form>
+                {title && <h6 className="mb-2">{title}</h6>}
                 <Dropzone onChange={updateFiles} value={extFiles} maxFiles={1} multiple={false} header={false} footer={false} minHeight={body ? "180px" : "80px"}>
                     {extFiles.map((file) => (
                         <FileMosaic {...file} key={file.id} onDelete={onDelete} onSee={handleSee} onAbort={handleAbort} onCancel={handleCancel} resultOnTooltip alwaysActive preview />

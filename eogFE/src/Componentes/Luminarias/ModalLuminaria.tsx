@@ -32,6 +32,7 @@ const ModalLuminaria = () => {
                 indice: 0,
                 potencia: null,
                 foto: null,
+                foto_secundaria: null
             }
         ]
     }
@@ -129,7 +130,8 @@ const ModalLuminaria = () => {
                                                                                           ...values.luminarias,
                                                                                           {
                                                                                               potencia: null,
-                                                                                              foto: null
+                                                                                              foto: null,
+                                                                                              foto_secundaria: null
                                                                                           }
                                                                                       ]
                                                                                   })
@@ -160,10 +162,18 @@ const ModalLuminaria = () => {
                                                                             } }
                                                                         >Eliminar Lampara</Button>
                                                                     </Col>
-                                                                    <Col md="6">
+                                                                    <Col md="3">
                                                                         <ImageUploader
                                                                             name={ `luminarias.[${ index }].foto` }
                                                                             error={ !!errors?.luminarias?.[index]?.foto }
+                                                                            title="Foto Original"
+                                                                        />
+                                                                    </Col>
+                                                                    <Col md="3">
+                                                                        <ImageUploader
+                                                                            name={ `luminarias.[${ index }].foto_secundaria` }
+                                                                            error={ !!errors?.luminarias?.[index]?.foto_secundaria }
+                                                                            title="Foto Reemplazo"
                                                                         />
                                                                     </Col>
                                                                 </Row>
