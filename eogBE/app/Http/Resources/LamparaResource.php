@@ -30,6 +30,7 @@ class LamparaResource extends JsonResource
             'indice' => $this->IDLampara,
             'potencia' => $this->potencia->potencia,
             'foto' => $host.'/api/foto/'.$this->foto->hash,
+            'numero_serie' => $this->numero_serie,
         ];
 
         if ($this->IDFoto_secundaria && $this->foto_secundaria) {

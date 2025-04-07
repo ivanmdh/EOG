@@ -18,6 +18,8 @@ export default Yup.object().shape(
                              .required(esObligatorio),
                     foto_secundaria: Yup.string()
                              .required(esObligatorio),
+                    numero_serie: Yup.string()
+                             .required(esObligatorio),
                 })
         )
                        .nullable()

@@ -23,7 +23,8 @@ class LuminariaRequest extends FormRequest
             'luminarias' => 'required|array',
             'luminarias.*.potencia' => 'required|string',
             'luminarias.*.foto' => 'required|string',
-            'luminarias.*.foto_secundaria' => 'nullable|string',
+            'luminarias.*.foto_secundaria' => 'required|string',
+            'luminarias.*.numero_serie' => 'required|string',
         ];
     }
 }

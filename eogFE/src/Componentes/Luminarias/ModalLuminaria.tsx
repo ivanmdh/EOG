@@ -32,7 +32,8 @@ const ModalLuminaria = () => {
                 indice: 0,
                 potencia: null,
                 foto: null,
-                foto_secundaria: null
+                foto_secundaria: null,
+                numero_serie: null
             }
         ]
     }
@@ -131,7 +132,8 @@ const ModalLuminaria = () => {
                                                                                           {
                                                                                               potencia: null,
                                                                                               foto: null,
-                                                                                              foto_secundaria: null
+                                                                                              foto_secundaria: null,
+                                                                                              numero_serie: null
                                                                                           }
                                                                                       ]
                                                                                   })
@@ -161,6 +163,20 @@ const ModalLuminaria = () => {
                                                                                     })
                                                                             } }
                                                                         >Eliminar Lampara</Button>
+                                                                        <div className="mb-2 mt-2">
+                                                                            <label className="form-label">Número de Serie</label>
+                                                                            <Field
+                                                                                name={ `luminarias[${ index }].numero_serie` }
+                                                                                type="text"
+                                                                                className={ `form-control ${ errors?.luminarias?.[index]?.numero_serie ? "is-invalid" : "" }` }
+                                                                                placeholder="Ingrese el número de serie"
+                                                                            />
+                                                                            {errors?.luminarias?.[index]?.numero_serie && (
+                                                                                <div className="invalid-feedback d-block">
+                                                                                    {errors.luminarias[index].numero_serie}
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
                                                                     </Col>
                                                                     <Col md="3">
                                                                         <ImageUploader
