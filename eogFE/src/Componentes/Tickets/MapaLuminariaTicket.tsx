@@ -129,7 +129,7 @@ const MapaLuminariasTicket = ({ IDDireccion, setFieldValue }: Props) => {
                             >
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <div>
-                                        <h3>Poste: { selectedPosition.folio }</h3>
+                                        <h3>Luminaria: { selectedPosition.folio }</h3>
                                     </div>
                                 </div>
                             </InfoWindow>

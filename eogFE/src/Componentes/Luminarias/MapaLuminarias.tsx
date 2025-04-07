@@ -235,7 +235,7 @@ const MapaLuminarias = () => {
         
         return (
             <div>
-                <h3>Poste: {selectedPosition.data.folio}</h3>
+                <h3>Luminaria: {selectedPosition.data.folio}</h3>
                 <p style={{ margin: 0 }}># Cuenta: {selectedPosition.data.num_cuenta}</p>
                 <p style={{ margin: 0 }}>RPU: {selectedPosition.data.rpu}</p>
                 <p style={{ margin: 0 }}>Direccion: {selectedPosition.data.direccion}</p>

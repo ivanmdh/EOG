@@ -68,7 +68,7 @@ const ModalFormulario = ({ dataForm, setLoading, defaultValues }: Props) => {
                                             {
                                                 values?.luminaria && (
                                                     <Col md="6" className="border-style" style={ { height: "250px", overflowY: "auto" } }>
-                                                        <h3>Poste { values?.luminaria?.folio }</h3>
+                                                        <h3>Luminaria { values?.luminaria?.folio }</h3>
                                                         <h3>Lamparas</h3>
                                                         <Row className="flex-column">
                                                             {
