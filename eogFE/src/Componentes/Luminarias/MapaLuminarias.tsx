@@ -236,27 +236,37 @@ const MapaLuminarias = () => {
         return (
             <div>
                 <h3>Luminaria: {selectedPosition.data.folio}</h3>
-                <p style={{ margin: 0 }}># Cuenta: {selectedPosition.data.num_cuenta}</p>
-                <p style={{ margin: 0 }}>RPU: {selectedPosition.data.rpu}</p>
-                <p style={{ margin: 0 }}>Direccion: {selectedPosition.data.direccion}</p>
-                <p style={{ margin: 0 }}>Colonia: {selectedPosition.data.colonia}</p>
-                <p style={{ margin: 0 }}>Tarifa: {selectedPosition.data.tarifa}</p>
+                <p style={{ margin: 0 }}># Cuenta: {selectedPosition.data.num_cuenta || "—"}</p>
+                <p style={{ margin: 0 }}>RPU: {selectedPosition.data.rpu || "—"}</p>
+                <p style={{ margin: 0 }}>Direccion: {selectedPosition.data.direccion || "—"}</p>
+                <p style={{ margin: 0 }}>Colonia: {selectedPosition.data.colonia || "—"}</p>
+                <p style={{ margin: 0 }}>Tarifa: {selectedPosition.data.tarifa || "—"}</p>
                 <p style={{ margin: 0 }}>Lat: {selectedPosition.ubicacion.latitud}, Lng: {selectedPosition.ubicacion.longitud}</p>
                 <div>
                     {selectedPosition.data.lamparas.map((lampara: any, index: number) => (
-                        <div style={{ display: "flex", alignItems: "center", marginTop: "3px", marginBottom: "3px" }} key={index}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={`${lampara.foto}/thumb`}
-                                alt={lampara.folio}
-                                style={{
-                                    width: "100px",
-                                    marginRight: "10px",
-                                }}
-                            />
+                        <div style={{ display: "flex", flexDirection: "column", marginTop: "10px", marginBottom: "10px", borderTop: "1px solid #ccc", paddingTop: "10px" }} key={index}>
+                            {lampara.foto_secundaria ? (
+                                <div style={{ marginBottom: "5px" }}>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={`${lampara.foto_secundaria}/thumb`}
+                                        alt={`Foto secundaria - ${lampara.folio}`}
+                                        style={{
+                                            width: "150px",
+                                            display: "block",
+                                            margin: "0 auto 10px auto"
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <div style={{ color: "red", textAlign: "center", marginBottom: "10px" }}>
+                                    Foto secundaria no disponible
+                                </div>
+                            )}
                             <div>
-                                <h5>{lampara.folio}</h5>
-                                <h6>{lampara.potencia}</h6>
+                                <h5 style={{ margin: "0 0 5px 0" }}>{lampara.folio || "—"}</h5>
+                                <p style={{ margin: "0 0 5px 0" }}><strong>Potencia:</strong> {lampara.potencia || "—"}</p>
+                                <p style={{ margin: "0" }}><strong>Número de Serie:</strong> {lampara.numero_serie || "—"}</p>
                             </div>
                         </div>
                     ))}
