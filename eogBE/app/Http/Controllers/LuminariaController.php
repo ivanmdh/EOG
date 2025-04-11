@@ -85,7 +85,7 @@ class LuminariaController extends Controller
     public function cargaFoto(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:25000',
         ]);
         $imagen = $request->file('file');
         $hashFoto = hash_file('sha256', $imagen->path());
