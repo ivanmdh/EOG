@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DireccionController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LuminariaController;
 use App\Http\Controllers\ResumenController;
@@ -18,6 +19,12 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::prefix('export')->group(function () {
+        Route::post('luminarias', [ExportController::class, 'exportLuminarias']);
+        Route::post('direcciones', [ExportController::class, 'exportDirecciones']);
+    });
+
     Route::prefix('resumen')->group(function () {
        Route::post('/', [ResumenController::class, 'index']);
        Route::post('tickets', [ResumenController::class, 'tickets']);
