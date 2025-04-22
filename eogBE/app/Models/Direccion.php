@@ -23,4 +23,9 @@ class Direccion extends Model
         return $this->IDDireccion;
     }
 
+    public function luminarias()
+    {
+        return $this->hasMany(\App\Models\Luminaria::class, 'IDDireccion', 'IDDireccion');
+    }
+
 }
