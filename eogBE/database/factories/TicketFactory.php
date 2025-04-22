@@ -39,7 +39,7 @@ class TicketFactory extends Factory
             'IDLampara' => LuminariaLampara::factory(), // Puede ser null si no todas las luminarias tienen lámparas registradas
             'IDTipoFalla' => $this->faker->numberBetween(1, 3), // Asigna un ID de tipo de falla aleatorio (1-3)
             'descripcion' => $this->faker->sentence(),
-            'observaciones' => $this->faker->optional()->paragraph(), // Hacer las observaciones opcionales
+            'observaciones' => $this->faker->optional()->text(255), // Limita a 255 caracteres
             'estado' => $this->faker->numberBetween(1, 3), // Asumiendo estados 1, 2, 3
             // Los campos de cierre y fotos se dejan null por defecto
             'IDUsuario_cierre' => null,
