@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Luminaria;
 use App\Models\LuminariaLampara;
+use App\Models\LuminariaFoto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,9 +29,9 @@ class LuminariaLamparaFactory extends Factory
         return [
             'IDLuminaria' => Luminaria::factory(), // Asocia a una luminaria creada por su factory
             'IDPotencia' => $this->faker->numberBetween(1, 9), // Asigna un ID de potencia aleatorio entre 1 y 9
-            'IDFoto' => null, // Establecer como null por defecto
-            'IDFoto_secundaria' => null, // Establecer como null por defecto
-            'numero_serie' => $this->faker->ean13(), // 80% de probabilidad de tener número de serie
+            'IDFoto' => LuminariaFoto::factory(), // Asocia una foto generada por LuminariaFotoFactory
+            'IDFoto_secundaria' => LuminariaFoto::factory(), // Siempre genera foto secundaria
+            'numero_serie' => $this->faker->unique()->bothify('LAM-####-####'), // 80% de probabilidad de tener número de serie
         ];
     }
 }

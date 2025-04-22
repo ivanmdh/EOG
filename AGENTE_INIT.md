@@ -48,3 +48,10 @@ Al finalizar cada sesión de trabajo o edición automatizada, integra en este ar
 
 Esto ayuda a evitar búsquedas innecesarias y mantiene el conocimiento actualizado sobre la estructura, convenciones y problemas resueltos en el proyecto.
 */
+
+// 22/04/2025 - Factories actualizados para LuminariaLampara y LuminariaFoto
+// Se crearon los archivos:
+//   - eogBE/database/factories/LuminariaFotoFactory.php
+//   - eogBE/database/factories/LuminariaLamparaFactory.php
+// Ahora, al crear una LuminariaLampara con factory, siempre se generan y asocian dos fotos (principal y secundaria) usando LuminariaFotoFactory, evitando errores de relaciones nulas en tests y seeders.
+// Si se requiere modificar la estructura de las fotos, revisar ambos factories.
