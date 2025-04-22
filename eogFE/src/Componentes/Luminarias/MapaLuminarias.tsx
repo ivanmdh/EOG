@@ -32,8 +32,7 @@ const MapaLuminarias = () => {
     const [totalLuminarias, setTotalLuminarias] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
-    // Botón manual para actualizar la vista
-    const [showUpdateButton, setShowUpdateButton] = useState(false)
+    // Eliminamos la variable de estado para el botón de actualización
     const [mapLoaded, setMapLoaded] = useState(false)
 
     const mapOptions = {
@@ -68,17 +67,20 @@ const MapaLuminarias = () => {
 
     const cargarLuminarias = useCallback(() => {
         if (!mapRef.current || !mapLoaded) {
+            console.log("El mapa no está listo todavía");
             return;
         }
         
+        // Solo cancelamos la petición anterior cuando es iniciada por una acción del usuario
+        // como zoom o arrastrar el mapa, no durante la carga inicial
         if (cancelTokenRef.current) {
             cancelTokenRef.current.cancel("Operación cancelada por nueva petición");
         }
         
+        // Creamos un nuevo token de cancelación
         cancelTokenRef.current = axios.CancelToken.source();
         
         setIsLoading(true);
-        setShowUpdateButton(false);
         
         const bounds = mapRef.current.getBounds();
         
@@ -126,18 +128,20 @@ const MapaLuminarias = () => {
                 console.error("Error al cargar luminarias:", error);
                 setIsLoading(false);
             } else {
-                console.log("Petición cancelada");
+                console.log("Petición cancelada de forma controlada");
             }
         });
     }, [currentZoom, mapLoaded]);
 
     useEffect(() => {
         if (mapRef.current && mapLoaded) {
-            setTimeout(() => {
+            // Agregamos un pequeño timeout para asegurar que el mapa esté completamente renderizado
+            const timer = setTimeout(() => {
                 cargarLuminarias();
             }, 500);
+            return () => clearTimeout(timer);
         }
-    }, [mapRef.current, mapLoaded, cargarLuminarias]);
+    }, [mapLoaded, cargarLuminarias]);
 
     useEffect(() => {
         if (mapRef.current && mapLoaded) {
@@ -145,15 +149,32 @@ const MapaLuminarias = () => {
         }
     }, [refreshData, cargarLuminarias, mapLoaded]);
 
+    // Efecto para limpiar las solicitudes pendientes al desmontar el componente
+    useEffect(() => {
+        return () => {
+            // Cancelar cualquier solicitud pendiente cuando el componente se desmonte
+            if (cancelTokenRef.current) {
+                cancelTokenRef.current.cancel('Componente desmontado');
+            }
+            
+            // Limpiar cualquier temporizador pendiente
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+        };
+    }, []);
+
+    // Actualizar la función para que cargue automáticamente las luminarias después del debounce
     const handleMapChange = useCallback(() => {
         if (debounceTimerRef.current) {
             clearTimeout(debounceTimerRef.current);
         }
         
+        // Configuramos un temporizador para cargar las luminarias después de que el usuario termine de interactuar
         debounceTimerRef.current = setTimeout(() => {
-            setShowUpdateButton(true);
-        }, 500);
-    }, []);
+            cargarLuminarias();
+        }, 800); // Aumentamos un poco el tiempo para evitar demasiadas cargas
+    }, [cargarLuminarias]);
 
     const handleClusterClick = (cluster: any) => {
         if (mapRef.current) {
@@ -180,21 +201,7 @@ const MapaLuminarias = () => {
         boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
     }
 
-    const updateButtonStyle = {
-        position: 'absolute' as const,
-        top: '10px',
-        left: '10px',
-        zIndex: 1,
-        backgroundColor: '#4285F4',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        padding: '10px 15px',
-        fontWeight: 'bold' as const,
-        cursor: 'pointer',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-        display: showUpdateButton ? 'block' : 'none'
-    }
+    // Eliminamos el estilo del botón de actualización
 
     const totalLuminariasStyle = {
         position: 'absolute' as const,
@@ -286,12 +293,7 @@ const MapaLuminarias = () => {
                         {mapType === "hybrid" ? "Ver Calles" : "Ver Satélite"}
                     </button>
                     
-                    <button
-                        onClick={cargarLuminarias}
-                        style={updateButtonStyle}
-                    >
-                        Actualizar luminarias en esta área
-                    </button>
+                    {/* Eliminamos el botón de actualización */}
                     
                     {isLoading && (
                         <div style={loadingStyle}>
@@ -312,7 +314,10 @@ const MapaLuminarias = () => {
                         options={mapOptions}
                         onLoad={map => {
                             mapRef.current = map;
-                            setMapLoaded(true);
+                            // Establecer un pequeño tiempo de espera antes de marcar el mapa como cargado
+                            setTimeout(() => {
+                                setMapLoaded(true);
+                            }, 300);
                         }}
                         onZoomChanged={() => {
                             if (mapRef.current) {
