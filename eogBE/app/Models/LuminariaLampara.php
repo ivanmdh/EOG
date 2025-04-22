@@ -13,6 +13,19 @@ class LuminariaLampara extends Model
     protected $table      = 'luminarias_lamparas';
     protected $primaryKey = 'IDLampara';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'IDLuminaria',
+        'IDPotencia',
+        'IDFoto',
+        'IDFoto_secundaria',
+        'numero_serie',
+    ];
+
     public function foto()
     {
         return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto');

@@ -13,8 +13,26 @@ class Ticket extends Model
     protected $table      = 'tickets';
     protected $primaryKey = 'IDTicket';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'luminaria',
+        'IDUsuario',
+        'IDDireccion',
+        'IDLuminaria',
+        'IDLampara',
+        'IDTipoFalla',
+        'descripcion',
+        'observaciones',
+        'estado',
+        // Campos relacionados con el cierre o fotos que usualmente no se llenan al crear
+        // 'IDUsuario_cierre',
+        // 'IDTipoReparacion',
+        // 'IDFoto',
+        // 'IDFoto_previa',
+        // 'fecha_cierre',
     ];
 
     public function luminaria()
