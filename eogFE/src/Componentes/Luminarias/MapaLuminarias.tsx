@@ -252,24 +252,50 @@ const MapaLuminarias = () => {
                 <div>
                     {selectedPosition.data.lamparas.map((lampara: any, index: number) => (
                         <div style={{ display: "flex", flexDirection: "column", marginTop: "10px", marginBottom: "10px", borderTop: "1px solid #ccc", paddingTop: "10px" }} key={index}>
-                            {lampara.foto_secundaria ? (
-                                <div style={{ marginBottom: "5px" }}>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={`${lampara.foto_secundaria}/thumb`}
-                                        alt={`Foto secundaria - ${lampara.folio}`}
-                                        style={{
-                                            width: "150px",
-                                            display: "block",
-                                            margin: "0 auto 10px auto"
-                                        }}
-                                    />
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                                <div style={{ flex: "1", marginRight: "5px" }}>
+                                    {lampara.foto ? (
+                                        <div>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={`${lampara.foto}/thumb`}
+                                                alt={`Foto - ${lampara.folio}`}
+                                                style={{
+                                                    width: "150px",
+                                                    display: "block",
+                                                    margin: "0 auto 5px auto"
+                                                }}
+                                            />
+                                            <p style={{ textAlign: "center", margin: "0", fontSize: "11px" }}>Foto</p>
+                                        </div>
+                                    ) : (
+                                        <div style={{ color: "red", textAlign: "center" }}>
+                                            Foto no disponible
+                                        </div>
+                                    )}
                                 </div>
-                            ) : (
-                                <div style={{ color: "red", textAlign: "center", marginBottom: "10px" }}>
-                                    Foto secundaria no disponible
+                                <div style={{ flex: "1", marginLeft: "5px" }}>
+                                    {lampara.foto_secundaria ? (
+                                        <div>
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={`${lampara.foto_secundaria}/thumb`}
+                                                alt={`Foto anterior - ${lampara.folio}`}
+                                                style={{
+                                                    width: "150px",
+                                                    display: "block",
+                                                    margin: "0 auto 5px auto"
+                                                }}
+                                            />
+                                            <p style={{ textAlign: "center", margin: "0", fontSize: "11px" }}>Foto Anterior</p>
+                                        </div>
+                                    ) : (
+                                        <div style={{ color: "red", textAlign: "center" }}>
+                                            Foto anterior no disponible
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                             <div>
                                 <h5 style={{ margin: "0 0 5px 0" }}>{lampara.folio || "—"}</h5>
                                 <p style={{ margin: "0 0 5px 0" }}><strong>Potencia:</strong> {lampara.potencia || "—"}</p>
