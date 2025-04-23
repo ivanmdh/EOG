@@ -26,7 +26,7 @@ export default function RootLayout({
             console.log(session)
             router.push("/login")
         }
-    }, [status, router])
+    }, [status, router, session])
 
     const updateSidebarBasedOnWidth = () => {
         const windowWidth = window.innerWidth

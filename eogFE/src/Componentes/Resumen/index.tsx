@@ -19,8 +19,8 @@ const Resumen = () => {
         direcciones: false
     })
     // Fechas para filtrado de reportes
-    const [fechaInicio, setFechaInicio] = useState<string | null>(null)
-    const [fechaFin, setFechaFin] = useState<string | null>(null)
+    const [fechaInicio] = useState<string | null>(null)
+    const [fechaFin] = useState<string | null>(null)
 
     const fetchData = async () => {
         setLoading(true)
