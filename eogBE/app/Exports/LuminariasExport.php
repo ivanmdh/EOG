@@ -45,16 +45,17 @@ class LuminariasExport implements FromView, WithEvents
             AfterSheet::class => function (AfterSheet $event) {
                 // Configurar anchos de columnas
                 $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(10); // ID
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(20); // Tipo
-                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(15); // Potencia
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(15); // Estado
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(40); // Dirección
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(20); // Fecha de Instalación
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(20); // Fecha de Registro
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(20); // Última Actualización
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(20); // Usuario
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(40); // Dirección
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(20); // RPU
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(20); // Colonia
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(10); // Tarifa
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(15); // Latitud
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(15); // Longitud
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(20); // Fecha de Registro
                 
                 // Aplicar estilo al encabezado
-                $event->sheet->getDelegate()->getStyle('A1:H1')->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle('A1:I1')->getFont()->setBold(true);
             },
         ];
     }

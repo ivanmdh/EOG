@@ -45,19 +45,26 @@ class DireccionesExport implements FromView, WithEvents
             AfterSheet::class => function (AfterSheet $event) {
                 // Configurar anchos de columnas
                 $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(10); // ID
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(30); // Nombre
-                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(30); // Calle
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(10); // Número
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(20); // Colonia
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(15); // Código Postal
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(20); // Ciudad
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(20); // Estado
-                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(20); // Cantidad de Luminarias
-                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(20); // Fecha Registro
-                $event->sheet->getDelegate()->getColumnDimension('K')->setWidth(20); // Última Actualización
+                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(20); // Núm. Cuenta
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(20); // RPU
+                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(30); // Nombre
+                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(30); // Dirección
+                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(20); // Colonia
+                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(10); // Tarifa
+                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(10); // Hilos
+                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(15); // Carga Instalada
+                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(15); // Demanda Cont.
+                $event->sheet->getDelegate()->getColumnDimension('K')->setWidth(15); // Tipo Suministro
+                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(15); // Promedio Diario
+                $event->sheet->getDelegate()->getColumnDimension('M')->setWidth(15); // Núm. Medidor
+                $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(10); // Año
+                $event->sheet->getDelegate()->getColumnDimension('O')->setWidth(15); // Fecha Censo
+                $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(15); // Núm. Lámparas
+                $event->sheet->getDelegate()->getColumnDimension('Q')->setWidth(15); // Lámparas censadas
+                $event->sheet->getDelegate()->getColumnDimension('R')->setWidth(20); // Fecha Registro
                 
                 // Aplicar estilo al encabezado
-                $event->sheet->getDelegate()->getStyle('A1:K1')->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle('A1:S1')->getFont()->setBold(true);
             },
         ];
     }
