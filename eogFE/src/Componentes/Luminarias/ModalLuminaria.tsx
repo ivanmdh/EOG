@@ -48,6 +48,7 @@ const ModalLuminaria = () => {
         { value: 2, label: "50 W" },
         { value: 3, label: "70 W" },
         { value: 4, label: "75 W" },
+        { value: 10, label: "80 W" },
         { value: 5, label: "100 W" },
         { value: 6, label: "150 W" },
         { value: 7, label: "200 W" },
