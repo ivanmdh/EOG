@@ -26,6 +26,17 @@ class LuminariaLampara extends Model
         'numero_serie',
     ];
 
+    /**
+     * Mutator para convertir el número de serie a mayúsculas UTF-8.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setNumeroSerieAttribute($value)
+    {
+        $this->attributes['numero_serie'] = mb_strtoupper($value, 'UTF-8');
+    }
+
     public function foto()
     {
         return $this->hasOne(LuminariaFoto::class, 'IDFoto', 'IDFoto');
