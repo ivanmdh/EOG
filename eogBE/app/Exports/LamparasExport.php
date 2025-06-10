@@ -17,7 +17,17 @@ class LamparasExport implements FromView, WithEvents
 
     public function view(): View
     {
-        $query = LuminariaLampara::with(['potencia', 'foto', 'luminaria.usuario', 'luminaria.direccion']);
+        // Obtener explícitamente SOLO las lámparas activas (sin deleted_at)
+        $query = LuminariaLampara::whereNull('deleted_at')->with([
+            'potencia', 
+            'foto', 
+            // Usar withTrashed para incluir usuarios eliminados pero que siguen relacionados con luminarias activas
+            'luminaria.usuario' => function($query) {
+                $query->withTrashed();
+            }, 
+            'luminaria.direccion'
+        ]);
+        
         $lamparas = $query->get();
 
         return view('exports.lamparas', [
