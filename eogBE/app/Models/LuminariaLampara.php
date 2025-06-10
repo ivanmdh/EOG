@@ -41,4 +41,8 @@ class LuminariaLampara extends Model
         return $this->hasOne(LuminariaPotencia::class, 'IDPotencia', 'IDPotencia');
     }
 
+    public function luminaria()
+    {
+        return $this->belongsTo(Luminaria::class, 'IDLuminaria', 'IDLuminaria');
+    }
 }

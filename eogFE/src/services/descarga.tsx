@@ -55,6 +55,30 @@ export const exportDirecciones = (fechaInicio?: string, fechaFin?: string) => {
     })
 }
 
+// Exportación de lámparas
+const exportLamparasRequest = (): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+        apiService
+            .post('/api/export/lamparas', 
+                {}, // Sin parámetros de fecha
+                { responseType: 'blob' })
+            .then((response: any) => {
+                resolve(response.data)
+            })
+            .catch((error: any) => {
+                reject(error)
+            })
+    })
+}
+
+export const exportLamparas = () => {
+    return toast.promise(exportLamparasRequest(), {
+        pending: 'Generando reporte de lámparas',
+        success: 'Reporte generado correctamente',
+        error: 'Error al generar el reporte de lámparas'
+    })
+}
+
 // Función auxiliar para descargar el blob
 export const downloadBlob = (blob: Blob, fileName: string) => {
     const url = window.URL.createObjectURL(new Blob([blob]));

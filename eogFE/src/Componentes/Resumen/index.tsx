@@ -3,7 +3,7 @@ import SelectorPeriodo from "./SelectorPeriodo"
 import ListaRoles from "./ListaRoles"
 import { useEffect, useState } from "react"
 import { cargarResumen, cargarResumenTickets } from "@services/resumen"
-import { exportLuminarias, exportDirecciones, downloadBlob } from "@/src/services/descarga"
+import { exportLuminarias, exportDirecciones, exportLamparas, downloadBlob } from "@/src/services/descarga"
 import Loader from "@Componentes/Global/Loader"
 import CommonCardHeader from "@/src/Amero/CommonComponent/CommonCardHeader"
 import { Chart } from "react-google-charts"
@@ -16,7 +16,8 @@ const Resumen = () => {
     const [loading, setLoading] = useState(false)
     const [exportLoading, setExportLoading] = useState<{[key: string]: boolean}>({
         luminarias: false,
-        direcciones: false
+        direcciones: false,
+        lamparas: false
     })
     // Fechas para filtrado de reportes
     const [fechaInicio] = useState<string | null>(null)
@@ -85,6 +86,19 @@ const Resumen = () => {
         }
     };
 
+    const downloadLamparasReport = async () => {
+        try {
+            setExportLoading({...exportLoading, lamparas: true});
+            const blobData = await exportLamparas();
+            downloadBlob(blobData, 'censo_lamparas.xlsx');
+        } catch (error) {
+            console.error('Error al descargar el reporte de lámparas:', error);
+            // Mostrar mensaje de error al usuario
+        } finally {
+            setExportLoading({...exportLoading, lamparas: false});
+        }
+    };
+
     const dataGraficoEstado = [
         ["Estado", "Cantidad"],
         ["Abiertos", dataTickets?.tickets_abiertos ?? 0],
@@ -144,6 +158,18 @@ const Resumen = () => {
                                     <><i className="fa fa-spinner fa-spin me-1"></i> Descargando...</>
                                 ) : (
                                     <><i className="fas fa-file-excel me-1"></i> Descargar Tabla de Direcciones</>
+                                )}
+                            </Button>
+                            <Button 
+                                color="primary" 
+                                className="ms-2" 
+                                onClick={downloadLamparasReport}
+                                disabled={exportLoading.lamparas}
+                            >
+                                {exportLoading.lamparas ? (
+                                    <><i className="fa fa-spinner fa-spin me-1"></i> Descargando...</>
+                                ) : (
+                                    <><i className="fas fa-file-excel me-1"></i> Descargar Censo de Lámparas</>
                                 )}
                             </Button>
                         </Col>

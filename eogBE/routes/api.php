@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('export')->group(function () {
         Route::post('luminarias', [ExportController::class, 'exportLuminarias']);
         Route::post('direcciones', [ExportController::class, 'exportDirecciones']);
+        Route::post('lamparas', [ExportController::class, 'exportLamparas']);
     });
 
     Route::prefix('resumen')->group(function () {
@@ -55,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('eliminar', [LuminariaController::class, 'eliminar']);
         Route::post('cargafoto', [LuminariaController::class, 'cargaFoto']);
         Route::get('mapa/{IDDireccion?}', [LuminariaController::class, 'mapa']);
-        Route::post('mapa', [LuminariaController::class, 'mapa']); // Nueva ruta POST para enviar parámetros
+        Route::post('mapa', [LuminariaController::class, 'mapa']);
     });
     Route::prefix('direcciones')->group(function () {
         Route::post('/', [DireccionController::class, 'index']);
