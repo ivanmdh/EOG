@@ -16,17 +16,34 @@ export const UserForm = () => {
 
     const formSubmitHandle = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const res: any = await signIn("credentials", {
-            usuario,
-            password,
-            redirect: false
-        })
+        console.log('Iniciando proceso de login para usuario:', usuario)
+        
+        try {
+            console.log('Llamando a signIn de NextAuth...')
+            const res: any = await signIn("credentials", {
+                usuario,
+                password,
+                redirect: false
+            })
+            
+            console.log('Respuesta de NextAuth:', {
+                ok: res?.ok,
+                error: res?.error,
+                url: res?.url,
+                status: res?.status
+            })
 
-        if (res && res.ok && res.error === null) {
-            toast.success("Inicio de sesión exitoso...")
-            router.push(res.url || "/resumen")
-        } else {
-            toast.error("Datos de inicio de sesión incorrectos...")
+            if (res && res.ok && res.error === null) {
+                toast.success("Inicio de sesión exitoso...")
+                console.log('Redirigiendo a:', res.url || "/resumen")
+                router.push(res.url || "/resumen")
+            } else {
+                console.error('Error en inicio de sesión:', res)
+                toast.error("Datos de inicio de sesión incorrectos...")
+            }
+        } catch (error) {
+            console.error('Excepción durante el proceso de login:', error)
+            toast.error("Error durante el proceso de inicio de sesión")
         }
     }
     return (
