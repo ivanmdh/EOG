@@ -15,7 +15,7 @@ use App\Models\TicketTipoReparacion;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
-    Route::post('login', [LoginController::class, 'login']);
+    Route::post('login', [LoginController::class, 'login'])->middleware('auth.logging');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
