@@ -43,7 +43,7 @@ class AuthLoggingMiddleware
         ];
 
         // Escribir en el log
-        Log::channel('daily')->info('Login Attempt:', $logData);
+        Log::warning('Login Attempt:', $logData);
 
         return $response;
     }
