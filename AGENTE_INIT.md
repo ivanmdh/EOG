@@ -55,3 +55,16 @@ Esto ayuda a evitar búsquedas innecesarias y mantiene el conocimiento actualiza
 //   - eogBE/database/factories/LuminariaLamparaFactory.php
 // Ahora, al crear una LuminariaLampara con factory, siempre se generan y asocian dos fotos (principal y secundaria) usando LuminariaFotoFactory, evitando errores de relaciones nulas en tests y seeders.
 // Si se requiere modificar la estructura de las fotos, revisar ambos factories.
+
+// 10/07/2025 - Implementada ruta de emergencia para recuperación de acceso
+// Se crearon:
+//   - eogBE/app/Http/Controllers/EmergenciaController.php (versión simplificada)
+//   - Rutas de emergencia en eogBE/routes/api.php
+// Funcionalidades:
+//   1. Recuperación de usuario admin (o cualquier usuario) y restablecimiento de contraseña a "Pa55w0rD"
+//   2. Restauración del usuario si está eliminado mediante SoftDelete
+//   3. Diagnóstico básico del sistema para situaciones de emergencia
+// Para acceder:
+//   - GET: /api/emergencia/restaurar-admin/EOG-EMERGENCY-ACCESS-9876
+//   - GET: /api/emergencia/diagnostico/EOG-EMERGENCY-ACCESS-9876
+// IMPORTANTE: Estas rutas están pensadas SOLO para situaciones de emergencia donde no hay acceso al sistema.

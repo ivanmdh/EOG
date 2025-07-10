@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DireccionController;
+use App\Http\Controllers\EmergenciaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LuminariaController;
@@ -74,6 +75,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 Route::get('foto/{hash}/{tipo?}', [LuminariaController::class, 'obtenerFoto']);
+
+// Ruta de emergencia - USAR SOLO EN CASOS DE NECESIDAD EXTREMA
+// Esta ruta no requiere autenticación para poder acceder en caso de que no existan usuarios válidos
+Route::get('emergencia/restaurar-admin/{codigo_secreto}', [EmergenciaController::class, 'restaurarAdmin'])
+    ->where('codigo_secreto', 'EOG-EMERGENCY-ACCESS-9876');
+
+// Ruta de diagnóstico del sistema
+Route::get('emergencia/diagnostico/{codigo_secreto}', [EmergenciaController::class, 'diagnostico'])
+    ->where('codigo_secreto', 'EOG-EMERGENCY-ACCESS-9876');
 
 Route::get('test', function () {
     return response()->json(['message' => 'GET test']);
