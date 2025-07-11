@@ -10,33 +10,21 @@ const apiServiceUrl: string =
     ? 'https://api.construccioneseog.com'
     : 'http://localhost:8000'
 
-console.log('API Service URL:', apiServiceUrl, 'Environment:', process.env.NODE_ENV, 'Hostname:', url.hostname)
 const apiService: AxiosInstance = axios.create({ baseURL: apiServiceUrl })
 
 apiService.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        console.log('Request Config:', { 
-            url: config.url, 
-            method: config.method,
-            baseURL: config.baseURL,
-            environment: process.env.NODE_ENV
-        })
-        
         if (isBrowser) {
             const accessToken = window.localStorage.getItem('accessToken')!
-            console.log('Browser Auth Token Available:', !!accessToken)
 
             if (accessToken) config.headers.Authorization = `Bearer ${ accessToken }`
 
         } else {
             try {
-                console.log('Server-side request, attempting to load auth')
                 const { auth } = await import('@/app/auth')
                 const session: any = await auth()
-                console.log('Server Auth Session Available:', !!session)
 
                 const accessToken = session?.user?.Authorization?.accessToken
-                console.log('Server Auth Token Available:', !!accessToken)
 
                 if (accessToken) {
                     config.headers.Authorization = `Bearer ${ accessToken }`
