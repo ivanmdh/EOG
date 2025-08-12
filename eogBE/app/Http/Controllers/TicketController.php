@@ -6,10 +6,17 @@ use App\Http\Requests\TicketCierreRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
+use App\Services\FotoHistorialService;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    protected $fotoHistorialService;
+
+    public function __construct(FotoHistorialService $fotoHistorialService)
+    {
+        $this->fotoHistorialService = $fotoHistorialService;
+    }
     public function index(Request $request)
     {
         $size = $request->input('size', 20);
@@ -98,19 +105,30 @@ class TicketController extends Controller
     public function cerrar(TicketCierreRequest $request)
     {
         $Ticket = Ticket::find($request->IDTicket);
-        $Lampara = $Ticket->lampara;
+        
+        if (!$Ticket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ticket no encontrado',
+            ], 404);
+        }
 
+        // Completar los datos del ticket
         $Ticket->IDUsuario_cierre = $request->IDUsuario_cierre;
-        $Ticket->IDFoto = $request->IDFoto;
-        $Ticket->IDFoto_previa = $Lampara->IDFoto;
         $Ticket->IDTipoReparacion = $request->IDTipoReparacion;
         $Ticket->observaciones = $request->observaciones;
         $Ticket->estado = 0;
         $Ticket->fecha_cierre = now();
-        $Ticket->save();
 
-        $Lampara->IDFoto = $request->IDFoto;
-        $Lampara->save();
+        // Procesar el historial de fotos usando el servicio
+        $procesoExitoso = $this->fotoHistorialService->procesarCierreTicket($Ticket, $request->IDFoto);
+        
+        if (!$procesoExitoso) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al procesar el historial de fotos del ticket',
+            ], 500);
+        }
 
         return response()->json([
             'success' => true,
@@ -126,6 +144,23 @@ class TicketController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Ticket eliminado correctamente',
+        ]);
+    }
+
+    /**
+     * Obtiene el historial de fotos de una lámpara
+     */
+    public function historialFotos(Request $request)
+    {
+        $request->validate([
+            'IDLampara' => 'required|integer|exists:luminarias_lamparas,IDLampara'
+        ]);
+
+        $historial = $this->fotoHistorialService->obtenerHistorialFotos($request->IDLampara);
+
+        return response()->json([
+            'success' => true,
+            'historial' => $historial,
         ]);
     }
 }
