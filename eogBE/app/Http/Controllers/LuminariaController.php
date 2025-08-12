@@ -19,14 +19,85 @@ class LuminariaController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 100);
+        $size = $request->input('size', 20);
         $page = $request->input('page', 1);
+        $search = $request->input('search', '');
 
-        $direcciones = Luminaria::query()
-            ->orderBy('IDLuminaria', 'desc')
-            ->paginate($perPage);
+        $query = Luminaria::query()
+            ->with(['usuario', 'direccion']);
 
-        return LuminariaResource::collection($direcciones);
+        // Aplicar búsqueda si se proporciona
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                // Búsqueda por ID directo
+                $q->where('IDLuminaria', 'like', "%{$search}%");
+                
+                // Búsqueda por folio (PC00001, PC1, etc.)
+                // Si el search empieza con PC, extraer el número
+                if (stripos($search, 'PC') === 0) {
+                    $folioNumber = preg_replace('/^PC0*/i', '', $search);
+                    if (is_numeric($folioNumber)) {
+                        $q->orWhere('IDLuminaria', $folioNumber);
+                    }
+                } else {
+                    // Si no empieza con PC, buscar como si fuera el número del folio
+                    if (is_numeric($search)) {
+                        $q->orWhere('IDLuminaria', $search);
+                    }
+                }
+                
+                // Búsqueda por fecha (dd/mm/yyyy o dd/mm/yy)
+                if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
+                    $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
+                    $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
+                    $year = $matches[3];
+                    
+                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
+                    if (strlen($year) == 2) {
+                        $currentYear = date('Y');
+                        $currentCentury = substr($currentYear, 0, 2);
+                        $year = $currentCentury . $year;
+                    }
+                    
+                    // Crear la fecha en formato Y-m-d para la búsqueda
+                    $searchDate = $year . '-' . $month . '-' . $day;
+                    
+                    // Validar que la fecha sea válida
+                    if (checkdate($month, $day, $year)) {
+                        $q->orWhereDate('created_at', $searchDate)
+                          ->orWhereDate('updated_at', $searchDate);
+                    }
+                }
+                
+                // Búsqueda en relaciones con columnas correctas
+                $q->orWhereHas('usuario', function ($q) use ($search) {
+                      $q->where('nombre', 'like', "%{$search}%")
+                        ->orWhere('apellido', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('usuario', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('direccion', function ($q) use ($search) {
+                      $q->where('nombre', 'like', "%{$search}%")
+                        ->orWhere('direccion', 'like', "%{$search}%")
+                        ->orWhere('colonia', 'like', "%{$search}%")
+                        ->orWhere('num_cuenta', 'like', "%{$search}%")
+                        ->orWhere('rpu', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $luminarias = $query->orderBy('IDLuminaria', 'desc')
+            ->paginate($size, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => LuminariaResource::collection($luminarias->items()),
+            'total' => $luminarias->total(),
+            'per_page' => $luminarias->perPage(),
+            'current_page' => $luminarias->currentPage(),
+            'last_page' => $luminarias->lastPage(),
+            'from' => $luminarias->firstItem(),
+            'to' => $luminarias->lastItem(),
+        ]);
     }
 
     /**

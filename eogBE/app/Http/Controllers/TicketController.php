@@ -12,14 +12,63 @@ class TicketController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = request('perPage', 10);
+        $size = $request->input('size', 20);
         $page = $request->input('page', 1);
+        $search = $request->input('search', '');
 
-        $tickets = Ticket::query()
-            ->orderBy('IDTicket', 'desc')
-            ->paginate($perPage);
+        $query = Ticket::query()
+            ->with(['usuario', 'direccion', 'luminaria', 'lampara', 'ticketTipoFalla']);
 
-        return TicketResource::collection($tickets);
+        // Aplicar búsqueda si se proporciona
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('IDTicket', 'like', "%{$search}%")
+                  ->orWhere('descripcion', 'like', "%{$search}%")
+                  ->orWhere('estado', 'like', "%{$search}%");
+                
+                // Búsqueda por fecha (dd/mm/yyyy o dd/mm/yy)
+                if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
+                    $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
+                    $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
+                    $year = $matches[3];
+                    
+                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
+                    if (strlen($year) == 2) {
+                        $currentYear = date('Y');
+                        $currentCentury = substr($currentYear, 0, 2);
+                        $year = $currentCentury . $year;
+                    }
+                    
+                    // Crear la fecha en formato Y-m-d para la búsqueda
+                    $searchDate = $year . '-' . $month . '-' . $day;
+                    
+                    // Validar que la fecha sea válida
+                    if (checkdate($month, $day, $year)) {
+                        $q->orWhereDate('created_at', $searchDate)
+                          ->orWhereDate('updated_at', $searchDate)
+                          ->orWhereDate('fecha_cierre', $searchDate);
+                    }
+                }
+                
+                $q->orWhereHas('usuario', function ($q) use ($search) {
+                      $q->where('nombre', 'like', "%{$search}%")
+                        ->orWhere('apellido', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $tickets = $query->orderBy('IDTicket', 'desc')
+            ->paginate($size, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => TicketResource::collection($tickets->items()),
+            'total' => $tickets->total(),
+            'per_page' => $tickets->perPage(),
+            'current_page' => $tickets->currentPage(),
+            'last_page' => $tickets->lastPage(),
+            'from' => $tickets->firstItem(),
+            'to' => $tickets->lastItem(),
+        ]);
     }
 
     public function detalles(Request $ticket)

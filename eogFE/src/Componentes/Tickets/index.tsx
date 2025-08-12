@@ -5,10 +5,12 @@ import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import { useModalContext } from "@Context/ModalContext"
 import ModalTicket from "./ModalTicket"
+import { useState } from "react"
 
 const Tickets = () => {
 
     const { setModalStart } = useModalContext()
+    const [searchTerm, setSearchTerm] = useState("")
 
     const columnas = [
         { titulo: "Folio", campo: "folio", classContent: "text-center" },
@@ -19,6 +21,10 @@ const Tickets = () => {
         { titulo: "Opciones", cell: (row: any) => <AccionesTicket ticket={ row }/> }
     ]
 
+    const handleSearchChange = (newSearchTerm: string) => {
+        setSearchTerm(newSearchTerm)
+    }
+
     return (
         <>
             <Container fluid>
@@ -27,7 +33,10 @@ const Tickets = () => {
                         <Card>
                             <CardHeader className="d-md-block">
                                 <div className="d-md-flex d-sm-block align-items-center">
-                                    <ReactTableBusqueda/>
+                                    <ReactTableBusqueda 
+                                        onSearchChange={handleSearchChange}
+                                        placeholder="Buscar tickets..."
+                                    />
                                     <ReactTableBotones modalStart={ () => setModalStart("modalTicket", { IDTicket: null }) }/>
                                 </div>
                             </CardHeader>
@@ -36,6 +45,7 @@ const Tickets = () => {
                                     <ReactTable
                                         apiUrl={ "/api/tickets" }
                                         columnas={ columnas }
+                                        searchTerm={ searchTerm }
                                     />
                                 </div>
                             </CardBody>

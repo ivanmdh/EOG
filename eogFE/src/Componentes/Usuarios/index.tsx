@@ -5,10 +5,12 @@ import ModalUsuario from "@Componentes/Usuarios/ModalUsuario"
 import ReactTableBusqueda from "../Global/ReactTableBusqueda"
 import ReactTableBotones from "../Global/ReactTableBotones"
 import { useModalContext } from "@Context/ModalContext"
+import { useState } from "react"
 
 const Usuarios = () => {
 
     const { setModalStart } = useModalContext()
+    const [searchTerm, setSearchTerm] = useState("")
 
     const columnas = [
         { titulo: "Folio", campo: "IDUsuario", classContent: "text-center" },
@@ -19,6 +21,10 @@ const Usuarios = () => {
         { titulo: "Opciones", cell: (row: any) => <AccionesUsuario usuario={ row }/> }
     ]
 
+    const handleSearchChange = (newSearchTerm: string) => {
+        setSearchTerm(newSearchTerm)
+    }
+
     return (
         <>
             <Container fluid>
@@ -27,7 +33,10 @@ const Usuarios = () => {
                         <Card>
                             <CardHeader className="d-md-block">
                                 <div className="d-md-flex d-sm-block align-items-center">
-                                    <ReactTableBusqueda/>
+                                    <ReactTableBusqueda 
+                                        onSearchChange={handleSearchChange}
+                                        placeholder="Buscar usuarios..."
+                                    />
                                     <ReactTableBotones modalStart={ () => setModalStart("modalUsuario", { IDUsuario: null }) }/>
                                 </div>
                             </CardHeader>
@@ -36,6 +45,7 @@ const Usuarios = () => {
                                     <ReactTable
                                         apiUrl={ "/api/usuarios" }
                                         columnas={ columnas }
+                                        searchTerm={ searchTerm }
                                     />
                                 </div>
                             </CardBody>

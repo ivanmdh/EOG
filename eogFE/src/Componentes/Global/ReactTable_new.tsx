@@ -66,23 +66,7 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
         if (startPage > 1) {
             items.push(
                 <PaginationItem key="first">
-                    <PaginationLink 
-                        onClick={() => handlePageChange(1)}
-                        style={{
-                            backgroundColor: '#fff',
-                            borderColor: '#dee2e6',
-                            color: '#007bff',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#e9ecef'
-                            e.currentTarget.style.borderColor = '#adb5bd'
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#fff'
-                            e.currentTarget.style.borderColor = '#dee2e6'
-                        }}
-                    >
+                    <PaginationLink onClick={() => handlePageChange(1)}>
                         1
                     </PaginationLink>
                 </PaginationItem>
@@ -90,12 +74,7 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
             if (startPage > 2) {
                 items.push(
                     <PaginationItem key="dots1" disabled>
-                        <PaginationLink style={{
-                            backgroundColor: '#f8f9fa',
-                            borderColor: '#dee2e6',
-                            color: '#6c757d',
-                            cursor: 'default'
-                        }}>...</PaginationLink>
+                        <PaginationLink>...</PaginationLink>
                     </PaginationItem>
                 )
             }
@@ -103,31 +82,9 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
 
         // Páginas visibles
         for (let page = startPage; page <= endPage; page++) {
-            const isActive = page === currentPage
             items.push(
-                <PaginationItem key={page} active={isActive}>
-                    <PaginationLink 
-                        onClick={() => handlePageChange(page)}
-                        style={{
-                            backgroundColor: isActive ? '#007bff' : '#fff',
-                            borderColor: isActive ? '#007bff' : '#dee2e6',
-                            color: isActive ? '#fff' : '#007bff',
-                            cursor: 'pointer',
-                            fontWeight: isActive ? 'bold' : 'normal'
-                        }}
-                        onMouseEnter={(e) => {
-                            if (!isActive) {
-                                e.currentTarget.style.backgroundColor = '#e9ecef'
-                                e.currentTarget.style.borderColor = '#adb5bd'
-                            }
-                        }}
-                        onMouseLeave={(e) => {
-                            if (!isActive) {
-                                e.currentTarget.style.backgroundColor = '#fff'
-                                e.currentTarget.style.borderColor = '#dee2e6'
-                            }
-                        }}
-                    >
+                <PaginationItem key={page} active={page === currentPage}>
+                    <PaginationLink onClick={() => handlePageChange(page)}>
                         {page}
                     </PaginationLink>
                 </PaginationItem>
@@ -139,34 +96,13 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
             if (endPage < totalPages - 1) {
                 items.push(
                     <PaginationItem key="dots2" disabled>
-                        <PaginationLink style={{
-                            backgroundColor: '#f8f9fa',
-                            borderColor: '#dee2e6',
-                            color: '#6c757d',
-                            cursor: 'default'
-                        }}>...</PaginationLink>
+                        <PaginationLink>...</PaginationLink>
                     </PaginationItem>
                 )
             }
             items.push(
                 <PaginationItem key="last">
-                    <PaginationLink 
-                        onClick={() => handlePageChange(totalPages)}
-                        style={{
-                            backgroundColor: '#fff',
-                            borderColor: '#dee2e6',
-                            color: '#007bff',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#e9ecef'
-                            e.currentTarget.style.borderColor = '#adb5bd'
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#fff'
-                            e.currentTarget.style.borderColor = '#dee2e6'
-                        }}
-                    >
+                    <PaginationLink onClick={() => handlePageChange(totalPages)}>
                         {totalPages}
                     </PaginationLink>
                 </PaginationItem>
@@ -220,28 +156,18 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
                 
                 {/* Información de paginación y controles */}
                 {totalRows > 0 && (
-                    <div className="d-flex justify-content-between align-items-center p-3 border-top bg-light">
+                    <div className="d-flex justify-content-between align-items-center p-3 border-top">
                         <div className="text-muted small">
-                            <i className="fa-solid fa-info-circle me-1"></i>
-                            Mostrando <strong>{((currentPage - 1) * perPage) + 1}</strong> - <strong>{Math.min(currentPage * perPage, totalRows)}</strong> de <strong>{totalRows}</strong> registros
+                            Mostrando {((currentPage - 1) * perPage) + 1} - {Math.min(currentPage * perPage, totalRows)} de {totalRows} registros
                         </div>
                         
                         {totalPages > 1 && (
                             <div className="d-flex align-items-center">
-                                <span className="text-muted small me-3">
-                                    Página {currentPage} de {totalPages}
-                                </span>
                                 <Pagination className="mb-0" size="sm">
                                     <PaginationItem disabled={currentPage === 1}>
                                         <PaginationLink 
                                             previous 
                                             onClick={() => handlePageChange(currentPage - 1)}
-                                            style={{
-                                                backgroundColor: currentPage === 1 ? '#e9ecef' : '#fff',
-                                                borderColor: '#dee2e6',
-                                                color: currentPage === 1 ? '#6c757d' : '#007bff',
-                                                cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
-                                            }}
                                         />
                                     </PaginationItem>
                                     
@@ -251,12 +177,6 @@ const ReactTable = ({ apiUrl, columnas, searchTerm = "" }: Props) => {
                                         <PaginationLink 
                                             next 
                                             onClick={() => handlePageChange(currentPage + 1)}
-                                            style={{
-                                                backgroundColor: currentPage === totalPages ? '#e9ecef' : '#fff',
-                                                borderColor: '#dee2e6',
-                                                color: currentPage === totalPages ? '#6c757d' : '#007bff',
-                                                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer'
-                                            }}
                                         />
                                     </PaginationItem>
                                 </Pagination>

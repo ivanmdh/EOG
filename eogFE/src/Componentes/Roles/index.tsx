@@ -5,16 +5,22 @@ import AccionesRol from "./AccionesRol"
 import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import { useModalContext } from "@/src/contexts/ModalContext"
+import { useState } from "react"
 
 const Roles = () => {
 
     const { setModalStart } = useModalContext()
+    const [searchTerm, setSearchTerm] = useState("")
 
     const columnas = [
         { titulo: "Folio", campo: "IDRol", classContent: "text-center" },
         { titulo: "Rol", campo: "nombre" },
         { titulo: "Opciones", cell: (row: any) => <AccionesRol rol={ row }/> }
     ]
+
+    const handleSearchChange = (newSearchTerm: string) => {
+        setSearchTerm(newSearchTerm)
+    }
 
     return (
         <>
@@ -24,7 +30,10 @@ const Roles = () => {
                         <Card>
                             <CardHeader className="d-md-block d-none">
                                 <div className="d-md-flex d-sm-block align-items-center">
-                                    <ReactTableBusqueda />
+                                    <ReactTableBusqueda 
+                                        onSearchChange={handleSearchChange}
+                                        placeholder="Buscar roles..."
+                                    />
                                     <ReactTableBotones modalStart={() => setModalStart('modalRol', { IDRol: null })}
                                     />
                                 </div>
@@ -34,6 +43,7 @@ const Roles = () => {
                                     <ReactTable
                                         apiUrl={ "/api/usuarios/roles" }
                                         columnas={ columnas }
+                                        searchTerm={ searchTerm }
                                     />
                                 </div>
                             </CardBody>
