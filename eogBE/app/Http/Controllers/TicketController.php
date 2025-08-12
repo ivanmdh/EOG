@@ -57,6 +57,35 @@ class TicketController extends Controller
                     }
                 }
                 
+                // Búsqueda por mes/año (mm/yyyy, m/yyyy, mm/yy, m/yy)
+                elseif (preg_match('/^(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
+                    $month = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
+                    $year = $matches[2];
+                    
+                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
+                    if (strlen($year) == 2) {
+                        $currentYear = date('Y');
+                        $currentCentury = substr($currentYear, 0, 2);
+                        $year = $currentCentury . $year;
+                    }
+                    
+                    // Validar que el mes sea válido (1-12)
+                    if ($month >= 1 && $month <= 12) {
+                        $q->orWhere(function($subQ) use ($month, $year) {
+                            $subQ->whereYear('created_at', $year)
+                                 ->whereMonth('created_at', $month);
+                        })
+                        ->orWhere(function($subQ) use ($month, $year) {
+                            $subQ->whereYear('updated_at', $year)
+                                 ->whereMonth('updated_at', $month);
+                        })
+                        ->orWhere(function($subQ) use ($month, $year) {
+                            $subQ->whereYear('fecha_cierre', $year)
+                                 ->whereMonth('fecha_cierre', $month);
+                        });
+                    }
+                }
+                
                 $q->orWhereHas('usuario', function ($q) use ($search) {
                       $q->where('nombre', 'like', "%{$search}%")
                         ->orWhere('apellido', 'like', "%{$search}%");
