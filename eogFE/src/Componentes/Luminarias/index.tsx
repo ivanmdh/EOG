@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap"
-import ReactTable from "@Componentes/Global/ReactTable"
+import ReactTableWithSort from "@Componentes/Global/ReactTableWithSort"
 import AccionesLuminaria from "@Componentes/Luminarias/AccionesLuminaria"
 import ReactTableBotones from "@Componentes/Global/ReactTableBotones"
 import ReactTableBusqueda from "@Componentes/Global/ReactTableBusqueda"
@@ -14,10 +14,33 @@ const Luminarias = () => {
     const [searchTerm, setSearchTerm] = useState("")
 
     const columnas = [
-        { titulo: "Folio", campo: "folio", classContent: "text-center" },
-        { titulo: "Fecha de Alta", campo: "fecha_alta" },
-        { titulo: "Usuario", campo: "usuario" },
-        { titulo: "Opciones", cell: (row: any) => <AccionesLuminaria luminaria={ row }/> }
+        { 
+            titulo: "Folio", 
+            campo: "folio", 
+            classContent: "text-center",
+            sortable: true 
+        },
+        { 
+            titulo: "Fecha de Alta", 
+            campo: "fecha_alta",
+            sortable: true 
+        },
+        { 
+            titulo: "Usuario", 
+            campo: "usuario",
+            sortable: true 
+        },
+        { 
+            titulo: "Dirección", 
+            campo: "direccion",
+            sortable: true 
+        },
+        { 
+            titulo: "Opciones", 
+            campo: "opciones",
+            sortable: false,
+            cell: (row: any) => <AccionesLuminaria luminaria={ row }/> 
+        }
     ]
 
     const handleSearchChange = (newSearchTerm: string) => {
@@ -32,17 +55,19 @@ const Luminarias = () => {
                         <Card>
                             <CardHeader className="d-md-block">
                                 <MapaLuminarias/>
-                                <div className="d-md-flex d-sm-block align-items-center mt-3">
-                                    <ReactTableBusqueda 
-                                        onSearchChange={handleSearchChange}
-                                        placeholder="Buscar luminarias..."
-                                    />
+                                <div className="d-md-flex d-sm-block align-items-center justify-content-between mt-3">
+                                    <div className="flex-grow-1 me-3">
+                                        <ReactTableBusqueda 
+                                            onSearchChange={handleSearchChange}
+                                            placeholder="Buscar luminarias por folio, fecha, usuario, dirección..."
+                                        />
+                                    </div>
                                     <ReactTableBotones modalStart={() => setModalStart('modalLuminaria', { IDLuminaria: null })}/>
                                 </div>
                             </CardHeader>
                             <CardBody>
                                 <div className="table-responsive">
-                                    <ReactTable
+                                    <ReactTableWithSort
                                         apiUrl={ "/api/luminarias" }
                                         columnas={ columnas }
                                         searchTerm={ searchTerm }

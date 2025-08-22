@@ -8,12 +8,14 @@ use App\Http\Resources\LuminariaResource;
 use App\Models\Luminaria;
 use App\Models\LuminariaFoto;
 use App\Models\LuminariaLampara;
+use App\Traits\SmartSearchTrait;
 use Illuminate\Http\Request;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Laravel\Facades\Image;
 
 class LuminariaController extends Controller
 {
+    use SmartSearchTrait;
     /**
      * Display a listing of the resource.
      */
@@ -22,97 +24,56 @@ class LuminariaController extends Controller
         $size = $request->input('size', 20);
         $page = $request->input('page', 1);
         $search = $request->input('search', '');
+        $sortBy = $request->input('sort_by', '');
+        $sortDirection = $request->input('sort_direction', 'desc');
 
         $query = Luminaria::query()
             ->with(['usuario', 'direccion']);
 
-        // Aplicar búsqueda si se proporciona
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                // Búsqueda por ID directo
-                $q->where('IDLuminaria', 'like', "%{$search}%");
-                
-                // Búsqueda por folio (PC00001, PC1, etc.)
-                // Si el search empieza con PC, extraer el número
-                if (stripos($search, 'PC') === 0) {
-                    $folioNumber = preg_replace('/^PC0*/i', '', $search);
-                    if (is_numeric($folioNumber)) {
-                        $q->orWhere('IDLuminaria', $folioNumber);
-                    }
-                } else {
-                    // Si no empieza con PC, buscar como si fuera el número del folio
-                    if (is_numeric($search)) {
-                        $q->orWhere('IDLuminaria', $search);
-                    }
-                }
-                
-                // Búsqueda por fecha (dd/mm/yyyy o dd/mm/yy)
-                if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
-                    $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
-                    $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
-                    $year = $matches[3];
-                    
-                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
-                    if (strlen($year) == 2) {
-                        $currentYear = date('Y');
-                        $currentCentury = substr($currentYear, 0, 2);
-                        $year = $currentCentury . $year;
-                    }
-                    
-                    // Crear la fecha en formato Y-m-d para la búsqueda
-                    $searchDate = $year . '-' . $month . '-' . $day;
-                    
-                    // Validar que la fecha sea válida
-                    if (checkdate($month, $day, $year)) {
-                        $q->orWhereDate('created_at', $searchDate)
-                          ->orWhereDate('updated_at', $searchDate);
-                    }
-                }
-                
-                // Búsqueda por mes/año (mm/yyyy, m/yyyy, mm/yy, m/yy)
-                elseif (preg_match('/^(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
-                    $month = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
-                    $year = $matches[2];
-                    
-                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
-                    if (strlen($year) == 2) {
-                        $currentYear = date('Y');
-                        $currentCentury = substr($currentYear, 0, 2);
-                        $year = $currentCentury . $year;
-                    }
-                    
-                    // Validar que el mes sea válido (1-12)
-                    if ($month >= 1 && $month <= 12) {
-                        $q->orWhere(function($subQ) use ($month, $year) {
-                            $subQ->whereYear('created_at', $year)
-                                 ->whereMonth('created_at', $month);
-                        })
-                        ->orWhere(function($subQ) use ($month, $year) {
-                            $subQ->whereYear('updated_at', $year)
-                                 ->whereMonth('updated_at', $month);
-                        });
-                    }
-                }
-                
-                // Búsqueda en relaciones con columnas correctas
-                $q->orWhereHas('usuario', function ($q) use ($search) {
-                      $q->where('nombre', 'like', "%{$search}%")
-                        ->orWhere('apellido', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%")
-                        ->orWhere('usuario', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('direccion', function ($q) use ($search) {
-                      $q->where('nombre', 'like', "%{$search}%")
-                        ->orWhere('direccion', 'like', "%{$search}%")
-                        ->orWhere('colonia', 'like', "%{$search}%")
-                        ->orWhere('num_cuenta', 'like', "%{$search}%")
-                        ->orWhere('rpu', 'like', "%{$search}%");
-                  });
-            });
-        }
+        // Configuración para búsqueda inteligente
+        $searchConfig = [
+            'folio_column' => 'IDLuminaria',
+            'date_columns' => ['created_at', 'updated_at'],
+            'free_columns' => ['latitud', 'longitud'],
+            'relations' => [
+                'usuario' => ['nombre', 'apellido', 'email', 'usuario'],
+                'direccion' => ['nombre', 'direccion', 'colonia', 'num_cuenta', 'rpu']
+            ],
+            // Configuración de ordenamiento simplificada
+            'default_sort' => ['IDLuminaria', 'desc'],
+            'sortable_columns' => [
+                'IDLuminaria',
+                'latitud',
+                'longitud',
+                'created_at',
+                'updated_at',
+                'ampliacion'
+            ],
+            // Mapeo de campos del frontend a campos de la base de datos
+            'field_mapping' => [
+                'folio' => 'IDLuminaria',
+                'fecha_alta' => 'created_at',
+                'usuario' => 'IDUsuario'
+            ],
+            // Configuración para ordenamiento automático por relaciones
+            'auto_relation_sort' => true,
+            'relation_sorts' => [
+                'direccion' => [
+                    'table' => 'direcciones',
+                    'select_column' => 'direccion',
+                    'where_column' => 'luminarias.IDDireccion',
+                    'equals_column' => 'direcciones.IDDireccion'
+                ]
+            ]
+        ];
 
-        $luminarias = $query->orderBy('IDLuminaria', 'desc')
-            ->paginate($size, ['*'], 'page', $page);
+        // Aplicar búsqueda inteligente
+        $query = $this->applySmartSearch($query, $search, $searchConfig);
+
+        // Aplicar ordenamiento
+        $query = $this->applySorting($query, $sortBy, $sortDirection, $searchConfig);
+
+        $luminarias = $query->paginate($size, ['*'], 'page', $page);
 
         return response()->json([
             'data' => LuminariaResource::collection($luminarias->items()),
@@ -122,6 +83,8 @@ class LuminariaController extends Controller
             'last_page' => $luminarias->lastPage(),
             'from' => $luminarias->firstItem(),
             'to' => $luminarias->lastItem(),
+            'sort_by' => $sortBy,
+            'sort_direction' => $sortDirection,
         ]);
     }
 

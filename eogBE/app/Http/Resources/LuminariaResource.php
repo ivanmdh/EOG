@@ -21,7 +21,9 @@ class LuminariaResource extends JsonResource
             'fecha_alta' => Carbon::parse($this->created_at)->format('d/m/Y'),
             'usuario' => $this->usuario->nombre,
 
-            'direccion' => [DireccionResource::make($this->direccion)],
+            'direccion' => $this->direccion ? $this->direccion->direccion : 'Sin dirección',
+
+            'direccion_completa' => $this->direccion ? DireccionResource::make($this->direccion) : null,
 
             'luminarias' => LamparaResource::collection($this->lamparas),
 

@@ -7,10 +7,13 @@ use App\Http\Requests\TicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
 use App\Services\FotoHistorialService;
+use App\Traits\SmartSearchTrait;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    use SmartSearchTrait;
+    
     protected $fotoHistorialService;
 
     public function __construct(FotoHistorialService $fotoHistorialService)
@@ -22,79 +25,63 @@ class TicketController extends Controller
         $size = $request->input('size', 20);
         $page = $request->input('page', 1);
         $search = $request->input('search', '');
+        $sortBy = $request->input('sort_by', '');
+        $sortDirection = $request->input('sort_direction', 'desc');
 
         $query = Ticket::query()
             ->with(['usuario', 'direccion', 'luminaria', 'lampara', 'ticketTipoFalla']);
 
-        // Aplicar búsqueda si se proporciona
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('IDTicket', 'like', "%{$search}%")
-                  ->orWhere('descripcion', 'like', "%{$search}%")
-                  ->orWhere('estado', 'like', "%{$search}%");
-                
-                // Búsqueda por fecha (dd/mm/yyyy o dd/mm/yy)
-                if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
-                    $day = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
-                    $month = str_pad($matches[2], 2, '0', STR_PAD_LEFT);
-                    $year = $matches[3];
-                    
-                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
-                    if (strlen($year) == 2) {
-                        $currentYear = date('Y');
-                        $currentCentury = substr($currentYear, 0, 2);
-                        $year = $currentCentury . $year;
-                    }
-                    
-                    // Crear la fecha en formato Y-m-d para la búsqueda
-                    $searchDate = $year . '-' . $month . '-' . $day;
-                    
-                    // Validar que la fecha sea válida
-                    if (checkdate($month, $day, $year)) {
-                        $q->orWhereDate('created_at', $searchDate)
-                          ->orWhereDate('updated_at', $searchDate)
-                          ->orWhereDate('fecha_cierre', $searchDate);
-                    }
-                }
-                
-                // Búsqueda por mes/año (mm/yyyy, m/yyyy, mm/yy, m/yy)
-                elseif (preg_match('/^(\d{1,2})\/(\d{2,4})$/', $search, $matches)) {
-                    $month = str_pad($matches[1], 2, '0', STR_PAD_LEFT);
-                    $year = $matches[2];
-                    
-                    // Si el año tiene 2 dígitos, convertir a 4 dígitos
-                    if (strlen($year) == 2) {
-                        $currentYear = date('Y');
-                        $currentCentury = substr($currentYear, 0, 2);
-                        $year = $currentCentury . $year;
-                    }
-                    
-                    // Validar que el mes sea válido (1-12)
-                    if ($month >= 1 && $month <= 12) {
-                        $q->orWhere(function($subQ) use ($month, $year) {
-                            $subQ->whereYear('created_at', $year)
-                                 ->whereMonth('created_at', $month);
-                        })
-                        ->orWhere(function($subQ) use ($month, $year) {
-                            $subQ->whereYear('updated_at', $year)
-                                 ->whereMonth('updated_at', $month);
-                        })
-                        ->orWhere(function($subQ) use ($month, $year) {
-                            $subQ->whereYear('fecha_cierre', $year)
-                                 ->whereMonth('fecha_cierre', $month);
-                        });
-                    }
-                }
-                
-                $q->orWhereHas('usuario', function ($q) use ($search) {
-                      $q->where('nombre', 'like', "%{$search}%")
-                        ->orWhere('apellido', 'like', "%{$search}%");
-                  });
-            });
-        }
+        // Configuración para búsqueda inteligente
+        $searchConfig = [
+            'folio_column' => 'IDTicket',
+            'date_columns' => ['created_at', 'updated_at', 'fecha_cierre'],
+            'estado_columns' => ['estado'],
+            'estado_map' => [
+                0 => 'Cerrado',
+                1 => 'Nuevo',
+                2 => 'En proceso',
+                3 => 'Finalizado'
+            ],
+            'free_columns' => ['descripcion', 'observaciones'],
+            'relations' => [
+                'usuario' => ['nombre', 'apellido', 'email', 'usuario'],
+                'direccion' => ['nombre', 'direccion', 'colonia', 'num_cuenta', 'rpu'],
+                'ticketTipoFalla' => ['descripcion']
+            ],
+            // Configuración de ordenamiento simplificada
+            'default_sort' => ['IDTicket', 'desc'],
+            'sortable_columns' => [
+                'IDTicket',
+                'descripcion', 
+                'estado',
+                'created_at',
+                'updated_at',
+                'fecha_cierre'
+            ],
+            // Mapeo de campos del frontend a campos de la base de datos
+            'field_mapping' => [
+                'folio' => 'IDTicket',
+                'fecha' => 'created_at'
+            ],
+            // Configuración para ordenamiento automático por relaciones
+            'auto_relation_sort' => true,
+            'relation_sorts' => [
+                'usuario' => [
+                    'table' => 'usuarios',
+                    'select_column' => 'nombre',
+                    'where_column' => 'tickets.IDUsuario',
+                    'equals_column' => 'usuarios.IDUsuario'
+                ]
+            ]
+        ];
 
-        $tickets = $query->orderBy('IDTicket', 'desc')
-            ->paginate($size, ['*'], 'page', $page);
+        // Aplicar búsqueda inteligente
+        $query = $this->applySmartSearch($query, $search, $searchConfig);
+
+        // Aplicar ordenamiento
+        $query = $this->applySorting($query, $sortBy, $sortDirection, $searchConfig);
+
+        $tickets = $query->paginate($size, ['*'], 'page', $page);
 
         return response()->json([
             'data' => TicketResource::collection($tickets->items()),
@@ -104,6 +91,8 @@ class TicketController extends Controller
             'last_page' => $tickets->lastPage(),
             'from' => $tickets->firstItem(),
             'to' => $tickets->lastItem(),
+            'sort_by' => $sortBy,
+            'sort_direction' => $sortDirection,
         ]);
     }
 
